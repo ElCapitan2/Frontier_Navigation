@@ -1,0 +1,27 @@
+#params to setup frontier navigation
+
+# Rectangle around robot in which frontiers will be detected
+# Further settings will be added
+radius: 5.0
+# Attempts to find frontiers within an increasing rectangle around robot
+attempts: 5
+# Radius will be increased be stepping
+stepping: 5.0
+# Sets of connected frontiers which are smaller will not be considered for next goal
+threshold: 100
+# Should be zero. Is being used for debbuging issues [s]
+sleep: 0
+# Minimum distance to frontiers. Necessary for avoiding path planing problems
+minDistance: 3.0
+# Maximum waiting time for new scans/map.
+# Reasons for timeout:
+# - path planing failure
+# - robot doesn't move
+# - collision
+# Robot will be forced to move after timeout
+timeout: 20.0
+# Attempts to get robot into a better position. If this fails robot will be stuck!
+timeoutAttempts: 5
+
+
+

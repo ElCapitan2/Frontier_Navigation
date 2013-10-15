@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="frontier_navigation" type="frontiers"  name="frontier_navigation" output="screen">
+    <rosparam file="$(find frontier_navigation)/config/frontier_navigation_params.yaml" command="load" />
+  </node>
+</launch>

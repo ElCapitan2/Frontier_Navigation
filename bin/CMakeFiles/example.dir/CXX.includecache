@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/u_private/ros_develop/frontier_navigation/src/frontiers.cpp
+stdio.h
+/home/u_private/ros_develop/frontier_navigation/src/stdio.h
+

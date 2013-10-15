@@ -1,0 +1,18 @@
+<package>
+  <description brief="frontier_navigation">
+
+     frontier_navigation
+
+  </description>
+  <author>Michael</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/frontier_navigation</url>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="nav_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="tf"/>
+  <depend package="costmap_2d"/>
+
+</package>
