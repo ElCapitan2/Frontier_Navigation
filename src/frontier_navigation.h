@@ -17,12 +17,12 @@ public:
 
 private:
 
-    void findConnectedIndexedFrontiersWithinRadius(int radius);
+    std::vector<std::vector<unsigned int> > findConnectedIndexedFrontiersWithinRadius(int radius);
     std::vector<unsigned int> findIndexedRawFrontiersWithinRadius(int radius);
     std::vector<std::vector<unsigned int> > computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &indexedRawFrontiers);
     std::vector<std::vector<unsigned int> > findConnectedIndexedFrontiers(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers);
     void recursivelyFindConnectedFrontiers(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
-    geometry_msgs::Point nextGoal();
+    geometry_msgs::PoseStamped nextGoal(std::vector<unsigned int> frontierSet);
 
     void publishOutlineOfSearchRectangle(int radius);
     void print(std::vector<std::vector<unsigned int> > &adjacentMatrixOfFrontiers);
@@ -33,7 +33,7 @@ private:
     int pointToGrid(geometry_msgs::Point point);
     geometry_msgs::Point gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map);
 
-    bool validateFrontiers(nav_msgs::GridCells &frontiers);
+    bool validateFrontiers(std::vector<std::vector<unsigned int> > &connectedIndexedFrontiers);
     bool validateFrontierPoint(int index);
 
     ros::NodeHandle* nodeHandle_;
@@ -53,5 +53,6 @@ private:
     double minDinstance_;
     double timeout_;
     int timeoutAttempts_;
+    double worstCase_;
 
 };

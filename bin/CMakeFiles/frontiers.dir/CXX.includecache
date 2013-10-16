@@ -15,6 +15,8 @@ neighbours.h
 /home/u_private/ros_develop/frontier_navigation/src/neighbours.h
 vector
 -
+stdlib.h
+-
 
 /home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h
 nav_msgs/OccupancyGrid.h

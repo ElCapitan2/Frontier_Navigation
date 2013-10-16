@@ -7,6 +7,9 @@ radius: 5.0
 attempts: 5
 # Radius will be increased be stepping
 stepping: 5.0
+# Measure of the quality of a set of connected frontiers based of available edges between points
+bestCase: 1.0
+worstCase: 1.6
 # Sets of connected frontiers which are smaller will not be considered for next goal
 threshold: 100
 # Should be zero. Is being used for debbuging issues [s]
@@ -18,7 +21,7 @@ minDistance: 3.0
 # - path planing failure
 # - robot doesn't move
 # - collision
-# Robot will be forced to move after timeout
+# Robot will be forced to move after timeout [s]
 timeout: 20.0
 # Attempts to get robot into a better position. If this fails robot will be stuck!
 timeoutAttempts: 5

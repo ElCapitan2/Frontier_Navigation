@@ -2,6 +2,7 @@
 #include "tf/transform_listener.h"
 #include "neighbours.h"
 #include <vector>
+#include <stdlib.h>
 
 Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 {
@@ -19,15 +20,17 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     node_ptr->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
     node_ptr->param("/frontier_navigation/timeout", timeout_, 5.0);
     node_ptr->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
+    node_ptr->param("/frontier_navigation/worstCase", worstCase_, 1.6);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
-    ROS_WARN("Robot not moving!");
-    geometry_msgs::PoseStamped goal;
-    goal.header.frame_id = "/map";
-    goal.pose.position.x = this->robot_position_.x+2;
-    goal.pose.position.y = this->robot_position_.y;
-    this->goal_pub_.publish(goal);
+    ROS_WARN("Robot not moving! Stuff will be done to robot in order to get it moving again...");
+//    geometry_msgs::PoseStamped goal;
+//    goal.header.frame_id = "/map";
+//    goal.pose.position.x = this->robot_position_.x+2;
+//    goal.pose.position.y = this->robot_position_.y;
+//    this->goal_pub_.publish(goal);
+    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 45.0}}'");
 }
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
@@ -37,33 +40,35 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
 //    ROS_INFO("Timer started to prevent dead locks");
 
     this->map_ = map;
-    nav_msgs::GridCells indexedRawFrontiers;
-    nav_msgs::GridCells rectangle;
-//    nav_msgs::GridCells filteredFrontiers;
 
-    double radius = radius_;
-//    for (int i = 1; i <= attempts_; i++) {
-        findConnectedIndexedFrontiersWithinRadius(radius);
-//        this->rawFrontiers_pub_.publish(rawFrontiers);
-        this->rectangle_pub_.publish(rectangle);
-//        this->filteredFrontiers_pub_.publish(filteredFrontiers);
+    double radius = this->radius_;
+    for (int i = 1; i <= this->attempts_; i++) {
+        // 1. find frontiers which are connected
+        std::vector<std::vector<unsigned int> > connectedIndexedFrontiers = findConnectedIndexedFrontiersWithinRadius(radius);
+        publishOutlineOfSearchRectangle(radius);
+        // 2. run some validations in order to find best suitable connected frontiers
+        if (validateFrontiers(connectedIndexedFrontiers)) {
+             // 3.a find next goal
+            this->goal_pub_.publish(nextGoal(connectedIndexedFrontiers[0]));
+        } else if (i == this->attempts_) {
+            // 3.b no valid connected frontiers found
+            // - look up saved but not used connected frontiers
+            // - find connected frontiers including the whole map
+        } else {
+            // 3.c increase radius and do it again
+            radius += this->stepping_;
+        }
+    }
+
+    //        this->rawFrontiers_pub_.publish(rawFrontiers);
+    //        this->filteredFrontiers_pub_.publish(filteredFrontiers);
 
 
 
 //        sleep(sleep_);
 //        if (validateFrontiers(filteredFrontiers)) {
 //            printf("Frontiers detected successfully. Waiting on next map update ...\n");
-//            double minDistance = 99999999.9;
-//            geometry_msgs::PoseStamped goal;
-//            goal.header.frame_id = "/map";
-//            for (int j = 0; j < filteredFrontiers.cells.size(); j++) {
-//                double dist = distance(robot_position_, filteredFrontiers.cells[j]);
-//                if (dist < minDistance && dist > minDinstance_) {
-//                    minDistance = dist;
-//                    goal.pose.position.x = filteredFrontiers.cells[j].x;
-//                    goal.pose.position.y = filteredFrontiers.cells[j].y;
-//                }
-//            }
+
 //            printf("x: %f\ty: %f\tdistance: %f\n", goal.pose.position.x, goal.pose.position.y, minDistance);
 //            this->goal_pub_.publish(goal);
 //            break;
@@ -83,13 +88,13 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
     this->robot_position_ = robot_position.pose.position;
 }
 
-void Frontier_Navigation::findConnectedIndexedFrontiersWithinRadius(int radius) {
+std::vector<std::vector<unsigned int> > Frontier_Navigation::findConnectedIndexedFrontiersWithinRadius(int radius) {
     // 1. find raw frontier-indices themselves
     std::vector<unsigned int> indexedRawFrontiers = findIndexedRawFrontiersWithinRadius(radius);
     // 2. compute adjacency matrix out of found frontier-indices
     std::vector<std::vector<unsigned int> > adjacencyMatrixOfFrontiers = computeAdjacencyMatrixOfFrontiers(indexedRawFrontiers);
     // 3. find connected frontier components out of computed adjacency matrix
-    std::vector<std::vector<unsigned int> > connectedIndexedFrontiers = findConnectedIndexedFrontiers(adjacencyMatrixOfFrontiers);
+    return findConnectedIndexedFrontiers(adjacencyMatrixOfFrontiers);
 }
 
 std::vector<unsigned int> Frontier_Navigation::findIndexedRawFrontiersWithinRadius(int radius)
@@ -202,10 +207,17 @@ void Frontier_Navigation::recursivelyFindConnectedFrontiers(std::vector<std::vec
     }
 }
 
-geometry_msgs::Point Frontier_Navigation::nextGoal()
+// Define constraints which are necassary for further processing of found connected frontiers
+// I.e. set minimum amount of points in set of connected frontiers
+bool Frontier_Navigation::validateFrontiers(std::vector<std::vector<unsigned int> > &connectedIndexedFrontiers) {
+    return true;
+}
+
+geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(std::vector<unsigned int> frontierSet)
 {
-    geometry_msgs::Point point;
-    point.x = point.y = point.z = 0;
+    geometry_msgs::PoseStamped point;
+    point.pose.position = gridToPoint(frontierSet[0], this->map_);
+    point.header.frame_id = "/map";
     return point;
 }
 
@@ -283,11 +295,7 @@ bool Frontier_Navigation::validateFrontierPoint(int index) {
     return true;
 }
 
-// Define constraints which are necassary for further processing of found frontiers
-// I.e. set minimum amount of frontier points needed
-bool Frontier_Navigation::validateFrontiers(nav_msgs::GridCells &frontiers) {
-    return frontiers.cells.size() > 1000;
-}
+
 
 
 
