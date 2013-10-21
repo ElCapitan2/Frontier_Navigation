@@ -319,6 +319,21 @@ src/frontier_navigation.s:
 .PHONY : src/frontier_navigation.s
 
 # target to build an object file
+src/helpers.o:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.o
+.PHONY : src/helpers.o
+
+# target to preprocess a source file
+src/helpers.i:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.i
+.PHONY : src/helpers.i
+
+# target to generate assembly for a file
+src/helpers.s:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.s
+.PHONY : src/helpers.s
+
+# target to build an object file
 src/main.o:
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/main.o
 .PHONY : src/main.o
@@ -348,6 +363,51 @@ src/neighbours.s:
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/neighbours.s
 .PHONY : src/neighbours.s
 
+# target to build an object file
+src/qualities.o:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.o
+.PHONY : src/qualities.o
+
+# target to preprocess a source file
+src/qualities.i:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.i
+.PHONY : src/qualities.i
+
+# target to generate assembly for a file
+src/qualities.s:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.s
+.PHONY : src/qualities.s
+
+# target to build an object file
+src/search.o:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.o
+.PHONY : src/search.o
+
+# target to preprocess a source file
+src/search.i:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.i
+.PHONY : src/search.i
+
+# target to generate assembly for a file
+src/search.s:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.s
+.PHONY : src/search.s
+
+# target to build an object file
+test/helpers_test.o:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.o
+.PHONY : test/helpers_test.o
+
+# target to preprocess a source file
+test/helpers_test.i:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.i
+.PHONY : test/helpers_test.i
+
+# target to generate assembly for a file
+test/helpers_test.s:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.s
+.PHONY : test/helpers_test.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -375,12 +435,24 @@ help:
 	@echo "... src/frontier_navigation.o"
 	@echo "... src/frontier_navigation.i"
 	@echo "... src/frontier_navigation.s"
+	@echo "... src/helpers.o"
+	@echo "... src/helpers.i"
+	@echo "... src/helpers.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/neighbours.o"
 	@echo "... src/neighbours.i"
 	@echo "... src/neighbours.s"
+	@echo "... src/qualities.o"
+	@echo "... src/qualities.i"
+	@echo "... src/qualities.s"
+	@echo "... src/search.o"
+	@echo "... src/search.i"
+	@echo "... src/search.s"
+	@echo "... test/helpers_test.o"
+	@echo "... test/helpers_test.i"
+	@echo "... test/helpers_test.s"
 .PHONY : help
 
 

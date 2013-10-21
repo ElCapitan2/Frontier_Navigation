@@ -286,13 +286,25 @@
       </Build>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.cpp">
       </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/helpers.cpp">
+      </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/main.cpp">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/neighbours.cpp">
       </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/qualities.cpp">
+      </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/search.cpp">
+      </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/test/helpers_test.cpp">
+      </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h">
       </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/helpers.h">
+      </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/neighbours.h">
+      </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/types.h">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />

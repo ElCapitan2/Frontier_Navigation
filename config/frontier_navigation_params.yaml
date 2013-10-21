@@ -7,9 +7,6 @@ radius: 5.0
 attempts: 5
 # Radius will be increased be stepping
 stepping: 5.0
-# Measure of the quality of a set of connected frontiers based of available edges between points
-bestCase: 1.0
-worstCase: 1.6
 # Sets of connected frontiers which are smaller will not be considered for next goal
 threshold: 100
 # Should be zero. Is being used for debbuging issues [s]
@@ -25,6 +22,14 @@ minDistance: 3.0
 timeout: 20.0
 # Attempts to get robot into a better position. If this fails robot will be stuck!
 timeoutAttempts: 5
+# settings for function which evaluates quality of set of connected frontiers
+weightOfConnectivity: 3.0
+worstCaseOfConnectivity: 2.0
+weightOfSize: 2.0
+weightOfDistance: 1.0
+
+
+
 
 
 
