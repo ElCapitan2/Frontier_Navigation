@@ -34,14 +34,14 @@ double Helpers::distance(geometry_msgs::Point A, geometry_msgs::Point B, bool pr
 int Helpers::closestPoint(vec_single &frontier, int robotPosIdx, int width, bool print) {
     int rowOfRobot = robotPosIdx/width;
     int colOfRobot = robotPosIdx - rowOfRobot*width;
-    printf("%d - %d - %d - %d\n", rowOfRobot, colOfRobot, frontier.size(), robotPosIdx);
+//    printf("%d - %d - %d - %d\n", rowOfRobot, colOfRobot, frontier.size(), robotPosIdx);
     double min = DBL_MAX;
     int index = 0;
     for (int i = 0; i < frontier.size(); i++) {
         int row = frontier[i]/width;
         int col = frontier[i] - row*width;
         double distance = sqrt(pow((rowOfRobot - row), 2) + pow((colOfRobot - col), 2));
-        printf("%f\n", distance);
+//        printf("%f\n", distance);
         if ((distance < min) && (distance > 25.0)) {
             min = distance;
             index = i;

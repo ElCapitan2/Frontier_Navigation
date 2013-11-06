@@ -2,7 +2,7 @@
 #include "ros/ros.h"
 
 int main(int argc, char** argv)
-{
+{   
     ros::init(argc, argv, "frontier_navigation");
     ros::NodeHandle nh;
     ros::NodeHandle* node_ptr = &nh;

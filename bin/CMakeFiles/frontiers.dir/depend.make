@@ -458,6 +458,7 @@ CMakeFiles/frontiers.dir/src/search.o: /opt/ros/fuerte/stacks/geometry/tf/msg_ge
 CMakeFiles/frontiers.dir/src/search.o: /opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include/tf/FrameGraph.h
 
 CMakeFiles/frontiers.dir/test/helpers_test.o: ../src/helpers.h
+CMakeFiles/frontiers.dir/test/helpers_test.o: ../src/types.h
 CMakeFiles/frontiers.dir/test/helpers_test.o: ../test/helpers_test.cpp
 CMakeFiles/frontiers.dir/test/helpers_test.o: /opt/ros/fuerte/include/geometry_msgs/Point.h
 CMakeFiles/frontiers.dir/test/helpers_test.o: /opt/ros/fuerte/include/geometry_msgs/Pose.h

@@ -16,6 +16,10 @@ public:
     void TEST_pointToGrid();
     void TEST_gridToPoint();
 
+    void circle1(double radius);
+    void circle2(double radius);
+    void circle3(double radius);
+    void circle4(double radius, geometry_msgs::Point pt);
 private:
 
     void findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
@@ -50,8 +54,9 @@ private:
     ros::Publisher frontiers_pub_;
     ros::Publisher bestFrontier_pub_;
     ros::Publisher goal_pub_;
+    ros::Publisher circle_pub_;
     ros::Timer not_moving_timer_;
-    geometry_msgs::Point robot_position_;
+    geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
 
     double radius_;
@@ -66,5 +71,6 @@ private:
     double worstCaseOfConnectivity_;
     double weightOfSize_;
     double weightOfDistance_;
+    double weightOfDirection_;
 
 };

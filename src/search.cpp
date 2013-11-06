@@ -16,7 +16,7 @@ std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int 
     // Based on robots coordinate system
     // Make sure not to leave given coordinate system!
 
-    geometry_msgs::Point pos = this->robot_position_;
+    geometry_msgs::Point pos = this->robot_position_.pose.position;
     geometry_msgs::Point startPoint;
     startPoint.x = pos.x - radius;
     startPoint.y = pos.y - radius;
@@ -57,29 +57,36 @@ std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int 
     return frontierIdxs;
 }
 
-vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &indexedRawFrontiers) {
+vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &frontierIdxs) {
+
+    // frontierIdxs has to sorted!!!!
+    // i.e.:
+    // frontierIdxs = {12, 25, 26, 31}
+    // right(25) = 26
+    // => frontierIdxs[i] = frontierIdxs[i+1]-1 => right(frontierIdxs[i]) = frontierIdxs[i+1]
+    // therefore we can easily check left and right neighbours by just looking up next/previous index in frontierIdxs
 
     std::vector<std::vector<unsigned int> > adjacencyMatrixOfFrontiers;
     std::vector<unsigned int> neighbours;
 
-    for (unsigned int position = 0; position < indexedRawFrontiers.size(); position++) {
-        int frontierIndex = indexedRawFrontiers[position];
+    for (unsigned int position = 0; position < frontierIdxs.size(); position++) {
+        int frontierIndex = frontierIdxs[position];
         neighbours.push_back(0);
         neighbours.push_back(frontierIndex);
         // bottom
         for (unsigned int i = 0; i < position; i++) {
-            int currentElement = indexedRawFrontiers[i];
+            int currentElement = frontierIdxs[i];
             if (currentElement == frontierIndex-4000-1) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex-4000) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex-4000+1) {neighbours.push_back(currentElement); break;}
         }
         // left
-        if (indexedRawFrontiers[position-1] == frontierIndex-1) neighbours.push_back(indexedRawFrontiers[position-1]);
+        if (frontierIdxs[position-1] == frontierIndex-1) neighbours.push_back(frontierIdxs[position-1]);
         // right
-        if (indexedRawFrontiers[position+1] == frontierIndex+1) neighbours.push_back(indexedRawFrontiers[position+1]);
+        if (frontierIdxs[position+1] == frontierIndex+1) neighbours.push_back(frontierIdxs[position+1]);
         // top
-        for (unsigned int i = position+1; i < indexedRawFrontiers.size(); i++) {
-            int currentElement = indexedRawFrontiers[i];
+        for (unsigned int i = position+1; i < frontierIdxs.size(); i++) {
+            int currentElement = frontierIdxs[i];
             if (currentElement == frontierIndex+4000-1) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex+4000) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex+4000+1) {neighbours.push_back(currentElement); break;}

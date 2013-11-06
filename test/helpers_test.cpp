@@ -40,6 +40,5 @@ void test_pointToGrid() {
         point.y = resolution * (index_actual/width + 0.5 - height/2);
 
         printf("x: %f\t y: %f\n", point.x, point.y);
-
     }
 }

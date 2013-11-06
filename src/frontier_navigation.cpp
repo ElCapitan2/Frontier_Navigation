@@ -12,6 +12,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->frontiers_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/frontiers", 1, true);
     this->bestFrontier_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/bestFrontier", 1, true);
     this->goal_pub_ = this->nodeHandle_->advertise<geometry_msgs::PoseStamped>("/sb_navigation/simple_goal", 1, true);
+    this->circle_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/circle", 1, true);
 
     node_ptr->param("/frontier_navigation/radius", radius_, 5.0);
     node_ptr->param("/frontier_navigation/attempts", attempts_, 4);
@@ -21,11 +22,109 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     node_ptr->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
     node_ptr->param("/frontier_navigation/timeout", timeout_, 5.0);
     node_ptr->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
-    node_ptr->param("/frontier_navigation/worstCase", weightOfConnectivity_, 2.0);
+    node_ptr->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
     node_ptr->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
-    node_ptr->param("/frontier_navigation/worstCase", weightOfSize_, 2.0);
-    node_ptr->param("/frontier_navigation/worstCase", weightOfDistance_, 2.0);
+    node_ptr->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
+    node_ptr->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
+    node_ptr->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
 }
+
+void Frontier_Navigation::circle1(double radius) {
+    nav_msgs::GridCells circle;
+    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+    double boxes = radius/0.05;
+    int cnt = 0;
+    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+        for (int i = row-boxes; i < row+boxes; i++) {
+            cnt++;
+            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+            }
+        }
+    }
+    printf("circle1 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+    circle.header.frame_id = "/map";
+    circle.cell_height = circle.cell_width = 0.05;
+    frontiers_pub_.publish(circle);
+}
+
+void Frontier_Navigation::circle2(double radius) {
+    nav_msgs::GridCells circle;
+    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+    double boxes = radius/0.05;
+    int cnt = 0;
+    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+        for (int i = row; i < row+boxes; i++) {
+            cnt++;
+            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
+                geometry_msgs::Point pt2;
+                pt2.x = pt1.x - 2*(i-row)*0.05;
+                pt2.y = pt1.y;
+                circle.cells.push_back(pt1);
+                circle.cells.push_back(pt2);
+            } else {break;}
+        }
+    }
+    printf("circle2 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+    circle.header.frame_id = "/map";
+    circle.cell_height = circle.cell_width = 0.05;
+    frontiers_pub_.publish(circle);
+}
+
+void Frontier_Navigation::circle3(double radius) {
+    nav_msgs::GridCells circle;
+    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+    double boxes = radius/0.05;
+    int cnt = 0;
+    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+        for (int i = row; i < row+boxes; i++) {
+            cnt++;
+            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+            } else {break;}
+        }
+        for (int i = row; i > row-boxes; i--) {
+            cnt++;
+            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+            } else {break;}
+        }
+    }
+//    printf("circle3 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+    circle.header.frame_id = "/map";
+    circle.cell_height = circle.cell_width = 0.05;
+    circle_pub_.publish(circle);
+}
+
+void Frontier_Navigation::circle4(double radius, geometry_msgs::Point pt) {
+    nav_msgs::GridCells circle;
+    int index = Helpers::pointToGrid(pt, this->map_);
+    double boxes = radius/0.05;
+    int cnt = 0;
+    for (int row = 0; row < boxes; row++) {
+        for (int i = index+row*4000; i < index+row*4000+boxes; i++) {
+            cnt++;
+            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
+                circle.cells.push_back(pt1);
+                geometry_msgs::Point pt2;
+                pt2.x = pt1.x;
+                pt2.y = pt1.y - 2*(row)*0.05;
+                circle.cells.push_back((pt2));
+                pt2.x = pt1.x - 2*(i-(index+row*4000))*0.05;
+                pt2.y = pt1.y;
+                circle.cells.push_back(pt2);
+                pt2.y = pt1.y - 2*(row)*0.05;
+                circle.cells.push_back(pt2);
+            } else {break;}
+        }
+    }
+    circle.header.frame_id = "/map";
+    circle.cell_height = circle.cell_width = 0.05;
+    circle_pub_.publish(circle);
+}
+
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     ROS_WARN("Robot not moving! Stuff will be done to robot in order to get it moving again...");
@@ -43,11 +142,12 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
 
-    ROS_INFO("Frontier_Navigation received map");
-    this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
-    ROS_INFO("Timer started to prevent dead locks");
+//    ROS_INFO("Frontier_Navigation received map");
+//    this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
+//    ROS_INFO("Timer started to prevent dead locks");
 
     this->map_ = map;
+
     vec_double frontiers;
     vec_double adjacencyMatrixOfFrontiers;
     double radius = this->radius_;
@@ -86,26 +186,27 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
-    this->robot_position_ = robot_position.pose.position;
+    this->robot_position_ = robot_position;
 }
 
 // Define constraints which are necassary for further processing of found connected frontiers
 // I.e. set minimum amount of points in set of connected frontiers
 bool Frontier_Navigation::frontierConstraints(vec_single &frontier) {
-//    return frontier.size() > this->threshold_;
-    return true;
+    return frontier.size() > this->threshold_;
+//    return true;
 }
 
 geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
 {
     geometry_msgs::PoseStamped point;
-    int goalIndex = Helpers::closestPoint(frontier, Helpers::pointToGrid(this->robot_position_, this->map_), this->map_->info.width);
+    int goalIndex = Helpers::closestPoint(frontier, Helpers::pointToGrid(this->robot_position_.pose.position, this->map_), this->map_->info.width);
     point.pose.position = Helpers::gridToPoint(goalIndex, this->map_);
     printf("Next Goal! (%f, %f)\n", point.pose.position.x, point.pose.position.y);
-    double deltaX = point.pose.position.x - this->robot_position_.x;
-    double deltaY = point.pose.position.y - this->robot_position_.y;
-    point.pose.position.x = this->robot_position_.x + 0.5 * deltaX;
-    point.pose.position.y = this->robot_position_.y + 0.5 * deltaY;
+    double deltaX = point.pose.position.x - this->robot_position_.pose.position.x;
+    double deltaY = point.pose.position.y - this->robot_position_.pose.position.y;
+    point.pose.position.x = this->robot_position_.pose.position.x + 0.75 * deltaX;
+    point.pose.position.y = this->robot_position_.pose.position.y + 0.75 * deltaY;
+    circle4(1.0, point.pose.position);
     printf("Next Goal! delta(%f, %f), goal(%f, %f)\n", deltaX, deltaY, point.pose.position.x, point.pose.position.y);
     return point;
 }
@@ -139,7 +240,7 @@ void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped goal) {
 
 void Frontier_Navigation::publishOutlineOfSearchRectangle(int radius) {
     nav_msgs::GridCells rectangle;
-    geometry_msgs::Point pos = this->robot_position_;
+    geometry_msgs::Point pos = this->robot_position_.pose.position;
     geometry_msgs::Point startPoint;
     startPoint.x = pos.x - radius;
     startPoint.y = pos.y - radius;
@@ -166,7 +267,7 @@ double Frontier_Navigation::distanceToSetOfFrontiers(std::vector<geometry_msgs::
     // more advanced approaches might be necessaray and useful
     double dist = 0.0;
     for (unsigned int i = 0; i < frontierSet.size(); i++) {
-        dist += Helpers::distance(robot_position_, frontierSet[i]);
+        dist += Helpers::distance(robot_position_.pose.position, frontierSet[i]);
     }
     return dist / frontierSet.size();
 }
