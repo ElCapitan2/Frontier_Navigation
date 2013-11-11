@@ -186,7 +186,7 @@ ROSPACK_EXE:FILEPATH=/opt/ros/fuerte/bin/rospack
 USERCONFIG:FILEPATH=USERCONFIG-NOTFOUND
 
 //Path to a file.
-_file_name:FILEPATH=/home/u_private/ros_develop/frontier_navigation/src/types.h
+_file_name:FILEPATH=/home/u_private/ros_develop/frontier_navigation/src/publishers.cpp
 
 //Value Computed by CMake
 frontier_navigation_BINARY_DIR:STATIC=/home/u_private/ros_develop/frontier_navigation/bin

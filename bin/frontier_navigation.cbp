@@ -292,6 +292,8 @@
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/neighbours.cpp">
       </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/publishers.cpp">
+      </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/qualities.cpp">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/search.cpp">

@@ -364,6 +364,21 @@ src/neighbours.s:
 .PHONY : src/neighbours.s
 
 # target to build an object file
+src/publishers.o:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.o
+.PHONY : src/publishers.o
+
+# target to preprocess a source file
+src/publishers.i:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.i
+.PHONY : src/publishers.i
+
+# target to generate assembly for a file
+src/publishers.s:
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.s
+.PHONY : src/publishers.s
+
+# target to build an object file
 src/qualities.o:
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.o
 .PHONY : src/qualities.o
@@ -444,6 +459,9 @@ help:
 	@echo "... src/neighbours.o"
 	@echo "... src/neighbours.i"
 	@echo "... src/neighbours.s"
+	@echo "... src/publishers.o"
+	@echo "... src/publishers.i"
+	@echo "... src/publishers.s"
 	@echo "... src/qualities.o"
 	@echo "... src/qualities.i"
 	@echo "... src/qualities.s"

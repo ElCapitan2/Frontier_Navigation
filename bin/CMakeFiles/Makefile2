@@ -211,7 +211,7 @@ clean: CMakeFiles/clean-test-results.dir/clean
 CMakeFiles/frontiers.dir/all: CMakeFiles/rosbuild_precompile.dir/all
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/depend
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  1 2 3 4 5 6 7
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  1 2 3 4 5 6 7 8
 	@echo "Built target frontiers"
 .PHONY : CMakeFiles/frontiers.dir/all
 
@@ -221,7 +221,7 @@ all: CMakeFiles/frontiers.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/frontiers.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frontiers.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 0
 .PHONY : CMakeFiles/frontiers.dir/rule

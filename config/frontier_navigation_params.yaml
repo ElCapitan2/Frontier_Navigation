@@ -12,7 +12,7 @@ threshold: 25
 # Should be zero. Is being used for debbuging issues [s]
 sleep: 0
 # Minimum distance to frontiers. Necessary for avoiding path planing problems
-minDistance: 3.0
+minDistance: 1.0
 # Maximum waiting time for new scans/map.
 # Reasons for timeout:
 # - path planing failure

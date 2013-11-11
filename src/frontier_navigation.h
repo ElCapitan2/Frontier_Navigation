@@ -16,10 +16,7 @@ public:
     void TEST_pointToGrid();
     void TEST_gridToPoint();
 
-    void circle1(double radius);
-    void circle2(double radius);
-    void circle3(double radius);
-    void circle4(double radius, geometry_msgs::Point pt);
+
 private:
 
     void findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
@@ -37,14 +34,11 @@ private:
     void publishFrontierPts(vec_double frontiers, int best_frontier);
     void publishOutlineOfSearchRectangle(int radius);
     void publishGoal(geometry_msgs::PoseStamped goal);
+    void publishCircle(int goalIndex);
 
-    void print(std::vector<std::vector<unsigned int> > &adjacentMatrixOfFrontiers);
-    double distanceToSetOfFrontiers(std::vector<geometry_msgs::Point> &frontierSet);
-    double distanceToSetOfFrontiers(std::vector<unsigned int> &frontierSet);
-    double distance(geometry_msgs::Point A, geometry_msgs::Point B);
 
-    int pointToGrid(geometry_msgs::Point point);
-    geometry_msgs::Point gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map);
+
+
 
     bool frontierConstraints(vec_single &frontier);
     bool validateFrontierPoint(int index);
@@ -55,9 +49,15 @@ private:
     ros::Publisher bestFrontier_pub_;
     ros::Publisher goal_pub_;
     ros::Publisher circle_pub_;
+    ros::Publisher pathTracker_pub_;
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
+
+    nav_msgs::GridCells pathTracker_;
+    unsigned int pathCounter_;
+    nav_msgs::GridCells goalTracker_;
+    nav_msgs::GridCells unusedFrontierTracker_;
 
     double radius_;
     int attempts_;

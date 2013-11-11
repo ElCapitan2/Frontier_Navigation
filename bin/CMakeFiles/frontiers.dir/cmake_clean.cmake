@@ -6,6 +6,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/frontiers.dir/src/search.o"
   "CMakeFiles/frontiers.dir/src/helpers.o"
   "CMakeFiles/frontiers.dir/test/helpers_test.o"
+  "CMakeFiles/frontiers.dir/src/publishers.o"
   "frontiers.pdb"
   "frontiers"
 )

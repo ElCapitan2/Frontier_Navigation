@@ -9,6 +9,7 @@ double qualityOfConnectivity(int edges, int frontierPoints) {
 }
 
 double qualityOfSize(int totalPoints, int frontierPoints) {
+    if (frontierPoints < 25) return -100.0;
     return Helpers::linearInterpolation(1.0, 0.0, totalPoints, 10.0, frontierPoints);
 }
 
@@ -70,7 +71,7 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
         double qualOfDirection = qualityOfDirection(this->robot_position_, goals[i]);
         double quality = this->weightOfConnectivity_*qualOfConnectivity + this->weightOfSize_*qualOfSize + this->weightOfDistance_*qualOfDistance + this->weightOfDirection_*qualOfDirection;
         qualities.push_back(quality);
-        printf("frontier: %d\telements: %d\tqual: %f\tqualOf-\tconn: %f\tsize: %f\tdist: %f\tdir: %f\n", i, frontiers[i].size(), quality, qualOfConnectivity, qualOfSize, qualOfDistance, qualOfDirection);
+//        printf("frontier: %d\telements: %d\tqual: %f\tqualOf-\tconn: %f\tsize: %f\tdist: %f\tdir: %f\n", i, frontiers[i].size(), quality, qualOfConnectivity, qualOfSize, qualOfDistance, qualOfDirection);
     }
     return qualities;
 }

@@ -8,6 +8,7 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/u_private/ros_develop/frontier_navigation/src/helpers.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/helpers.o"
   "/home/u_private/ros_develop/frontier_navigation/src/main.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/main.o"
   "/home/u_private/ros_develop/frontier_navigation/src/neighbours.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/neighbours.o"
+  "/home/u_private/ros_develop/frontier_navigation/src/publishers.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/publishers.o"
   "/home/u_private/ros_develop/frontier_navigation/src/qualities.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/qualities.o"
   "/home/u_private/ros_develop/frontier_navigation/src/search.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/src/search.o"
   "/home/u_private/ros_develop/frontier_navigation/test/helpers_test.cpp" "/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir/test/helpers_test.o"

@@ -31,6 +31,14 @@ double Helpers::distance(geometry_msgs::Point A, geometry_msgs::Point B, bool pr
     return sqrt(pow((A.x - B.x), 2) + pow((A.y - B.y), 2));
 }
 
+double Helpers::length(geometry_msgs::Vector3 vector) {
+    return length(vector.x, vector.y, vector.z);
+}
+
+double Helpers::length(double x, double y, double z) {
+    return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}
+
 int Helpers::closestPoint(vec_single &frontier, int robotPosIdx, int width, bool print) {
     int rowOfRobot = robotPosIdx/width;
     int colOfRobot = robotPosIdx - rowOfRobot*width;
@@ -44,6 +52,25 @@ int Helpers::closestPoint(vec_single &frontier, int robotPosIdx, int width, bool
 //        printf("%f\n", distance);
         if ((distance < min) && (distance > 25.0)) {
             min = distance;
+            index = i;
+        }
+    }
+    return frontier[index];
+}
+
+int Helpers::furthermostPoint(vec_single &frontier, int robotPosIdx, int width, bool print) {
+    int rowOfRobot = robotPosIdx/width;
+    int colOfRobot = robotPosIdx - rowOfRobot*width;
+//    printf("%d - %d - %d - %d\n", rowOfRobot, colOfRobot, frontier.size(), robotPosIdx);
+    double max = 0.0;
+    int index = 0;
+    for (int i = 0; i < frontier.size(); i++) {
+        int row = frontier[i]/width;
+        int col = frontier[i] - row*width;
+        double distance = sqrt(pow((rowOfRobot - row), 2) + pow((colOfRobot - col), 2));
+//        printf("%f\n", distance);
+        if (distance > max) {
+            max = distance;
             index = i;
         }
     }
@@ -76,6 +103,116 @@ geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, doub
 }
 geometry_msgs::Point Helpers::gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     return gridToPoint(index, map->info.width, map->info.height, map->info.resolution, print);
+}
+
+nav_msgs::GridCells Helpers::circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
+    int index = Helpers::pointToGrid(pt, map);
+    return circle(index, radius, map, print);
+}
+
+nav_msgs::GridCells Helpers::circle(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
+    nav_msgs::GridCells circle;
+    double boxes = radius/map->info.resolution;
+    int cnt = 0;
+    int8_t free = 0;
+    for (int row = index-boxes*map->info.width; row < index+boxes*map->info.width; row+=map->info.width) {
+        for (int i = row-boxes; i < row+boxes; i++) {
+            cnt++;
+            double distance = Helpers::distance(index, i, map->info.width, map->info.resolution);
+            if ((distance <= radius+0.05) && (distance >= radius-0.05) && (map->data[i] == free)) {
+                circle.cells.push_back(Helpers::gridToPoint(i, map->info.width, map->info.height, map->info.resolution));
+            }
+        }
+    }
+    if (print) printf("circle - radius: %f, points: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+    return circle;
+}
+
+//void Frontier_Navigation::circle2(double radius) {
+//    nav_msgs::GridCells circle;
+//    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+//    double boxes = radius/0.05;
+//    int cnt = 0;
+//    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+//        for (int i = row; i < row+boxes; i++) {
+//            cnt++;
+//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+//                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
+//                geometry_msgs::Point pt2;
+//                pt2.x = pt1.x - 2*(i-row)*0.05;
+//                pt2.y = pt1.y;
+//                circle.cells.push_back(pt1);
+//                circle.cells.push_back(pt2);
+//            } else {break;}
+//        }
+//    }
+//    printf("circle2 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+//    circle.header.frame_id = "/map";
+//    circle.cell_height = circle.cell_width = 0.05;
+//    frontiers_pub_.publish(circle);
+//}
+
+//void Frontier_Navigation::circle3(double radius) {
+//    nav_msgs::GridCells circle;
+//    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+//    double boxes = radius/0.05;
+//    int cnt = 0;
+//    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+//        for (int i = row; i < row+boxes; i++) {
+//            cnt++;
+//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+//                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+//            } else {break;}
+//        }
+//        for (int i = row; i > row-boxes; i--) {
+//            cnt++;
+//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+//                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+//            } else {break;}
+//        }
+//    }
+////    printf("circle3 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+//    circle.header.frame_id = "/map";
+//    circle.cell_height = circle.cell_width = 0.05;
+//    circle_pub_.publish(circle);
+//}
+
+//void Frontier_Navigation::circle4(double radius, geometry_msgs::Point pt) {
+//    nav_msgs::GridCells circle;
+//    int index = Helpers::pointToGrid(pt, this->map_);
+//    double boxes = radius/0.05;
+//    int cnt = 0;
+//    for (int row = 0; row < boxes; row++) {
+//        for (int i = index+row*4000; i < index+row*4000+boxes; i++) {
+//            cnt++;
+//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
+//                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
+//                circle.cells.push_back(pt1);
+//                geometry_msgs::Point pt2;
+//                pt2.x = pt1.x;
+//                pt2.y = pt1.y - 2*(row)*0.05;
+//                circle.cells.push_back((pt2));
+//                pt2.x = pt1.x - 2*(i-(index+row*4000))*0.05;
+//                pt2.y = pt1.y;
+//                circle.cells.push_back(pt2);
+//                pt2.y = pt1.y - 2*(row)*0.05;
+//                circle.cells.push_back(pt2);
+//            } else {break;}
+//        }
+//    }
+//    circle.header.frame_id = "/map";
+//    circle.cell_height = circle.cell_width = 0.05;
+//    circle_pub_.publish(circle);
+//}
+
+double Helpers::angleInRadian(geometry_msgs::Vector3 vecA, geometry_msgs::Vector3 vecB, bool print) {
+    return acos((vecA.x*vecB.x + vecA.y*vecB.y + vecA.z*vecB.z) / (Helpers::length(vecA)*Helpers::length(vecB)));
+}
+
+double Helpers::angleInDegree(geometry_msgs::Vector3 vecA, geometry_msgs::Vector3 vecB, bool print) {
+    double angle = angleInRadian(vecA, vecB, print)/M_PI * 180;
+    if (print) printf("angle between (%f/%f/%f) and (%f/%f/%f): %f°\n", vecA.x, vecA.y, vecA.z, vecB.x, vecB.y, vecB.z, angle);
+    return angle;
 }
 
 void Helpers::print(std::vector<std::vector<unsigned int> > toPrint) {

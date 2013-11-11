@@ -35,8 +35,12 @@ geometry_msgs/Point.h
 -
 nav_msgs/OccupancyGrid.h
 -
+nav_msgs/GridCells.h
+-
 types.h
 /home/u_private/ros_develop/frontier_navigation/src/types.h
+geometry_msgs/Vector3.h
+-
 
 /home/u_private/ros_develop/frontier_navigation/src/neighbours.h
 stdint.h

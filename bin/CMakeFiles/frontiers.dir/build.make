@@ -494,6 +494,70 @@ CMakeFiles/frontiers.dir/test/helpers_test.o.provides: CMakeFiles/frontiers.dir/
 
 CMakeFiles/frontiers.dir/test/helpers_test.o.provides.build: CMakeFiles/frontiers.dir/test/helpers_test.o
 
+CMakeFiles/frontiers.dir/src/publishers.o: CMakeFiles/frontiers.dir/flags.make
+CMakeFiles/frontiers.dir/src/publishers.o: ../src/publishers.cpp
+CMakeFiles/frontiers.dir/src/publishers.o: ../manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/roslang/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/rospy/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/roscpp/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/geometry_msgs/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/nav_msgs/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/bullet/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/sensor_msgs/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/rosconsole/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/geometry/angles/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/rostest/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/roswtf/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/message_filters/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/geometry/tf/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/std_msgs/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/common_rosdeps/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/navigation/voxel_grid/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/visualization_msgs/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/rosbag/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/navigation/map_server/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/pcl/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/ros/core/rosbuild/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/roslib/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/pluginlib/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/bond_core/bond/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/bond_core/smclib/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/bond_core/bondcpp/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/nodelet_core/nodelet/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/share/rosservice/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/dynamic_reconfigure/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/perception_pcl/pcl_ros/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/navigation/costmap_2d/manifest.xml
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/geometry/tf/msg_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/geometry/tf/srv_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/bond_core/bond/msg_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/generated
+CMakeFiles/frontiers.dir/src/publishers.o: /opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/frontiers.dir/src/publishers.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/frontiers.dir/src/publishers.o -c /home/u_private/ros_develop/frontier_navigation/src/publishers.cpp
+
+CMakeFiles/frontiers.dir/src/publishers.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/frontiers.dir/src/publishers.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/u_private/ros_develop/frontier_navigation/src/publishers.cpp > CMakeFiles/frontiers.dir/src/publishers.i
+
+CMakeFiles/frontiers.dir/src/publishers.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/frontiers.dir/src/publishers.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/u_private/ros_develop/frontier_navigation/src/publishers.cpp -o CMakeFiles/frontiers.dir/src/publishers.s
+
+CMakeFiles/frontiers.dir/src/publishers.o.requires:
+.PHONY : CMakeFiles/frontiers.dir/src/publishers.o.requires
+
+CMakeFiles/frontiers.dir/src/publishers.o.provides: CMakeFiles/frontiers.dir/src/publishers.o.requires
+	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.o.provides.build
+.PHONY : CMakeFiles/frontiers.dir/src/publishers.o.provides
+
+CMakeFiles/frontiers.dir/src/publishers.o.provides.build: CMakeFiles/frontiers.dir/src/publishers.o
+
 # Object files for target frontiers
 frontiers_OBJECTS = \
 "CMakeFiles/frontiers.dir/src/frontier_navigation.o" \
@@ -502,7 +566,8 @@ frontiers_OBJECTS = \
 "CMakeFiles/frontiers.dir/src/qualities.o" \
 "CMakeFiles/frontiers.dir/src/search.o" \
 "CMakeFiles/frontiers.dir/src/helpers.o" \
-"CMakeFiles/frontiers.dir/test/helpers_test.o"
+"CMakeFiles/frontiers.dir/test/helpers_test.o" \
+"CMakeFiles/frontiers.dir/src/publishers.o"
 
 # External object files for target frontiers
 frontiers_EXTERNAL_OBJECTS =
@@ -514,6 +579,7 @@ frontiers: CMakeFiles/frontiers.dir/src/qualities.o
 frontiers: CMakeFiles/frontiers.dir/src/search.o
 frontiers: CMakeFiles/frontiers.dir/src/helpers.o
 frontiers: CMakeFiles/frontiers.dir/test/helpers_test.o
+frontiers: CMakeFiles/frontiers.dir/src/publishers.o
 frontiers: CMakeFiles/frontiers.dir/build.make
 frontiers: CMakeFiles/frontiers.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable frontiers"
@@ -530,6 +596,7 @@ CMakeFiles/frontiers.dir/requires: CMakeFiles/frontiers.dir/src/qualities.o.requ
 CMakeFiles/frontiers.dir/requires: CMakeFiles/frontiers.dir/src/search.o.requires
 CMakeFiles/frontiers.dir/requires: CMakeFiles/frontiers.dir/src/helpers.o.requires
 CMakeFiles/frontiers.dir/requires: CMakeFiles/frontiers.dir/test/helpers_test.o.requires
+CMakeFiles/frontiers.dir/requires: CMakeFiles/frontiers.dir/src/publishers.o.requires
 .PHONY : CMakeFiles/frontiers.dir/requires
 
 CMakeFiles/frontiers.dir/clean:
