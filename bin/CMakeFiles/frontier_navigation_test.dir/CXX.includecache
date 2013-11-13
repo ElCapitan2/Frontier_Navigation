@@ -6,17 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/u_private/ros_develop/frontier_navigation/src/helpers.cpp
-helpers.h
-/home/u_private/ros_develop/frontier_navigation/src/helpers.h
-stdio.h
--
-math.h
--
-float.h
--
-
-/home/u_private/ros_develop/frontier_navigation/src/helpers.h
+../src/helpers.h
 geometry_msgs/Point.h
 -
 nav_msgs/OccupancyGrid.h
@@ -24,12 +14,22 @@ nav_msgs/OccupancyGrid.h
 nav_msgs/GridCells.h
 -
 types.h
-/home/u_private/ros_develop/frontier_navigation/src/types.h
+../src/types.h
 geometry_msgs/Vector3.h
 -
 
-/home/u_private/ros_develop/frontier_navigation/src/types.h
+../src/types.h
 vector
+-
+
+../test/test.h
+
+/home/u_private/ros_develop/frontier_navigation/test/test.cpp
+test.h
+-
+stdio.h
+-
+helpers.h
 -
 
 /opt/ros/fuerte/include/geometry_msgs/Point.h

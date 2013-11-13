@@ -1,5 +1,5 @@
 class Test {
 public:
     Test();
-    void hallo();
+    bool test_angleInX();
 };
