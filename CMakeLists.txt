@@ -16,15 +16,23 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/test)
+
 #uncomment if you have defined messages
 #rosbuild_genmsg()
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
 #common commands for building c++ executables and libraries
+rosbuild_add_library(${PROJECT_NAME} src/neighbours.cpp src/frontier_navigation.cpp src/qualities.cpp src/search.cpp src/helpers.cpp src/types.h src/publishers.cpp)
+rosbuild_add_library(${PROJECT_NAME}_test test/main.cpp test/test.cpp src/helpers.cpp)
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)
 #rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
-rosbuild_add_executable(frontiers src/frontier_navigation.cpp src/neighbours.cpp src/main.cpp src/qualities.cpp
-src/search.cpp src/helpers.cpp test/helpers_test.cpp src/types.h src/publishers.cpp)
+
+rosbuild_add_executable(frontiers src/main.cpp )
+target_link_libraries(frontiers ${PROJECT_NAME})
+rosbuild_add_executable(frontiers_test test/main.cpp)
+target_link_libraries(frontiers_test ${PROJECT_NAME}_test)

@@ -161,6 +161,32 @@ clean-test-results/fast:
 .PHONY : clean-test-results/fast
 
 #=============================================================================
+# Target rules for targets named frontier_navigation
+
+# Build rule for target.
+frontier_navigation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 frontier_navigation
+.PHONY : frontier_navigation
+
+# fast build rule for target.
+frontier_navigation/fast:
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/build
+.PHONY : frontier_navigation/fast
+
+#=============================================================================
+# Target rules for targets named frontier_navigation_test
+
+# Build rule for target.
+frontier_navigation_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 frontier_navigation_test
+.PHONY : frontier_navigation_test
+
+# fast build rule for target.
+frontier_navigation_test/fast:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/build
+.PHONY : frontier_navigation_test/fast
+
+#=============================================================================
 # Target rules for targets named frontiers
 
 # Build rule for target.
@@ -172,6 +198,19 @@ frontiers: cmake_check_build_system
 frontiers/fast:
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/build
 .PHONY : frontiers/fast
+
+#=============================================================================
+# Target rules for targets named frontiers_test
+
+# Build rule for target.
+frontiers_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 frontiers_test
+.PHONY : frontiers_test
+
+# fast build rule for target.
+frontiers_test/fast:
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/build
+.PHONY : frontiers_test/fast
 
 #=============================================================================
 # Target rules for targets named rosbuild_precompile
@@ -305,32 +344,35 @@ tests/fast:
 
 # target to build an object file
 src/frontier_navigation.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/frontier_navigation.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/frontier_navigation.o
 .PHONY : src/frontier_navigation.o
 
 # target to preprocess a source file
 src/frontier_navigation.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/frontier_navigation.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/frontier_navigation.i
 .PHONY : src/frontier_navigation.i
 
 # target to generate assembly for a file
 src/frontier_navigation.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/frontier_navigation.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/frontier_navigation.s
 .PHONY : src/frontier_navigation.s
 
 # target to build an object file
 src/helpers.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/helpers.o
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/src/helpers.o
 .PHONY : src/helpers.o
 
 # target to preprocess a source file
 src/helpers.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/helpers.i
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/src/helpers.i
 .PHONY : src/helpers.i
 
 # target to generate assembly for a file
 src/helpers.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/helpers.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/helpers.s
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/src/helpers.s
 .PHONY : src/helpers.s
 
 # target to build an object file
@@ -350,78 +392,96 @@ src/main.s:
 
 # target to build an object file
 src/neighbours.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/neighbours.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/neighbours.o
 .PHONY : src/neighbours.o
 
 # target to preprocess a source file
 src/neighbours.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/neighbours.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/neighbours.i
 .PHONY : src/neighbours.i
 
 # target to generate assembly for a file
 src/neighbours.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/neighbours.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/neighbours.s
 .PHONY : src/neighbours.s
 
 # target to build an object file
 src/publishers.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/publishers.o
 .PHONY : src/publishers.o
 
 # target to preprocess a source file
 src/publishers.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/publishers.i
 .PHONY : src/publishers.i
 
 # target to generate assembly for a file
 src/publishers.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/publishers.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/publishers.s
 .PHONY : src/publishers.s
 
 # target to build an object file
 src/qualities.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/qualities.o
 .PHONY : src/qualities.o
 
 # target to preprocess a source file
 src/qualities.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/qualities.i
 .PHONY : src/qualities.i
 
 # target to generate assembly for a file
 src/qualities.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/qualities.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/qualities.s
 .PHONY : src/qualities.s
 
 # target to build an object file
 src/search.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.o
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/search.o
 .PHONY : src/search.o
 
 # target to preprocess a source file
 src/search.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.i
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/search.i
 .PHONY : src/search.i
 
 # target to generate assembly for a file
 src/search.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/src/search.s
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/src/search.s
 .PHONY : src/search.s
 
 # target to build an object file
-test/helpers_test.o:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.o
-.PHONY : test/helpers_test.o
+test/main.o:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/main.o
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/test/main.o
+.PHONY : test/main.o
 
 # target to preprocess a source file
-test/helpers_test.i:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.i
-.PHONY : test/helpers_test.i
+test/main.i:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/main.i
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/test/main.i
+.PHONY : test/main.i
 
 # target to generate assembly for a file
-test/helpers_test.s:
-	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/test/helpers_test.s
-.PHONY : test/helpers_test.s
+test/main.s:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/main.s
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/test/main.s
+.PHONY : test/main.s
+
+# target to build an object file
+test/test.o:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/test.o
+.PHONY : test/test.o
+
+# target to preprocess a source file
+test/test.i:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/test.i
+.PHONY : test/test.i
+
+# target to generate assembly for a file
+test/test.s:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/test/test.s
+.PHONY : test/test.s
 
 # Help Target
 help:
@@ -435,7 +495,10 @@ help:
 	@echo "... ROSBUILD_gensrv_lisp"
 	@echo "... clean-test-results"
 	@echo "... edit_cache"
+	@echo "... frontier_navigation"
+	@echo "... frontier_navigation_test"
 	@echo "... frontiers"
+	@echo "... frontiers_test"
 	@echo "... rebuild_cache"
 	@echo "... rosbuild_precompile"
 	@echo "... rosbuild_premsgsrvgen"
@@ -468,9 +531,12 @@ help:
 	@echo "... src/search.o"
 	@echo "... src/search.i"
 	@echo "... src/search.s"
-	@echo "... test/helpers_test.o"
-	@echo "... test/helpers_test.i"
-	@echo "... test/helpers_test.s"
+	@echo "... test/main.o"
+	@echo "... test/main.i"
+	@echo "... test/main.s"
+	@echo "... test/test.o"
+	@echo "... test/test.i"
+	@echo "... test/test.s"
 .PHONY : help
 
 

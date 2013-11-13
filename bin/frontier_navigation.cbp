@@ -67,6 +67,226 @@
             <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
+      <Target title="frontier_navigation">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/lib/libfrontier_navigation.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontier_navigation" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="frontier_navigation/fast">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/lib/libfrontier_navigation.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontier_navigation/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="frontier_navigation_test">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/lib/libfrontier_navigation_test.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontier_navigation_test" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="frontier_navigation_test/fast">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/lib/libfrontier_navigation_test.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontier_navigation_test/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
       <Target title="frontiers">
          <Option output="/home/u_private/ros_develop/frontier_navigation/bin/frontiers" prefix_auto="0" extension_auto="0" />
          <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
@@ -75,6 +295,8 @@
          <Option compiler="gcc" />
          <Compiler>
             <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
             <Add directory="/opt/ros/fuerte/include" />
             <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
             <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
@@ -128,6 +350,8 @@
          <Option compiler="gcc" />
          <Compiler>
             <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
             <Add directory="/opt/ros/fuerte/include" />
             <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
             <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
@@ -168,6 +392,116 @@
          </Compiler>
          <MakeCommands>
             <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontiers/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="frontiers_test">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/bin/frontiers_test" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontiers_test" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="frontiers_test/fast">
+         <Option output="/home/u_private/ros_develop/frontier_navigation/bin/frontiers_test" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/u_private/ros_develop/frontier_navigation/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/include" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/src" />
+            <Add directory="/home/u_private/ros_develop/frontier_navigation/test" />
+            <Add directory="/opt/ros/fuerte/include" />
+            <Add directory="/opt/ros/fuerte/include/pcl-1.5" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bond/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/bondcpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bond_core/smclib/include" />
+            <Add directory="/opt/ros/fuerte/stacks/bullet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/dynamic_reconfigure/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/angles/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/geometry/tf/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/laser_pipeline/laser_geometry/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/costmap_2d/msg_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/map_server/include" />
+            <Add directory="/opt/ros/fuerte/stacks/navigation/voxel_grid/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet/srv_gen/cpp/include" />
+            <Add directory="/opt/ros/fuerte/stacks/nodelet_core/nodelet_topic_tools/include" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/cfg/cpp" />
+            <Add directory="/opt/ros/fuerte/stacks/perception_pcl/pcl_ros/include" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib" />
+            <Add directory="/opt/ros/fuerte/stacks/pluginlib/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.6" />
+            <Add directory="/usr/include/c++/4.6/backward" />
+            <Add directory="/usr/include/c++/4.6/i686-linux-gnu/." />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 frontiers_test/fast" />
             <CompileFile command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
             <Clean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
             <DistClean command="/usr/bin/make -f &quot;/home/u_private/ros_develop/frontier_navigation/bin/Makefile&quot;  VERBOSE=1 clean" />
@@ -298,7 +632,9 @@
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/search.cpp">
       </Unit>
-      <Unit filename="/home/u_private/ros_develop/frontier_navigation/test/helpers_test.cpp">
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/test/main.cpp">
+      </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/test/test.cpp">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h">
       </Unit>
@@ -307,6 +643,8 @@
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/neighbours.h">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/src/types.h">
+      </Unit>
+      <Unit filename="/home/u_private/ros_develop/frontier_navigation/test/test.h">
       </Unit>
       <Unit filename="/home/u_private/ros_develop/frontier_navigation/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />

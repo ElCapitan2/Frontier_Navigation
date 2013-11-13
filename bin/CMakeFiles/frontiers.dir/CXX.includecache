@@ -16,25 +16,11 @@ nav_msgs/GridCells.h
 types.h
 /home/u_private/ros_develop/frontier_navigation/src/types.h
 
-/home/u_private/ros_develop/frontier_navigation/src/helpers.h
-geometry_msgs/Point.h
--
-nav_msgs/OccupancyGrid.h
--
-nav_msgs/GridCells.h
--
-types.h
-/home/u_private/ros_develop/frontier_navigation/src/types.h
-geometry_msgs/Vector3.h
--
-
-/home/u_private/ros_develop/frontier_navigation/src/qualities.cpp
+/home/u_private/ros_develop/frontier_navigation/src/main.cpp
 frontier_navigation.h
 /home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h
-helpers.h
-/home/u_private/ros_develop/frontier_navigation/src/helpers.h
-limits
--
+ros/ros.h
+/home/u_private/ros_develop/frontier_navigation/src/ros/ros.h
 
 /home/u_private/ros_develop/frontier_navigation/src/types.h
 vector

@@ -3,7 +3,10 @@
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/ROSBUILD_gensrv_cpp.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/ROSBUILD_gensrv_lisp.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/clean-test-results.dir
+/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontier_navigation.dir
+/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontier_navigation_test.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers.dir
+/home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/frontiers_test.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/rosbuild_precompile.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/rosbuild_premsgsrvgen.dir
 /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles/rospack_genmsg.dir

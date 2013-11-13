@@ -186,13 +186,19 @@ ROSPACK_EXE:FILEPATH=/opt/ros/fuerte/bin/rospack
 USERCONFIG:FILEPATH=USERCONFIG-NOTFOUND
 
 //Path to a file.
-_file_name:FILEPATH=/home/u_private/ros_develop/frontier_navigation/src/publishers.cpp
+_file_name:FILEPATH=//home/u_private/ros_develop/frontier_navigation/test/main.cpp
 
 //Value Computed by CMake
 frontier_navigation_BINARY_DIR:STATIC=/home/u_private/ros_develop/frontier_navigation/bin
 
+//Dependencies for the target
+frontier_navigation_LIB_DEPENDS:STATIC=general;tf;general;BulletDynamics;general;BulletCollision;general;LinearMath;general;message_filters;general;costmap_2d;general;laser_geometry;general;voxel_grid;general;rosbag;general;topic_tools;general;roscpp;general;rostime;general;rosconsole;general;roscpp_serialization;general;xmlrpcpp;general;pcl_keypoints;general;pcl_registration;general;pcl_features;general;pcl_segmentation;general;pcl_surface;general;pcl_tracking;general;pcl_filters;general;pcl_sample_consensus;general;pcl_search;general;pcl_visualization;general;pcl_io;general;pcl_kdtree;general;pcl_octree;general;flann_cpp;general;flann_cpp-gd;general;pcl_common;general;mysqlclient;general;pcl_ros_filters;general;pcl_ros_io;general;pcl_ros_tests;general;pcl_ros_tf;general;nodeletlib;general;uuid;general;poco_lite;general;boost_fs_wrapper;general;tinyxml;general;roslib;general;bondcpp;general;boost_thread-mt;general;dynamic_reconfigure_config_init_mutex;
+
 //Value Computed by CMake
 frontier_navigation_SOURCE_DIR:STATIC=/home/u_private/ros_develop/frontier_navigation
+
+//Dependencies for the target
+frontier_navigation_test_LIB_DEPENDS:STATIC=general;tf;general;BulletDynamics;general;BulletCollision;general;LinearMath;general;message_filters;general;costmap_2d;general;laser_geometry;general;voxel_grid;general;rosbag;general;topic_tools;general;roscpp;general;rostime;general;rosconsole;general;roscpp_serialization;general;xmlrpcpp;general;pcl_keypoints;general;pcl_registration;general;pcl_features;general;pcl_segmentation;general;pcl_surface;general;pcl_tracking;general;pcl_filters;general;pcl_sample_consensus;general;pcl_search;general;pcl_visualization;general;pcl_io;general;pcl_kdtree;general;pcl_octree;general;flann_cpp;general;flann_cpp-gd;general;pcl_common;general;mysqlclient;general;pcl_ros_filters;general;pcl_ros_io;general;pcl_ros_tests;general;pcl_ros_tf;general;nodeletlib;general;uuid;general;poco_lite;general;boost_fs_wrapper;general;tinyxml;general;roslib;general;bondcpp;general;boost_thread-mt;general;dynamic_reconfigure_config_init_mutex;
 
 
 ########################

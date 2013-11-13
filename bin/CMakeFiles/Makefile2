@@ -205,13 +205,84 @@ clean: CMakeFiles/clean-test-results.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/frontier_navigation.dir
+
+# All Build rule for target.
+CMakeFiles/frontier_navigation.dir/all: CMakeFiles/rosbuild_precompile.dir/all
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/depend
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  1 2 3 4 5 6
+	@echo "Built target frontier_navigation"
+.PHONY : CMakeFiles/frontier_navigation.dir/all
+
+# Include target in all.
+all: CMakeFiles/frontier_navigation.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/frontier_navigation.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frontier_navigation.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 0
+.PHONY : CMakeFiles/frontier_navigation.dir/rule
+
+# Convenience name for target.
+frontier_navigation: CMakeFiles/frontier_navigation.dir/rule
+.PHONY : frontier_navigation
+
+# clean rule for target.
+CMakeFiles/frontier_navigation.dir/clean:
+	$(MAKE) -f CMakeFiles/frontier_navigation.dir/build.make CMakeFiles/frontier_navigation.dir/clean
+.PHONY : CMakeFiles/frontier_navigation.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/frontier_navigation.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/frontier_navigation_test.dir
+
+# All Build rule for target.
+CMakeFiles/frontier_navigation_test.dir/all: CMakeFiles/rosbuild_precompile.dir/all
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/depend
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  7 8 9
+	@echo "Built target frontier_navigation_test"
+.PHONY : CMakeFiles/frontier_navigation_test.dir/all
+
+# Include target in all.
+all: CMakeFiles/frontier_navigation_test.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/frontier_navigation_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frontier_navigation_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 0
+.PHONY : CMakeFiles/frontier_navigation_test.dir/rule
+
+# Convenience name for target.
+frontier_navigation_test: CMakeFiles/frontier_navigation_test.dir/rule
+.PHONY : frontier_navigation_test
+
+# clean rule for target.
+CMakeFiles/frontier_navigation_test.dir/clean:
+	$(MAKE) -f CMakeFiles/frontier_navigation_test.dir/build.make CMakeFiles/frontier_navigation_test.dir/clean
+.PHONY : CMakeFiles/frontier_navigation_test.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/frontier_navigation_test.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/frontiers.dir
 
 # All Build rule for target.
 CMakeFiles/frontiers.dir/all: CMakeFiles/rosbuild_precompile.dir/all
+CMakeFiles/frontiers.dir/all: CMakeFiles/frontier_navigation.dir/all
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/depend
 	$(MAKE) -f CMakeFiles/frontiers.dir/build.make CMakeFiles/frontiers.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  1 2 3 4 5 6 7 8
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  10
 	@echo "Built target frontiers"
 .PHONY : CMakeFiles/frontiers.dir/all
 
@@ -221,7 +292,7 @@ all: CMakeFiles/frontiers.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/frontiers.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frontiers.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 0
 .PHONY : CMakeFiles/frontiers.dir/rule
@@ -237,6 +308,42 @@ CMakeFiles/frontiers.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/frontiers.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/frontiers_test.dir
+
+# All Build rule for target.
+CMakeFiles/frontiers_test.dir/all: CMakeFiles/rosbuild_precompile.dir/all
+CMakeFiles/frontiers_test.dir/all: CMakeFiles/frontier_navigation_test.dir/all
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/depend
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles  11
+	@echo "Built target frontiers_test"
+.PHONY : CMakeFiles/frontiers_test.dir/all
+
+# Include target in all.
+all: CMakeFiles/frontiers_test.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/frontiers_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frontiers_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/u_private/ros_develop/frontier_navigation/bin/CMakeFiles 0
+.PHONY : CMakeFiles/frontiers_test.dir/rule
+
+# Convenience name for target.
+frontiers_test: CMakeFiles/frontiers_test.dir/rule
+.PHONY : frontiers_test
+
+# clean rule for target.
+CMakeFiles/frontiers_test.dir/clean:
+	$(MAKE) -f CMakeFiles/frontiers_test.dir/build.make CMakeFiles/frontiers_test.dir/clean
+.PHONY : CMakeFiles/frontiers_test.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/frontiers_test.dir/clean
 .PHONY : clean
 
 #=============================================================================
