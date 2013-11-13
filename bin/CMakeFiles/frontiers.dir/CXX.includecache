@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.cpp
-frontier_navigation.h
-/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h
-tf/transform_listener.h
-/home/u_private/ros_develop/frontier_navigation/src/tf/transform_listener.h
-neighbours.h
-/home/u_private/ros_develop/frontier_navigation/src/neighbours.h
-vector
--
-stdlib.h
--
-helpers.h
-/home/u_private/ros_develop/frontier_navigation/src/helpers.h
-
 /home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h
 nav_msgs/OccupancyGrid.h
 /home/u_private/ros_develop/frontier_navigation/src/nav_msgs/OccupancyGrid.h
@@ -42,10 +28,12 @@ types.h
 geometry_msgs/Vector3.h
 -
 
-/home/u_private/ros_develop/frontier_navigation/src/neighbours.h
-stdint.h
--
-nav_msgs/OccupancyGrid.h
+/home/u_private/ros_develop/frontier_navigation/src/qualities.cpp
+frontier_navigation.h
+/home/u_private/ros_develop/frontier_navigation/src/frontier_navigation.h
+helpers.h
+/home/u_private/ros_develop/frontier_navigation/src/helpers.h
+limits
 -
 
 /home/u_private/ros_develop/frontier_navigation/src/types.h

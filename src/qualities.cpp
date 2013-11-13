@@ -8,13 +8,12 @@ double qualityOfConnectivity(int edges, int frontierPoints) {
     return Helpers::linearInterpolation(1.0, 10.0, 2.0, 0.0, ratio);
 }
 
-double qualityOfSize(int totalPoints, int frontierPoints) {
-    if (frontierPoints < 25) return -100.0;
-    return Helpers::linearInterpolation(1.0, 0.0, totalPoints, 10.0, frontierPoints);
+double qualityOfSize(int smallestFrontierSize, int largestFrontierSize, int frontierSize) {
+    return Helpers::linearInterpolation(smallestFrontierSize, 0.0, largestFrontierSize, 10.0, frontierSize);
 }
 
-double qualityOfDistance(double distance, double totalDistance) {
-    return Helpers::linearInterpolation(1.0, 10.0, totalDistance, 0.0, distance);
+double qualityOfDistance(double smallestDistance, double largestDistance, double distance) {
+    return Helpers::linearInterpolation(smallestDistance, 10.0, largestDistance, 0.0, distance);
 }
 
 double qualityOfDirection(geometry_msgs::PoseStamped robot_position, geometry_msgs::Point goal) {
@@ -44,35 +43,50 @@ int Frontier_Navigation::determineBestFrontier(vec_double &adjacencyMatrixOfFron
 
 std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
     // load and prepare data which will be needed for quality measure
+    printf("Processing of frontier  qualitites ...\n");
     int frontiersCnt = frontiers.size();
-    int points = 0;
-    int edges[frontiersCnt];
-    geometry_msgs::Point goals[frontiersCnt];
-    int robot_pos = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
-    double distances[frontiersCnt];
-    double totalDistance = 0.0;
+    int smallestFrontierSize = std::numeric_limits<int>::max();
+    int largestFrontierSize = 0;
+    double smallestDistance = std::numeric_limits<double>::max();
+    double largestDistance = 0.0;
+    int edgesCntOfFrontiers[frontiersCnt];
+    double distancesToFrontiers[frontiersCnt];
+    geometry_msgs::Point goalsInFrontiers[frontiersCnt];
+    int robotPos = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+
     for (int i = 0; i < frontiersCnt; i++) {
-        points += frontiers[i].size();
-        edges[i] = 0;
-        int closestPoint = Helpers::closestPoint(frontiers[i], robot_pos, this->map_->info.width);
-        distances[i] = (Helpers::distance(closestPoint, robot_pos, this->map_->info.width, this->map_->info.resolution));
-        totalDistance += distances[i];
-        goals[i] = Helpers::gridToPoint(closestPoint, this->map_);
+        if (frontiers[i].size() < smallestFrontierSize) smallestFrontierSize = frontiers[i].size();
+        if (frontiers[i].size() > largestFrontierSize) largestFrontierSize = frontiers[i].size();
+        int closestPoint = Helpers::closestPoint(frontiers[i], robotPos, this->map_->info.width);
+        distancesToFrontiers[i] = (Helpers::distance(closestPoint, robotPos, this->map_->info.width, this->map_->info.resolution));
+        if (distancesToFrontiers[i] < smallestDistance) smallestDistance = distancesToFrontiers[i];
+        if (distancesToFrontiers[i] > largestDistance) largestDistance = distancesToFrontiers[i];
+        goalsInFrontiers[i] = Helpers::gridToPoint(closestPoint, this->map_);
+        // init to prevent fraud data
+        edgesCntOfFrontiers[i] = 0;
     }
+    // make sure that small frontiers will receive small qualities
+//    if (smallestFrontierSize < this->threshold_) smallestFrontierSize = this->threshold_;
     for (unsigned int i = 0; i < adjacencyMatrixOfFrontiers.size(); i++) {
-        edges[adjacencyMatrixOfFrontiers[i][0]-1]+=adjacencyMatrixOfFrontiers[i].size()-2;
+        edgesCntOfFrontiers[adjacencyMatrixOfFrontiers[i][0]-1]+=adjacencyMatrixOfFrontiers[i].size()-2;
     }
+    printf("frontiers: %d\n", frontiersCnt);
+    printf("smallest frontier size: %d; largest frontier size: %d\n", smallestFrontierSize, largestFrontierSize);
+    printf("smallest dist to frontiers: %f; largest dist to frontiers: %f\n", smallestDistance, largestDistance);
+    printf("weight of [] connectivity: %f; size: %f; distance: %f; direction: %f\n", this->weightOfConnectivity_, this->weightOfSize_, this->weightOfDistance_, this->weightOfDirection_);
+    printf("Quality measure:\n");
     // actual quality measure of each frontier
     std::vector<double> qualities;
     for (int i = 0; i < frontiersCnt; i++) {
-        double qualOfConnectivity = qualityOfConnectivity(edges[i], frontiers[i].size());
-        double qualOfSize = qualityOfSize(points, frontiers[i].size());
-        double qualOfDistance = qualityOfDistance(distances[i], totalDistance);
-        double qualOfDirection = qualityOfDirection(this->robot_position_, goals[i]);
+        double qualOfConnectivity = qualityOfConnectivity(edgesCntOfFrontiers[i], frontiers[i].size());
+        double qualOfSize = qualityOfSize(smallestFrontierSize, largestFrontierSize, frontiers[i].size());
+        double qualOfDistance = qualityOfDistance(smallestDistance, largestDistance, distancesToFrontiers[i]);
+        double qualOfDirection = qualityOfDirection(this->robot_position_, goalsInFrontiers[i]);
         double quality = this->weightOfConnectivity_*qualOfConnectivity + this->weightOfSize_*qualOfSize + this->weightOfDistance_*qualOfDistance + this->weightOfDirection_*qualOfDirection;
         qualities.push_back(quality);
-//        printf("frontier: %d\telements: %d\tqual: %f\tqualOf-\tconn: %f\tsize: %f\tdist: %f\tdir: %f\n", i, frontiers[i].size(), quality, qualOfConnectivity, qualOfSize, qualOfDistance, qualOfDirection);
+//        printf("%d  size: %d\tqual: %f\tconn: %f\tsize: %f\tdist: %f\tdir: %f\n", i, frontiers[i].size(), quality, qualOfConnectivity, qualOfSize, qualOfDistance, qualOfDirection);
     }
+    printf("Processing of frontier  qualitites finished!\n\n");
     return qualities;
 }
 

@@ -41,9 +41,9 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 //    goal.pose.position.x = this->robot_position_.x+2;
 //    goal.pose.position.y = this->robot_position_.y;
 //    this->goal_pub_.publish(goal);
-    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
+//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
+//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
+//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
 //    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
 //    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
 }
@@ -77,7 +77,7 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
         // 3. run some more validations in order to really use an appropriate frontier
         if (frontierConstraints(frontiers[frontier])) {
             geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontier]);
-            publishGoal(goal);
+//            publishGoal(goal);
             break;
         } else if (i == this->attempts_) {
             // 3.b no valid connected frontiers found
