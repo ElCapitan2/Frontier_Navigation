@@ -35,7 +35,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
-    ROS_WARN("Robot not moving! Stuff will be done to robot in order to get it moving again...");
+    ROS_WARN("No new map received within given time!");
 //    geometry_msgs::PoseStamped goal;
 //    goal.header.frame_id = "/map";
 //    goal.pose.position.x = this->robot_position_.x+2;
@@ -49,7 +49,22 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 }
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
+    processMap(map);
+}
 
+void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
+    this->robot_position_ = robot_position;
+    this->pathCounter_++;
+    if (pathCounter_%10 == 0) {
+        this->pathTracker_.cells.push_back(robot_position.pose.position);
+        this->pathTracker_pub_.publish(this->pathTracker_);
+    }
+    if (Helpers::distance(robot_position.pose.position, this->activeGoal_.pose.position) < 3.0) {
+        ROS_WARN("Robot reached goal area without sending new map data.");
+    }
+}
+
+void Frontier_Navigation::processMap(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
     ROS_INFO("Frontier_Navigation received map");
     this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
     ROS_INFO("Timer started to prevent dead locks");
@@ -77,6 +92,7 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
         // 3. run some more validations in order to really use an appropriate frontier
         if (frontierConstraints(frontiers[frontier])) {
             geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontier]);
+            this->activeGoal_ = goal;
 //            publishGoal(goal);
             break;
         } else if (i == this->attempts_) {
@@ -92,15 +108,6 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
             frontiers.clear();
             adjacencyMatrixOfFrontiers.clear();
         }
-    }
-}
-
-void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
-    this->robot_position_ = robot_position;
-    this->pathCounter_++;
-    if (pathCounter_%10 == 0) {
-        this->pathTracker_.cells.push_back(robot_position.pose.position);
-        this->pathTracker_pub_.publish(this->pathTracker_);
     }
 }
 

@@ -1,4 +1,5 @@
 #include <geometry_msgs/Point.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/GridCells.h>
 #include "types.h"
@@ -13,6 +14,8 @@ public:
     // distance in point-space and index-space
     static double distance(unsigned int startIndex, unsigned int endIndex, int width, double resolution = 1.0, bool print = false);
     static double distance(geometry_msgs::Point A, geometry_msgs::Point B, bool print = false);
+    static double distance(geometry_msgs::PoseStamped A, geometry_msgs::PoseStamped B, bool print = false);
+    static double distance(geometry_msgs::Point A, geometry_msgs::PoseStamped B, bool print = false);
     // length of vector given as vector or point
     static double length(geometry_msgs::Vector3 vector);
     static double length(double x, double y, double z);

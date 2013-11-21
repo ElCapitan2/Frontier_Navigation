@@ -27,8 +27,21 @@ double Helpers::distance(unsigned int startIndex, unsigned int endIndex, int wid
 }
 
 double Helpers::distance(geometry_msgs::Point A, geometry_msgs::Point B, bool print) {
-    // simplified since z=0
-    return sqrt(pow((A.x - B.x), 2) + pow((A.y - B.y), 2));
+    double distance = sqrt(pow((A.x - B.x), 2) + pow((A.y - B.y), 2) + pow((A.z - B.z), 2));
+    if (print) {
+        printf("Distance between A(%f/%f/%f) and B(%f/%f/%f): %f\n", A.x, A.y, A.z, B.x, B.y, B.z, distance);
+    }
+    return distance;
+}
+
+double Helpers::distance(geometry_msgs::PoseStamped A, geometry_msgs::PoseStamped B, bool print)
+{
+    return distance(A.pose.position, B.pose.position, print);
+}
+
+double Helpers::distance(geometry_msgs::Point A, geometry_msgs::PoseStamped B, bool print)
+{
+    return distance(A, B.pose.position, print);
 }
 
 double Helpers::length(geometry_msgs::Vector3 vector) {

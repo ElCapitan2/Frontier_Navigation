@@ -17,8 +17,10 @@ public:
     void TEST_gridToPoint();
 
 
+
 private:
 
+    void processMap(const nav_msgs::OccupancyGrid::ConstPtr &map);
     void findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
     std::vector<unsigned int> findFrontierIdxsWithinRadius(int radius);
     vec_double computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &frontierIdxs);
@@ -53,6 +55,7 @@ private:
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
+    geometry_msgs::PoseStamped activeGoal_;
 
     nav_msgs::GridCells pathTracker_;
     unsigned int pathCounter_;
