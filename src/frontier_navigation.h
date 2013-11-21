@@ -18,9 +18,10 @@ public:
 
 
 
+    bool isRobotMoving();
 private:
 
-    void processMap(const nav_msgs::OccupancyGrid::ConstPtr &map);
+    void processMap();
     void findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
     std::vector<unsigned int> findFrontierIdxsWithinRadius(int radius);
     vec_double computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &frontierIdxs);
