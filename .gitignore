@@ -1,3 +1,5 @@
 *.o
 *.so
 *.internal
+*.make
+*.includecache
