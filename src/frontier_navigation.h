@@ -12,13 +12,11 @@ public:
     void mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& map);
     void posCallback(const geometry_msgs::PoseStamped& robot_position);
     void timerCallback(const ros::TimerEvent&);
+    void cmdVelCallback(const geometry_msgs::Twist& cmd_vel);
 
     void TEST_pointToGrid();
     void TEST_gridToPoint();
 
-
-
-    bool isRobotMoving();
 private:
 
     void processMap();
@@ -44,7 +42,6 @@ private:
 
 
     bool frontierConstraints(vec_single &frontier);
-    bool validateFrontierPoint(int index);
 
     ros::NodeHandle* nodeHandle_;
     ros::Publisher rectangle_pub_;

@@ -55,20 +55,20 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
-    this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
     this->robot_position_ = robot_position;
     this->pathCounter_++;
     if (pathCounter_%10 == 0) {
         this->pathTracker_.cells.push_back(robot_position.pose.position);
         this->pathTracker_pub_.publish(this->pathTracker_);
-        printf("GUT!!\n");
-    } else {
-        printf("BÖSE!!\n");
     }
     if (Helpers::distance(robot_position, this->activeGoal_) < 3.0) {
         ROS_WARN("Robot reached goal area without sending new map data.");
         processMap();
     }
+}
+
+void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
+    this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(this->timeout_), &Frontier_Navigation::timerCallback, this, true);
 }
 
 void Frontier_Navigation::processMap() {
@@ -187,25 +187,4 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
 
     printf("Next Goal! goal(%f, %f, %f)\n", point.pose.position.x, point.pose.position.y, point.pose.position.z);
     return point;
-}
-
-// Define constraints for every single found frontier point
-// I.e. skip frontiers which are surounded by free-space (due to sensor resolution)
-bool Frontier_Navigation::validateFrontierPoint(int index) {
-    return true;
-}
-
-bool Frontier_Navigation::isRobotMoving() {
-    unsigned int start;
-    if (pathTracker_.cells.size() < 5) {
-        start = 0;
-    } else {
-        start = pathTracker_.cells.size() - 5;
-    }
-    double distance = 0.0;
-    for (unsigned int i = start; i < pathTracker_.cells.size(); i++) {
-        distance += Helpers::distance(this->pathTracker_.cells[i], this->robot_position_);
-    }
-    if (distance < 1.0) return false;
-    else return true;
 }
