@@ -19,23 +19,32 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->pathTracker_.header.frame_id = "/map";
     this->pathTracker_.cell_height = this->pathTracker_.cell_width = 0.05;
 
-    node_ptr->param("/frontier_navigation/radius", radius_, 5.0);
-    node_ptr->param("/frontier_navigation/attempts", attempts_, 4);
-    node_ptr->param("/frontier_navigation/stepping", stepping_, 5.0);
-    node_ptr->param("/frontier_navigation/threshold", threshold_, 250);
-    node_ptr->param("/frontier_navigation/sleep", sleep_, 0);
-    node_ptr->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
-    node_ptr->param("/frontier_navigation/timeout", timeout_, 5.0);
-    node_ptr->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
-    node_ptr->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
-    node_ptr->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
-    node_ptr->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
-    node_ptr->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
-    node_ptr->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
+    this->nodeHandle_->param("/frontier_navigation/radius", radius_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/attempts", attempts_, 4);
+    this->nodeHandle_->param("/frontier_navigation/stepping", stepping_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/threshold", threshold_, 250);
+    this->nodeHandle_->param("/frontier_navigation/sleep", sleep_, 0);
+    this->nodeHandle_->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
+    this->nodeHandle_->param("/frontier_navigation/timeout", timeout_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
+    this->nodeHandle_->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
+    this->nodeHandle_->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     ROS_WARN("\"not_moving_timer\" fired. Robot is likely to be stuck!!");
+    // determine reason for being stuck and set flags for mapCallback
+    // - too close to obstacle
+    //   -> backup robot and change orientation
+    // - reached goal but did not receive map update
+    //   -> use saved frontires
+    //   -> scan entire map
+    // - no frontiers detected
+    //   -> same as above
+
 //    geometry_msgs::PoseStamped goal;
 //    goal.header.frame_id = "/map";
 //    goal.pose.position.x = this->robot_position_.x+2;
@@ -61,10 +70,10 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
         this->pathTracker_.cells.push_back(robot_position.pose.position);
         this->pathTracker_pub_.publish(this->pathTracker_);
     }
-    if (Helpers::distance(robot_position, this->activeGoal_) < 3.0) {
-        ROS_WARN("Robot reached goal area without sending new map data.");
-        processMap();
-    }
+//    if (Helpers::distance(robot_position, this->activeGoal_) < 3.0) {
+//        ROS_WARN("Robot reached goal area without sending new map data.");
+//        processMap();
+//    }
 }
 
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
@@ -142,9 +151,6 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     robotToGoalVec.z = point.pose.position.z - this->robot_position_.pose.position.z;
     double length = Helpers::length(robotToGoalVec);
 
-//    point.pose.position.x = this->robot_position_.pose.position.x + deltaX/length * (length-this->minDinstance_);
-//    point.pose.position.y = this->robot_position_.pose.position.y + deltaY/length * (length-this->minDinstance_);
-//    point.pose.position.z = this->robot_position_.pose.position.z + deltaZ/length * (length-this->minDinstance_);
     nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.0, this->map_);
     publishCircle(goalIndex);
     geometry_msgs::Vector3 goalToCircleVec;
@@ -154,7 +160,6 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
         goalToCircleVec.y = circle.cells[i].y - point.pose.position.y;
         goalToCircleVec.z = circle.cells[i].z - point.pose.position.z;
         double angle = Helpers::angleInDegree(frontierVec, goalToCircleVec);
-//        printf("angle: %f\n", angle);
         if (angle >= 78.0 && angle <= 82.00) {
             point.pose.position.x = circle.cells[i].x;
             point.pose.position.y = circle.cells[i].y;
