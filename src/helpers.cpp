@@ -141,6 +141,31 @@ nav_msgs::GridCells Helpers::circle(int index, double radius, const nav_msgs::Oc
     return circle;
 }
 
+nav_msgs::GridCells Helpers::circleArea(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print)
+{
+    int index = Helpers::pointToGrid(pt, map);
+    return circleArea(index, radius, map, print);
+}
+
+nav_msgs::GridCells Helpers::circleArea(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print)
+{
+    nav_msgs::GridCells circle;
+    double boxes = radius/map->info.resolution;
+    int cnt = 0;
+    int8_t free = 0;
+    for (int row = index-boxes*map->info.width; row < index+boxes*map->info.width; row+=map->info.width) {
+        for (int i = row-boxes; i < row+boxes; i++) {
+            cnt++;
+            double distance = Helpers::distance(index, i, map->info.width, map->info.resolution);
+            if ((distance <= radius) && (map->data[i] == free)) {
+                circle.cells.push_back(Helpers::gridToPoint(i, map->info.width, map->info.height, map->info.resolution));
+            }
+        }
+    }
+    if (print) printf("circle - radius: %f, points: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
+    return circle;
+}
+
 //void Frontier_Navigation::circle2(double radius) {
 //    nav_msgs::GridCells circle;
 //    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);

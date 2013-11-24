@@ -4,4 +4,6 @@
 *.make
 *.includecache
 bin/frontiers
+bin/frontiers_test
+bin/CMakeFiles/*
 CMakeLists.txt.user

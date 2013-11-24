@@ -33,8 +33,10 @@ public:
     static int furthermostPoint(vec_single &frontier, int robotPosIdx, int width, bool print = false);
 
     // determine circle around point in point-space and index-space
-    static nav_msgs::GridCells circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map,bool print = false);
-    static nav_msgs::GridCells circle(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map,bool print = false);
+    static nav_msgs::GridCells circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+    static nav_msgs::GridCells circle(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+    static nav_msgs::GridCells circleArea(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+    static nav_msgs::GridCells circleArea(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
 
     // determine angle between two vectors
     // radian

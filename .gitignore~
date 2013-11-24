@@ -3,3 +3,7 @@
 *.internal
 *.make
 *.includecache
+bin/frontiers
+bin/frontiers_test
+bin/CMakeFiles/frontier_navigation_test.dir/test/main.o
+CMakeLists.txt.user

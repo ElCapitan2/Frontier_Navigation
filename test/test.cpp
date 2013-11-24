@@ -7,8 +7,8 @@ Test::Test() {
 }
 
 void printResultMessage(bool passed) {
-    if (passed) printf("passed\n");
-    else printf("FAILED!");
+    if (passed) printf("passed\n\n");
+    else printf("FAILED!\n\n");
 }
 
 char* resultMsg(bool passed) {
@@ -43,5 +43,22 @@ bool Test::test_angleInX() {
     printf("\tangleInDegree: target: %f; actual: %f; %s\n", targetAngleInDegree, actualAngleInDegree, resultMsg(degree));
     printf("\ttest_angleInX ");
     printResultMessage(degree & radian);
+}
+
+void Test::test_circleArea(int index, double radius) {
+    nav_msgs::GridCells circle;
+    double boxes = radius/0.05;
+    int cnt = 0;
+    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
+        for (int i = row-boxes; i < row+boxes; i++) {
+
+            double distance = Helpers::distance(index, i, 4000, 0.05);
+            if (distance < radius) {
+                cnt++;
+                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+            }
+        }
+    }
+    printf("Radius: %f\tIterations: %d\tArea: %f\n", radius, cnt, pow(radius/0.05, 2)*M_PI);
 }
 
