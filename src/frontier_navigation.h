@@ -14,9 +14,6 @@ public:
     void timerCallback(const ros::TimerEvent&);
     void cmdVelCallback(const geometry_msgs::Twist& cmd_vel);
 
-    void TEST_pointToGrid();
-    void TEST_gridToPoint();
-
 private:
 
     void processMap();

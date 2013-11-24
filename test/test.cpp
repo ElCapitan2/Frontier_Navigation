@@ -6,14 +6,14 @@
 Test::Test() {
 }
 
-void printResultMessage(bool passed) {
-    if (passed) printf("passed\n\n");
-    else printf("FAILED!\n\n");
+void printResultMessage(bool passed, const char* name) {
+    if (passed) printf("\t\e[1;32m-> %s passed\e[0m\n\n", name);
+    else printf("\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
 }
 
 char* resultMsg(bool passed) {
-    if (passed) return "passed";
-    else return "FAILED!\n";
+    if (passed) return "\e[1;32mpassed\e[0m";
+    else return "\e[1;31mFAILED!\e[0m";
 }
 
 bool compareDoubles(double target, double actual) {
@@ -21,9 +21,27 @@ bool compareDoubles(double target, double actual) {
     if (relativeError <= 0.00001) return true;
     else return false;
 }
+void printIntro(const char* name) {
+    printf("%s\n", name);
+}
+
+bool Test::test_linearInterpolation() {
+    printIntro(__func__);
+    double value;
+    bool result;
+    bool totalResult = true;
+    for (double i = 0.5; i < 2.5; i+=0.5) {
+        value = Helpers::linearInterpolation(0.0, 0.0, 1.0, i, 5.0);
+        printf("\tA(%f, %f); B(%f, %f); C(%f, %c)\n", 0.0, 0.0, 1.0, i, 5.0, 'Y');
+        result = compareDoubles(5.0*i, value);
+        totalResult &= result ;
+        printf("\ttarget: %f; actual: %f; %s\n", 5.0*i, value, resultMsg(result));
+    }
+    printResultMessage(totalResult, __func__);
+}
 
 bool Test::test_angleInX() {
-    printf("test_angleInX\n");
+    printIntro(__func__);
     geometry_msgs::Vector3 a;
     geometry_msgs::Vector3 b;
     a.x = 2.3;
@@ -41,8 +59,7 @@ bool Test::test_angleInX() {
     printf("\ta(%f, %f, %f); b(%f, %f, %f)\n", a.x, a.y, a.z, b.x, b.y, b.z);
     printf("\tangleInRadian: target: %f; actual: %f; %s\n", targetAngleInRadian, actualAngleInRadian, resultMsg(radian));
     printf("\tangleInDegree: target: %f; actual: %f; %s\n", targetAngleInDegree, actualAngleInDegree, resultMsg(degree));
-    printf("\ttest_angleInX ");
-    printResultMessage(degree & radian);
+    printResultMessage(degree & radian, __func__);
 }
 
 void Test::test_circleArea(int index, double radius) {
