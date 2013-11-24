@@ -39,16 +39,16 @@ std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int 
             // if free-space is next to unknown-space free-space-index will be added
             // to indexedRawFrontiers
             if (data == 0) {
-                if (neighbours.getValLeft(index, map_) == -1 && validateFrontierPoint(index)) {
+                if (neighbours.getValLeft(index, map_) == -1) {
                     frontierIdxs.push_back(index);
                 }
-                else if (neighbours.getValRight(index, map_) == -1 && validateFrontierPoint(index)) {
+                else if (neighbours.getValRight(index, map_) == -1) {
                     frontierIdxs.push_back(index);
                 }
-                else if (neighbours.getValTop(index, map_) == -1 && validateFrontierPoint(index)) {
+                else if (neighbours.getValTop(index, map_) == -1) {
                     frontierIdxs.push_back(index);
                 }
-                else if (neighbours.getValBottom(index, map_) == -1 && validateFrontierPoint(index)) {
+                else if (neighbours.getValBottom(index, map_) == -1) {
                     frontierIdxs.push_back(index);
                 }
             }

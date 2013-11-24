@@ -3,3 +3,5 @@
 *.internal
 *.make
 *.includecache
+bin/frontiers
+CMakeLists.txt.user

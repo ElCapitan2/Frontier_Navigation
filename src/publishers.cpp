@@ -50,7 +50,7 @@ void Frontier_Navigation::publishOutlineOfSearchRectangle(int radius) {
 }
 
 void Frontier_Navigation::publishCircle(int goalIndex) {
-    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.0, this->map_, true);
+    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.5, this->map_, true);
     circle.cell_height = circle.cell_width = this->map_->info.resolution;
     circle.header.frame_id = "/map";
     this->circle_pub_.publish(circle);

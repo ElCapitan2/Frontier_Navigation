@@ -103,7 +103,7 @@ void Frontier_Navigation::processMap() {
         if (frontierConstraints(frontiers[frontier])) {
             geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontier]);
             this->activeGoal_ = goal;
-//            publishGoal(goal);
+            publishGoal(goal);
             break;
         } else if (i == this->attempts_) {
             // 3.b no valid connected frontiers found
@@ -151,44 +151,42 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     robotToGoalVec.z = point.pose.position.z - this->robot_position_.pose.position.z;
     double length = Helpers::length(robotToGoalVec);
 
-    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.0, this->map_);
+    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.5, this->map_);
     publishCircle(goalIndex);
     geometry_msgs::Vector3 goalToCircleVec;
-    bool found = false;
+
+    double desiredAnle = 80.0;
+    double bestAnlgeDelata = 180.0;
     for (int i = 0; i < circle.cells.size(); i++) {
         goalToCircleVec.x = circle.cells[i].x - point.pose.position.x;
         goalToCircleVec.y = circle.cells[i].y - point.pose.position.y;
         goalToCircleVec.z = circle.cells[i].z - point.pose.position.z;
         double angle = Helpers::angleInDegree(frontierVec, goalToCircleVec);
-        if (angle >= 78.0 && angle <= 82.00) {
+        if (abs(desiredAnle - angle) < bestAnlgeDelata) {
+            bestAnlgeDelata = desiredAnle-angle;
             point.pose.position.x = circle.cells[i].x;
             point.pose.position.y = circle.cells[i].y;
             point.pose.position.z = circle.cells[i].z;
-
-            geometry_msgs::Vector3 x;
-            x.x = 1.0;
-            x.y = x.z = 0.0;
-            geometry_msgs::Vector3 y;
-
-            y.x = far.x - point.pose.position.x;
-            y.y = far.y - point.pose.position.y;
-            y.z = 0.0;
-
-            double angle2 = Helpers::angleInDegree(y, x);
-
-            if (y.y < 0) angle2 = 360-angle2;
-            tf::Quaternion quaternion = tf::createQuaternionFromYaw(angle2*M_PI / 180);
-            point.pose.orientation.x = quaternion.getX();
-            point.pose.orientation.y = quaternion.getY();
-            point.pose.orientation.z = quaternion.getZ();
-            point.pose.orientation.w = quaternion.getW();
-            found = true;
-            break;
         }
-
     }
 
-    if(!found) printf("Not found!!!!!!!\n");
+    geometry_msgs::Vector3 x;
+    x.x = 1.0;
+    x.y = x.z = 0.0;
+    geometry_msgs::Vector3 y;
+
+    y.x = far.x - point.pose.position.x;
+    y.y = far.y - point.pose.position.y;
+    y.z = 0.0;
+
+    double angle = Helpers::angleInDegree(y, x);
+
+    if (y.y < 0) angle = 360-angle;
+    tf::Quaternion quaternion = tf::createQuaternionFromYaw(angle*M_PI / 180);
+    point.pose.orientation.x = quaternion.getX();
+    point.pose.orientation.y = quaternion.getY();
+    point.pose.orientation.z = quaternion.getZ();
+    point.pose.orientation.w = quaternion.getW();
 
     printf("Next Goal! goal(%f, %f, %f)\n", point.pose.position.x, point.pose.position.y, point.pose.position.z);
     return point;
