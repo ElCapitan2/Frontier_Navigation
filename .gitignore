@@ -3,5 +3,4 @@
 *.internal
 *.make
 *.includecache
-bin/
 CMakeLists.txt.user
