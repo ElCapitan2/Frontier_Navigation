@@ -3,6 +3,10 @@
 #include "neighbours.h"
 #include "types.h"
 
+// free-space = 0
+// occupied-space = 100
+// unknown-space == -1
+
 void Frontier_Navigation::findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers) {
     // 1. find raw frontier indices themselves
     std::vector<unsigned int> frontierIdxs = findFrontierIdxsWithinRadius(radius);

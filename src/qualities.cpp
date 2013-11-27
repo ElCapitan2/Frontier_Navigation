@@ -1,6 +1,7 @@
 #include "frontier_navigation.h"
 #include "helpers.h"
 #include <limits>
+#include <algorithm>
 
 double qualityOfConnectivity(int edges, int frontierPoints) {
     if (frontierPoints == 1) return 0.0;
@@ -28,22 +29,29 @@ double qualityOfDirection(geometry_msgs::PoseStamped robot_position, geometry_ms
     return Helpers::linearInterpolation(0, 10, M_PI, 0, angle);
 }
 
-int Frontier_Navigation::determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
+bool compare(std::vector<double> vec1, std::vector<double> vec2) {return (vec1[0] > vec2[0]);}
+
+std::vector<int> Frontier_Navigation::determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
     std::vector<double> qualities = computeQualityOfFrontiers(adjacencyMatrixOfFrontiers, frontiers);
-    double max = 0.0;
-    int idx = 0;
-    for (int i = 0; i < qualities.size(); i++) {
-        if (qualities[i] > max) {
-            max = qualities[i];
-            idx = i;
-        }
+    std::vector<std::vector<double> > sortedQualities;
+    for (double i = 0; i < qualities.size(); i++) {
+        std::vector<double> quality;
+        quality.push_back(qualities[i]);
+        quality.push_back(i);
+        sortedQualities.push_back(quality);
+        quality.clear();
     }
-    return idx;
+    std::sort(sortedQualities.begin(), sortedQualities.end(), compare);
+    std::vector<int> sortedFrontierIDs;
+    for (int i = 0; i < qualities.size(); i++) {
+        sortedFrontierIDs.push_back(static_cast<int>(sortedQualities[i][1]));
+    }
+    return sortedFrontierIDs;
 }
 
 std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
     // load and prepare data which will be needed for quality measure
-    printf("Processing of frontier  qualitites ...\n");
+    printf("Processing of frontier qualitites ...\n");
     int frontiersCnt = frontiers.size();
     int smallestFrontierSize = std::numeric_limits<int>::max();
     int largestFrontierSize = 0;
@@ -70,11 +78,11 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
     for (unsigned int i = 0; i < adjacencyMatrixOfFrontiers.size(); i++) {
         edgesCntOfFrontiers[adjacencyMatrixOfFrontiers[i][0]-1]+=adjacencyMatrixOfFrontiers[i].size()-2;
     }
-    printf("frontiers: %d\n", frontiersCnt);
-    printf("smallest frontier size: %d; largest frontier size: %d\n", smallestFrontierSize, largestFrontierSize);
-    printf("smallest dist to frontiers: %f; largest dist to frontiers: %f\n", smallestDistance, largestDistance);
-    printf("weight of [] connectivity: %f; size: %f; distance: %f; direction: %f\n", this->weightOfConnectivity_, this->weightOfSize_, this->weightOfDistance_, this->weightOfDirection_);
-    printf("Quality measure:\n");
+    printf("\tfrontiers: %d\n", frontiersCnt);
+    printf("\tsmallest frontier size: %d; largest frontier size: %d\n", smallestFrontierSize, largestFrontierSize);
+    printf("\tsmallest dist to frontiers: %f; largest dist to frontiers: %f\n", smallestDistance, largestDistance);
+    printf("\tweight of: connectivity: %f; size: %f; distance: %f; direction: %f\n", this->weightOfConnectivity_, this->weightOfSize_, this->weightOfDistance_, this->weightOfDirection_);
+//    printf("Quality measure:\n");
     // actual quality measure of each frontier
     std::vector<double> qualities;
     for (int i = 0; i < frontiersCnt; i++) {
@@ -86,7 +94,7 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
         qualities.push_back(quality);
 //        printf("%d  size: %d\tqual: %f\tconn: %f\tsize: %f\tdist: %f\tdir: %f\n", i, frontiers[i].size(), quality, qualOfConnectivity, qualOfSize, qualOfDistance, qualOfDirection);
     }
-    printf("Processing of frontier  qualitites finished!\n\n");
+    printf("\tProcessing of frontier qualitites finished!\n");
     return qualities;
 }
 

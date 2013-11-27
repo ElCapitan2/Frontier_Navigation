@@ -23,7 +23,7 @@ private:
     vec_double findFrontiers(vec_double &adjacencyMatrixOfFrontiers);
     void recursivelyFindFrontiers(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
 
-    int determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
+    std::vector<int> determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
     std::vector<double> computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
 
     geometry_msgs::PoseStamped nextGoal(vec_single frontier);

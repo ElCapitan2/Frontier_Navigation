@@ -45,6 +45,13 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     // - no frontiers detected
     //   -> same as above
 
+    nav_msgs::GridCells circle = Helpers::circleArea(this->robot_position_.pose.position, 1.0, this->map_);
+    int8_t unknown = 100;
+    for (int i = 0; i < circle.cells.size(); i++) {
+        if (this->map_->data[Helpers::pointToGrid(circle.cells[i], this->map_)] == unknown) printf("STUCK??\n");
+    }
+    if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REAChED??\n");
+
 //    geometry_msgs::PoseStamped goal;
 //    goal.header.frame_id = "/map";
 //    goal.pose.position.x = this->robot_position_.x+2;
@@ -58,6 +65,7 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 }
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
+    printf("\n");
     ROS_INFO("Frontier_Navigation received map");
     this->map_ = map;
     processMap();
@@ -85,36 +93,46 @@ void Frontier_Navigation::processMap() {
     vec_double adjacencyMatrixOfFrontiers;
     double radius = this->radius_;
     for (int i = 1; i <= this->attempts_; i++) {
+        publishOutlineOfSearchRectangle(radius);
         // 1. find frontiers and prepare them for further processing
         findAndPrepareFrontiersWithinRadius(radius, frontiers, adjacencyMatrixOfFrontiers);
         if (frontiers.size() == 0) {
             radius += this->stepping_;
             printf("No frontiers detected within given radius\n");
-            publishOutlineOfSearchRectangle(radius);
+            printf("Search radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
             continue;
         }
         // 2. find best suitable frontier
-        int frontier = determineBestFrontier(adjacencyMatrixOfFrontiers, frontiers);
-        publishOutlineOfSearchRectangle(radius);
+        bool found = false;
+        std::vector<int> frontierIDs = determineBestFrontier(adjacencyMatrixOfFrontiers, frontiers);
         publishFrontierPts(frontiers);
-        publishFrontierPts(frontiers, frontier);
-        printf("frontier %d of %d size: %d\n", frontier, frontiers.size(), frontiers[frontier].size());
-        // 3. run some more validations in order to really use an appropriate frontier
-        if (frontierConstraints(frontiers[frontier])) {
-            geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontier]);
-            this->activeGoal_ = goal;
-            publishGoal(goal);
-            break;
-        } else if (i == this->attempts_) {
+        for (int j = 0; j < frontierIDs.size(); j++) {
+//            publishFrontierPts(frontiers, frontierIDs[j]);
+            if (frontierConstraints(frontiers[frontierIDs[j]])) {
+                publishFrontierPts(frontiers, frontierIDs[j]);
+                geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontierIDs[j]]);
+                this->activeGoal_ = goal;
+                printf("frontier %d of %d size: %d - Constraints passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
+                printf("Next Goal! goal(%f, %f, %f)\n", this->activeGoal_.pose.position.x, this->activeGoal_.pose.position.y, this->activeGoal_.pose.position.z);
+                publishGoal(goal);
+                found = true;
+                break;
+            } else {
+                printf("frontier %d of %d size: %d - Constraints NOT passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
+            }
+        }
+
+        if (found) break;
+        else if (i == this->attempts_) {
             // 3.b no valid connected frontiers found
             // - look up saved but not used connected frontiers
             // - find connected frontiers including the whole map
-            printf("Not enough frontier points found\n");
+            printf("Not enough frontier points found within maximum radius. STRATEGY NEEDED!!!\n");
         } else {
             // 3.c increase radius and do it again
             radius += this->stepping_;
+            printf("No frontier passed constraints within current radius\n");
             printf("Search radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
-//            publishOutlineOfSearchRectangle(radius);
             frontiers.clear();
             adjacencyMatrixOfFrontiers.clear();
         }
@@ -133,12 +151,16 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     unsigned int robotPos = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
     geometry_msgs::Point close = Helpers::gridToPoint(Helpers::closestPoint(frontier, robotPos, this->map_->info.width), this->map_);
     geometry_msgs::Point far = Helpers::gridToPoint(Helpers::furthermostPoint(frontier, robotPos, this->map_->info.width), this->map_);
+//    printf("pos(%f/%f/%f)\n", robot_position_.pose.position.x, robot_position_.pose.position.y, robot_position_.pose.position.z);
+//    printf("close(%f/%f/%f)\n", close.x, close.y, close.z);
+//    printf("far(%f/%f/%f)\n", far.x, far.y, far.z);
 
     // get frontiers vector
     geometry_msgs::Vector3 frontierVec;
     frontierVec.x = far.x - close.x;
     frontierVec.y = far.y - close.y;
     frontierVec.z = far.z - close.z;
+//    printf("frontierVec(%f/%f/%f)\n", frontierVec.x, frontierVec.y, frontierVec.z);
 
     geometry_msgs::PoseStamped point;
     int goalIndex = Helpers::closestPoint(frontier, Helpers::pointToGrid(this->robot_position_.pose.position, this->map_), this->map_->info.width);
@@ -150,6 +172,8 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     robotToGoalVec.y = point.pose.position.y - this->robot_position_.pose.position.y;
     robotToGoalVec.z = point.pose.position.z - this->robot_position_.pose.position.z;
     double length = Helpers::length(robotToGoalVec);
+//    printf("robotToGoalVec(%f/%f/%f)\n", robotToGoalVec.x, robotToGoalVec.y, robotToGoalVec.z);
+//    printf("length of robotToGoalVec: %f\n", length);
 
     nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.5, this->map_);
     publishCircle(goalIndex);
@@ -158,16 +182,17 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     double desiredAnle = 80.0;
     double bestAnlgeDelata = 180.0;
     for (int i = 0; i < circle.cells.size(); i++) {
-        goalToCircleVec.x = circle.cells[i].x - point.pose.position.x;
-        goalToCircleVec.y = circle.cells[i].y - point.pose.position.y;
-        goalToCircleVec.z = circle.cells[i].z - point.pose.position.z;
-        double angle = Helpers::angleInDegree(frontierVec, goalToCircleVec);
+        goalToCircleVec.x = circle.cells[i].x - close.x;
+        goalToCircleVec.y = circle.cells[i].y - close.y;
+        goalToCircleVec.z = circle.cells[i].z - close.z;
+        double angle = Helpers::angleInDegree(frontierVec, goalToCircleVec);        
         if (abs(desiredAnle - angle) < bestAnlgeDelata) {
-            bestAnlgeDelata = desiredAnle-angle;
+            bestAnlgeDelata = abs(desiredAnle-angle);
             point.pose.position.x = circle.cells[i].x;
             point.pose.position.y = circle.cells[i].y;
             point.pose.position.z = circle.cells[i].z;
         }
+//        printf("\tgoalToCircleVec(%f/%f/%f) angle: %f delta: %f\n", goalToCircleVec.x, goalToCircleVec.y, goalToCircleVec.z, angle, bestAnlgeDelata);
     }
 
     geometry_msgs::Vector3 x;
@@ -188,6 +213,6 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     point.pose.orientation.z = quaternion.getZ();
     point.pose.orientation.w = quaternion.getW();
 
-    printf("Next Goal! goal(%f, %f, %f)\n", point.pose.position.x, point.pose.position.y, point.pose.position.z);
+//    printf("Next Goal! goal(%f, %f, %f)\n", point.pose.position.x, point.pose.position.y, point.pose.position.z);
     return point;
 }
