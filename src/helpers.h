@@ -46,4 +46,6 @@ public:
     // degree
     static double angleInDegree(geometry_msgs::Vector3 vecA, geometry_msgs::Vector3 vecB, bool print = false);
 
+    // printers
+    static void printPoint(geometry_msgs::Point point, char *name, int precison = 4);
 };

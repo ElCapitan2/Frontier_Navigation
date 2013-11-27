@@ -4,6 +4,8 @@
 #include <helpers.h>
 
 Test::Test() {
+    good_ = 0;
+    bad_ = 0;
 }
 
 void printResultMessage(bool passed, const char* name) {
@@ -38,6 +40,7 @@ bool Test::test_linearInterpolation() {
         printf("\ttarget: %f; actual: %f; %s\n", 5.0*i, value, resultMsg(result));
     }
     printResultMessage(totalResult, __func__);
+    return totalResult;
 }
 
 bool Test::test_angleInX() {
@@ -60,6 +63,26 @@ bool Test::test_angleInX() {
     printf("\tangleInRadian: target: %f; actual: %f; %s\n", targetAngleInRadian, actualAngleInRadian, resultMsg(radian));
     printf("\tangleInDegree: target: %f; actual: %f; %s\n", targetAngleInDegree, actualAngleInDegree, resultMsg(degree));
     printResultMessage(degree & radian, __func__);
+    return degree & radian;
+}
+
+bool Test::test_printPoint() {
+    printIntro(__func__);
+    geometry_msgs::Point A;
+    A.x = -1.2;
+    A.y = 2.3;
+    A.z = 0.003;
+//    printf("%.3f\n", 222.11294);
+//    printf("\ttarget: %s", "A(-1.200000/2.300000/0.003000)\n");
+//    printf("\tactual: ");
+    for (int i = -1; i <= 7; i++) {
+        printf("\t");
+        Helpers::printPoint(A, "A", i);
+    }
+    printf("\t");
+    Helpers::printPoint(A, "A");
+    printResultMessage(true, __func__);
+    return true;
 }
 
 void Test::test_circleArea(int index, double radius) {
@@ -78,4 +101,6 @@ void Test::test_circleArea(int index, double radius) {
     }
     printf("Radius: %f\tIterations: %d\tArea: %f\n", radius, cnt, pow(radius/0.05, 2)*M_PI);
 }
+
+
 

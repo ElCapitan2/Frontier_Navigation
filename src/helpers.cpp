@@ -262,3 +262,16 @@ void Helpers::print(std::vector<std::vector<unsigned int> > toPrint) {
     }
     printf("\n");
 }
+
+void Helpers::printPoint(geometry_msgs::Point point, char* name, int precision) {
+    switch (precision) {
+    case 0: printf("%s(%.0f/%.0f/%.0f)\n", name, point.x, point.y, point.z); break;
+    case 1: printf("%s(%.1f/%.1f/%.1f)\n", name, point.x, point.y, point.z); break;
+    case 2: printf("%s(%.2f/%.2f/%.2f)\n", name, point.x, point.y, point.z); break;
+    case 3: printf("%s(%.3f/%.3f/%.3f)\n", name, point.x, point.y, point.z); break;
+    case 4: printf("%s(%.4f/%.4f/%.4f)\n", name, point.x, point.y, point.z); break;
+    case 5: printf("%s(%.5f/%.5f/%.5f)\n", name, point.x, point.y, point.z); break;
+    case 6: printf("%s(%.6f/%.6f/%.6f)\n", name, point.x, point.y, point.z); break;
+    default: printf("%s(%.4f/%.4f/%.4f)\n", name, point.x, point.y, point.z);
+    }
+}
