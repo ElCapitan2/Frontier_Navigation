@@ -72,9 +72,6 @@ bool Test::test_printPoint() {
     A.x = -1.2;
     A.y = 2.3;
     A.z = 0.003;
-//    printf("%.3f\n", 222.11294);
-//    printf("\ttarget: %s", "A(-1.200000/2.300000/0.003000)\n");
-//    printf("\tactual: ");
     for (int i = -1; i <= 7; i++) {
         printf("\t");
         Helpers::printPoint(A, "A", i);

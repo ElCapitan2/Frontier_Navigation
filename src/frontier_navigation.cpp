@@ -88,6 +88,12 @@ void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
     this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(this->timeout_), &Frontier_Navigation::timerCallback, this, true);
 }
 
+void Frontier_Navigation::goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus) {
+    if (goalStatus.status == actionlib_msgs::GoalStatus::REJECTED) ROS_WARN("Goal in state REJECTED");
+    this->goalStatus_ = goalStatus;
+}
+
+
 void Frontier_Navigation::processMap() {
     vec_double frontiers;
     vec_double adjacencyMatrixOfFrontiers;
@@ -142,7 +148,7 @@ void Frontier_Navigation::processMap() {
 // Define constraints which are necassary for further processing of found connected frontiers
 // I.e. set minimum amount of points in set of connected frontiers
 bool Frontier_Navigation::frontierConstraints(vec_single &frontier) {
-    return frontier.size() > this->threshold_;
+    return ((frontier.size() > this->threshold_) && (this->goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED));
 //    return true;
 }
 

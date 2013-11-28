@@ -2,6 +2,7 @@
 #include <tf/transform_listener.h>
 #include "nav_msgs/GridCells.h"
 #include "types.h"
+#include "actionlib_msgs/GoalStatus.h"
 
 class Frontier_Navigation {
 
@@ -13,6 +14,7 @@ public:
     void posCallback(const geometry_msgs::PoseStamped& robot_position);
     void timerCallback(const ros::TimerEvent&);
     void cmdVelCallback(const geometry_msgs::Twist& cmd_vel);
+    void goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus);
 
 private:
 
@@ -51,6 +53,7 @@ private:
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
     geometry_msgs::PoseStamped activeGoal_;
+    actionlib_msgs::GoalStatus goalStatus_;
 
     nav_msgs::GridCells pathTracker_;
     unsigned int pathCounter_;
