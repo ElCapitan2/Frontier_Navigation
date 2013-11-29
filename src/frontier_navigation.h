@@ -40,7 +40,7 @@ private:
 
 
 
-    bool frontierConstraints(vec_single &frontier);
+    bool frontierConstraints(vec_single &frontier, bool print = false);
 
     ros::NodeHandle* nodeHandle_;
     ros::Publisher rectangle_pub_;

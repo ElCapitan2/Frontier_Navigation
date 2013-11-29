@@ -44,6 +44,8 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     //   -> scan entire map
     // - no frontiers detected
     //   -> same as above
+    // - bad goal
+    //   -> ??
 
     nav_msgs::GridCells circle = Helpers::circleArea(this->robot_position_.pose.position, 1.0, this->map_);
     int8_t unknown = 100;
@@ -51,6 +53,7 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
         if (this->map_->data[Helpers::pointToGrid(circle.cells[i], this->map_)] == unknown) printf("STUCK??\n");
     }
     if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REAChED??\n");
+    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("Bad Goal??\n");
 
 //    geometry_msgs::PoseStamped goal;
 //    goal.header.frame_id = "/map";
@@ -112,19 +115,20 @@ void Frontier_Navigation::processMap() {
         bool found = false;
         std::vector<int> frontierIDs = determineBestFrontier(adjacencyMatrixOfFrontiers, frontiers);
         publishFrontierPts(frontiers);
+        printf("Frontier selection...\n");
         for (int j = 0; j < frontierIDs.size(); j++) {
 //            publishFrontierPts(frontiers, frontierIDs[j]);
-            if (frontierConstraints(frontiers[frontierIDs[j]])) {
+            if (frontierConstraints(frontiers[frontierIDs[j]], true)) {
                 publishFrontierPts(frontiers, frontierIDs[j]);
                 geometry_msgs::PoseStamped goal = nextGoal(frontiers[frontierIDs[j]]);
                 this->activeGoal_ = goal;
-                printf("frontier %d of %d size: %d - Constraints passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
-                printf("Next Goal! goal(%f, %f, %f)\n", this->activeGoal_.pose.position.x, this->activeGoal_.pose.position.y, this->activeGoal_.pose.position.z);
+                printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
+                printf("\tNext Goal! goal(%f, %f, %f)\n", this->activeGoal_.pose.position.x, this->activeGoal_.pose.position.y, this->activeGoal_.pose.position.z);
                 publishGoal(goal);
                 found = true;
                 break;
             } else {
-                printf("frontier %d of %d size: %d - Constraints NOT passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
+                printf("\tfrontier %d of %d size: %d - Constraints NOT passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
             }
         }
 
@@ -133,12 +137,12 @@ void Frontier_Navigation::processMap() {
             // 3.b no valid connected frontiers found
             // - look up saved but not used connected frontiers
             // - find connected frontiers including the whole map
-            printf("Not enough frontier points found within maximum radius. STRATEGY NEEDED!!!\n");
+            printf("\tNo suitable frontiers found within maximum radius. STRATEGY NEEDED!!!\n");
         } else {
             // 3.c increase radius and do it again
             radius += this->stepping_;
-            printf("No frontier passed constraints within current radius\n");
-            printf("Search radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
+            printf("\tNo frontier passed constraints within current radius\n");
+            printf("\tSearch radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
             frontiers.clear();
             adjacencyMatrixOfFrontiers.clear();
         }
@@ -147,9 +151,11 @@ void Frontier_Navigation::processMap() {
 
 // Define constraints which are necassary for further processing of found connected frontiers
 // I.e. set minimum amount of points in set of connected frontiers
-bool Frontier_Navigation::frontierConstraints(vec_single &frontier) {
-    return ((frontier.size() > this->threshold_) && (this->goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED));
-//    return true;
+bool Frontier_Navigation::frontierConstraints(vec_single &frontier, bool print) {
+    bool frontierSize (frontier.size() > this->threshold_);
+    bool goalStatus = (this->goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED);
+    if (print) printf("\tConstraints: size = %s; goalStatus = %s\n", (frontierSize)?"true":"false", (goalStatus)?"true":"false");
+    return (frontierSize && goalStatus);
 }
 
 geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
