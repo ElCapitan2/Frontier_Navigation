@@ -46,14 +46,16 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     //   -> same as above
     // - bad goal
     //   -> ??
+    // - not moving but sending 0-valued cmd_vel commands
+    //   -> trigger recording of cmd_vel commands and check whether they are 0-valued or valid
 
     nav_msgs::GridCells circle = Helpers::circleArea(this->robot_position_.pose.position, 1.0, this->map_);
     int8_t unknown = 100;
     for (int i = 0; i < circle.cells.size(); i++) {
         if (this->map_->data[Helpers::pointToGrid(circle.cells[i], this->map_)] == unknown) printf("STUCK??\n");
     }
-    if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REAChED??\n");
-    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("Bad Goal??\n");
+    if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REACHED??\n");
+    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("BAD GOAL??\n");
 
 //    geometry_msgs::PoseStamped goal;
 //    goal.header.frame_id = "/map";
@@ -89,6 +91,7 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
 
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
     this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(this->timeout_), &Frontier_Navigation::timerCallback, this, true);
+    cmdVelConstraints(cmd_vel);
 }
 
 void Frontier_Navigation::goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus) {
@@ -156,6 +159,15 @@ bool Frontier_Navigation::frontierConstraints(vec_single &frontier, bool print) 
     bool goalStatus = (this->goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED);
     if (print) printf("\tConstraints: size = %s; goalStatus = %s\n", (frontierSize)?"true":"false", (goalStatus)?"true":"false");
     return (frontierSize && goalStatus);
+}
+
+bool Frontier_Navigation::cmdVelConstraints(const geometry_msgs::Twist &cmd_vel, bool print)
+{
+//    geometry_msgs::Vector3_ zeroVec;
+//    zeroVec.x = 0;
+//    zeroVec.y = 0;
+//    zeroVec.z = 0;
+//    if (cmd_vel.angular.x == 0) printf("BAD");
 }
 
 geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)

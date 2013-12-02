@@ -17,6 +17,14 @@ double Helpers::linearInterpolation(double start_x, double start_y, double end_x
     return result;
 }
 
+bool Helpers::areVecsEqual(geometry_msgs::Vector3 a, geometry_msgs::Vector3 b, bool print)
+{
+    double E = 0.00001;
+    bool equal = (fabs(a.x - b.x) <= E) && (fabs(a.y - b.y) <= E) && (fabs(a.z - b.z) <= E);
+    if (print) printf("");
+    return equal;
+}
+
 double Helpers::distance(unsigned int startIndex, unsigned int endIndex, int width, double resolution, bool print)
 {
     int rowOfStartIndex = startIndex/width;

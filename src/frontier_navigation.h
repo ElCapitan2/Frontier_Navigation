@@ -41,6 +41,7 @@ private:
 
 
     bool frontierConstraints(vec_single &frontier, bool print = false);
+    bool cmdVelConstraints(const geometry_msgs::Twist& cmd_vel, bool print = false);
 
     ros::NodeHandle* nodeHandle_;
     ros::Publisher rectangle_pub_;

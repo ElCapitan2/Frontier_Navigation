@@ -11,6 +11,9 @@ public:
     // interpolate linearly between two given points
     static double linearInterpolation(double start_x, double start_y, double end_x, double end_y, double x, bool print = false);
 
+    // comparisons
+    static bool areVecsEqual(geometry_msgs::Vector3 a, geometry_msgs::Vector3 b, bool print = false);
+
     // distance in point-space and index-space
     static double distance(unsigned int startIndex, unsigned int endIndex, int width, double resolution = 1.0, bool print = false);
     static double distance(geometry_msgs::Point A, geometry_msgs::Point B, bool print = false);

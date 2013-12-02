@@ -82,6 +82,27 @@ bool Test::test_printPoint() {
     return true;
 }
 
+bool Test::test_areVecsEqual() {
+    printIntro(__func__);
+    geometry_msgs::Vector3 a;
+    geometry_msgs::Vector3 b;
+    a.x = 1.2;
+    a.y = 1.3;
+    a.z = 0.0002;
+    b.x = 1.2;
+    b.y = 1.3;
+    b.z = 0.0002;
+    bool equal_1 = Helpers::areVecsEqual(a, b);
+    b.z = 0.0001;
+    bool equal_2 = Helpers::areVecsEqual(a, b);
+    printf("\ta(%f, %f, %f); b(%f, %f, %f)\n", a.x, a.y, a.z, b.x, b.y, b.z);
+    printf("\ttarget: 1; actual: %d; %s\n", equal_1, resultMsg(equal_1));
+    printf("\ta(%f, %f, %f); b(%f, %f, %f)\n", a.x, a.y, a.z, b.x, b.y, b.z);
+    printf("\ttarget: 0; actual: %d; %s\n", equal_2, resultMsg(!equal_2));
+    printResultMessage(equal_1 && !equal_2, __func__);
+    return equal_1 && !equal_2;
+}
+
 void Test::test_circleArea(int index, double radius) {
     nav_msgs::GridCells circle;
     double boxes = radius/0.05;
