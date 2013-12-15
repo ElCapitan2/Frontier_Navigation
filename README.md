@@ -1,6 +1,6 @@
 Frontier_Navigation
 ===================
-Coming soon...
+Readme will be there soon...
 
 - SLAM
 - frontier driven map exploration
