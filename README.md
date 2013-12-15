@@ -1,3 +1,7 @@
 Frontier_Navigation
 ===================
-Tool
+Coming soon...
+
+- SLAM
+- frontier driven map exploration
+- ...
