@@ -72,6 +72,7 @@ vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<un
 
     std::vector<std::vector<unsigned int> > adjacencyMatrixOfFrontiers;
     std::vector<unsigned int> neighbours;
+    int width = this->map_->info.width;
 
     for (unsigned int position = 0; position < frontierIdxs.size(); position++) {
         int frontierIndex = frontierIdxs[position];
@@ -80,9 +81,9 @@ vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<un
         // bottom
         for (unsigned int i = 0; i < position; i++) {
             int currentElement = frontierIdxs[i];
-            if (currentElement == frontierIndex-4000-1) neighbours.push_back(currentElement);
-            else if (currentElement == frontierIndex-4000) neighbours.push_back(currentElement);
-            else if (currentElement == frontierIndex-4000+1) {neighbours.push_back(currentElement); break;}
+            if (currentElement == frontierIndex-width-1) neighbours.push_back(currentElement);
+            else if (currentElement == frontierIndex-width) neighbours.push_back(currentElement);
+            else if (currentElement == frontierIndex-width+1) {neighbours.push_back(currentElement); break;}
         }
         // left
         if (frontierIdxs[position-1] == frontierIndex-1) neighbours.push_back(frontierIdxs[position-1]);
@@ -91,9 +92,9 @@ vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<un
         // top
         for (unsigned int i = position+1; i < frontierIdxs.size(); i++) {
             int currentElement = frontierIdxs[i];
-            if (currentElement == frontierIndex+4000-1) neighbours.push_back(currentElement);
-            else if (currentElement == frontierIndex+4000) neighbours.push_back(currentElement);
-            else if (currentElement == frontierIndex+4000+1) {neighbours.push_back(currentElement); break;}
+            if (currentElement == frontierIndex+width-1) neighbours.push_back(currentElement);
+            else if (currentElement == frontierIndex+width) neighbours.push_back(currentElement);
+            else if (currentElement == frontierIndex+width+1) {neighbours.push_back(currentElement); break;}
         }
         adjacencyMatrixOfFrontiers.push_back(neighbours);
         neighbours.clear();
