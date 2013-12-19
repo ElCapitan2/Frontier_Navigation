@@ -24,8 +24,8 @@ public:
     static double length(double x, double y, double z);
 
     // conversion between point-space and index-space
-    static int pointToGrid(geometry_msgs::Point point, int width, int height, double resolution, bool print = false);
-    static geometry_msgs::Point gridToPoint(int index, int width, int height, double resolution, bool print = false);
+    static int pointToGrid(geometry_msgs::Point point, int width, int height, double resolution, double x_org, double y_org, bool print = false);
+    static geometry_msgs::Point gridToPoint(int index, int width, int height, double resolution, double x_org, double y_org, bool print = false);
     static int pointToGrid(geometry_msgs::Point point, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
     static geometry_msgs::Point gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
 

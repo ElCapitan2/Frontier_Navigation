@@ -98,24 +98,29 @@ int Helpers::furthermostPoint(vec_single &frontier, int robotPosIdx, int width, 
     return frontier[index];
 }
 
-int Helpers::pointToGrid(geometry_msgs::Point point, int width, int height, double resolution, bool print) {
+int Helpers::pointToGrid(geometry_msgs::Point point, int width, int height, double resolution, double x_org, double y_org, bool print) {
     // find center of cell in which robot is located
     double x_cellCenter = resolution * (floor(point.x/resolution) + 0.5);
     double y_cellCenter = resolution * (floor(point.y/resolution) + 0.5);
     // calculate corresponding linear value
     // based on f(minX/minY) = 0
-    return ((y_cellCenter)*width + (x_cellCenter))/resolution + (height*width - 1)/2.0;
+    // double index = ((y_cellCenter)*width + (x_cellCenter))/resolution + (height*width - 1)/2.0;
+    // based on any translation
+    double index = ((y_cellCenter - y_org)/resolution - 0.5) * width + (x_cellCenter - x_org)/resolution - 0.5;
+    return static_cast<int>(ceil(index));
 }
 int Helpers::pointToGrid(geometry_msgs::Point point, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
-    return pointToGrid(point, map->info.width, map->info.height, map->info.resolution, print);
+    return pointToGrid(point, map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y, print);
 }
 
-geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, double resolution, bool print) {
+geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, double resolution, double x_org, double y_org, bool print) {
 
     geometry_msgs::Point point;
 
-    point.x = resolution * (index%width + 0.5 - width/2);
-    point.y = resolution * (index/width + 0.5 - height/2);
+    point.x = resolution * (index%width + 0.5) + x_org;
+    point.y = resolution * (index/width + 0.5) + y_org;
+//    point.x = resolution * (index%width + 0.5 - width/2);
+//    point.y = resolution * (index/width + 0.5 - height/2);
     point.z = 0.0;
 
     if (print) printf("index: %d, width: %d, height: %d, resolution: %f, x: %f, y: %f\n", index, width, height, resolution, point.x, point.y);
@@ -123,7 +128,7 @@ geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, doub
     return point;
 }
 geometry_msgs::Point Helpers::gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
-    return gridToPoint(index, map->info.width, map->info.height, map->info.resolution, print);
+    return gridToPoint(index, map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y, print);
 }
 
 nav_msgs::GridCells Helpers::circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
@@ -141,7 +146,7 @@ nav_msgs::GridCells Helpers::circle(int index, double radius, const nav_msgs::Oc
             cnt++;
             double distance = Helpers::distance(index, i, map->info.width, map->info.resolution);
             if ((distance <= radius+0.05) && (distance >= radius-0.05) && (map->data[i] == free)) {
-                circle.cells.push_back(Helpers::gridToPoint(i, map->info.width, map->info.height, map->info.resolution));
+                circle.cells.push_back(Helpers::gridToPoint(i, map));
             }
         }
     }
@@ -166,7 +171,7 @@ nav_msgs::GridCells Helpers::circleArea(int index, double radius, const nav_msgs
             cnt++;
             double distance = Helpers::distance(index, i, map->info.width, map->info.resolution);
             if ((distance <= radius) && (map->data[i] == free)) {
-                circle.cells.push_back(Helpers::gridToPoint(i, map->info.width, map->info.height, map->info.resolution));
+                circle.cells.push_back(Helpers::gridToPoint(i, map));
             }
         }
     }

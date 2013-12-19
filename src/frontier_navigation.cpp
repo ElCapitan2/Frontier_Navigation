@@ -72,6 +72,7 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
     printf("\n");
     ROS_INFO("Frontier_Navigation received map");
+    printf("width: %d; height: %d; res: %f; x_org: %f; y_org: %f\n", map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y);
     this->map_ = map;
     processMap();
 }
@@ -127,7 +128,7 @@ void Frontier_Navigation::processMap() {
                 this->activeGoal_ = goal;
                 printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierIDs[j], frontiers.size(), frontiers[frontierIDs[j]].size());
                 printf("\tNext Goal! goal(%f, %f, %f)\n", this->activeGoal_.pose.position.x, this->activeGoal_.pose.position.y, this->activeGoal_.pose.position.z);
-                publishGoal(goal);
+//                publishGoal(goal);
                 found = true;
                 break;
             } else {

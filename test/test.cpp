@@ -103,6 +103,15 @@ bool Test::test_areVecsEqual() {
     return equal_1 && !equal_2;
 }
 
+bool Test::test_linearInCoord()
+{
+    printIntro(__func__);
+    geometry_msgs::Point pt = Helpers::gridToPoint(4352, 1600, 1184, 0.05, -50.8, -30.0);
+    int index = Helpers::pointToGrid(pt, 1600, 1184, 0.05, -50.8, -30.0);
+
+    printf("x: %f; y: %f; index: %d\n", pt.x, pt.y, index);
+}
+
 void Test::test_circleArea(int index, double radius) {
     nav_msgs::GridCells circle;
     double boxes = radius/0.05;
@@ -113,7 +122,7 @@ void Test::test_circleArea(int index, double radius) {
             double distance = Helpers::distance(index, i, 4000, 0.05);
             if (distance < radius) {
                 cnt++;
-                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
+                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05, -100.0, -100.0));
             }
         }
     }
