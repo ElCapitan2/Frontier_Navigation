@@ -50,6 +50,11 @@ private:
     ros::Publisher goal_pub_;
     ros::Publisher circle_pub_;
     ros::Publisher pathTracker_pub_;
+    ros::Publisher zeros_pub_;
+    ros::Publisher min1_pub_;
+    ros::Publisher min2_pub_;
+    ros::Publisher min3_pub_;
+    ros::Publisher min4_pub_;
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;

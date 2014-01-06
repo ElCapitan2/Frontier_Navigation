@@ -14,6 +14,11 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->goal_pub_ = this->nodeHandle_->advertise<geometry_msgs::PoseStamped>("/sb_navigation/simple_goal", 1, true);
     this->circle_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/circle", 1, true);
     this->pathTracker_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/pathTracker", 1, true);
+    this->zeros_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/zeros", 1, true);
+    this->min1_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min1", 1, true);
+    this->min2_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min2", 1, true);
+    this->min3_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min3", 1, true);
+    this->min4_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min4", 1, true);
 
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
