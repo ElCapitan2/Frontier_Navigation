@@ -19,6 +19,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->min2_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min2", 1, true);
     this->min3_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min3", 1, true);
     this->min4_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/min4", 1, true);
+    this->map_2_pub_ = this->nodeHandle_->advertise<nav_msgs::OccupancyGrid>("/map_2", 1, true);
 
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
@@ -111,6 +112,7 @@ void Frontier_Navigation::processMap() {
     vec_double adjacencyMatrixOfFrontiers;
     double radius = this->radius_;
     for (int i = 1; i <= this->attempts_; i++) {
+        preFilterMap(radius);
         publishOutlineOfSearchRectangle(radius);
         // 1. find frontiers and prepare them for further processing
         findAndPrepareFrontiersWithinRadius(radius, frontiers, adjacencyMatrixOfFrontiers);

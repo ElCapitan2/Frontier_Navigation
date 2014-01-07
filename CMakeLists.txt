@@ -25,7 +25,7 @@ include_directories(${PROJECT_SOURCE_DIR}/test)
 #rosbuild_gensrv()
 
 #common commands for building c++ executables and libraries
-rosbuild_add_library(${PROJECT_NAME} src/neighbours.cpp src/frontier_navigation.cpp src/qualities.cpp src/search.cpp src/helpers.cpp src/types.h src/publishers.cpp)
+rosbuild_add_library(${PROJECT_NAME} src/neighbours.cpp src/frontier_navigation.cpp src/qualities.cpp src/search.cpp src/helpers.cpp src/types.h src/publishers.cpp src/filter.cpp)
 rosbuild_add_library(${PROJECT_NAME}_test test/main.cpp test/test.cpp src/helpers.cpp)
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)

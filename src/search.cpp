@@ -32,17 +32,11 @@ std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int 
     int iterations = radius*2/map_->info.resolution;
 
     std::vector<unsigned int> frontierIdxs;
-    nav_msgs::GridCells zeros;
-    nav_msgs::GridCells min1;
-    nav_msgs::GridCells min2;
-    nav_msgs::GridCells min3;
-    nav_msgs::GridCells min4;
     int8_t data = 0;
     int index;
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
             index = startIndex + j + i*map_->info.height;
-
             data = map_->data[index];
             // if free-space is next to unknown-space free-space-index will be added
             // to indexedRawFrontiers
@@ -59,35 +53,9 @@ std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int 
                 else if (neighbours.getValBottom(index, map_) == -1) {
                     frontierIdxs.push_back(index);
                 }
-            }
-            // try to skip faulty frontiers
-            if (data == -1) {
-                int result = neighbours.getValLeft(index, map_) + neighbours.getValRight(index, map_) + neighbours.getValTop(index, map_) + neighbours.getValBottom(index, map_);
-                if (result == 0) zeros.cells.push_back(Helpers::gridToPoint(index, map_));
-                else if (result == -1) min1.cells.push_back(Helpers::gridToPoint(index, map_));
-                else if (result == -2) min2.cells.push_back(Helpers::gridToPoint(index, map_));
-                else if (result == -3) min3.cells.push_back(Helpers::gridToPoint(index, map_));
-                else if (result == -4) min4.cells.push_back(Helpers::gridToPoint(index, map_));
-                else printf("%d\n", result);
-            }            
+            }        
         }
     }
-    printf("zeros: %d\n", zeros.cells.size());
-    printf("min1: %d\n", min1.cells.size());
-    printf("min2: %d\n", min2.cells.size());
-    printf("min3: %d\n", min3.cells.size());
-    printf("min4: %d\n", min4.cells.size());
-    zeros.cell_height = zeros.cell_width = map_->info.resolution;
-    min1.cell_height = min1.cell_width = map_->info.resolution;
-    min2.cell_height = min2.cell_width = map_->info.resolution;
-    min3.cell_height = min3.cell_width = map_->info.resolution;
-    min4.cell_height = min4.cell_width = map_->info.resolution;
-    zeros.header.frame_id = min1.header.frame_id = min2.header.frame_id = min3.header.frame_id = min4.header.frame_id = "/map";
-    this->zeros_pub_.publish(zeros);
-    this->min1_pub_.publish(min1);
-    this->min2_pub_.publish(min2);
-    this->min3_pub_.publish(min3);
-    this->min4_pub_.publish(min4);
     return frontierIdxs;
 }
 

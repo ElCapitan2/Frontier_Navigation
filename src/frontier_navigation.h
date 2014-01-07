@@ -36,6 +36,8 @@ private:
     void publishGoal(geometry_msgs::PoseStamped goal);
     void publishCircle(int goalIndex);
 
+    void preFilterMap(int radius);
+
 
 
 
@@ -55,6 +57,7 @@ private:
     ros::Publisher min2_pub_;
     ros::Publisher min3_pub_;
     ros::Publisher min4_pub_;
+    ros::Publisher map_2_pub_;
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
