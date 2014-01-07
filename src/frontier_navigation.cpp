@@ -23,7 +23,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
-    this->pathTracker_.cell_height = this->pathTracker_.cell_width = 0.05;
+    this->pathTracker_.cell_height = this->pathTracker_.cell_width = map_->info.resolution;
 
     this->nodeHandle_->param("/frontier_navigation/radius", radius_, 5.0);
     this->nodeHandle_->param("/frontier_navigation/attempts", attempts_, 4);
