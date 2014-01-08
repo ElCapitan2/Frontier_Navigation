@@ -1,0 +1,4517 @@
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: -2147479974
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: -2147479974
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: -2147479974
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 3674
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 3674
+temp: 72
+importantIdxs: 70
+temp: 9
+importantIdxs: 8
+temp: 9
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 8
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 6
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 7
+importantIdxs: 6
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 5
+importantIdxs: 5
+temp: 5
+importantIdxs: 5
+temp: 8
+importantIdxs: 7
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 7
+importantIdxs: 5
+temp: 10
+importantIdxs: 7
+temp: 13
+importantIdxs: 8
+temp: 11
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 10
+importantIdxs: 7
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 12
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 12
+importantIdxs: 9
+temp: 11
+importantIdxs: 8
+temp: 8
+importantIdxs: 6
+temp: 5
+importantIdxs: 4
+temp: 5
+importantIdxs: 5
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 3
+importantIdxs: 2
+temp: 2
+importantIdxs: 1
+temp: 2
+importantIdxs: 2
+temp: 4
+importantIdxs: 3
+temp: 5
+importantIdxs: 4
+temp: 9
+importantIdxs: 8
+temp: 10
+importantIdxs: 8
+temp: 8
+importantIdxs: 7
+temp: 10
+importantIdxs: 9
+temp: 11
+importantIdxs: 9
+temp: 12
+importantIdxs: 9
+temp: 13
+importantIdxs: 10
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 15
+temp: 20
+importantIdxs: 16
+temp: 19
+importantIdxs: 14
+temp: 22
+importantIdxs: 17
+temp: 22
+importantIdxs: 15
+temp: 17
+importantIdxs: 14
+temp: 20
+importantIdxs: 15
+temp: 18
+importantIdxs: 14
+temp: 17
+importantIdxs: 14
+temp: 23
+importantIdxs: 17
+temp: 16
+importantIdxs: 13
+temp: 19
+importantIdxs: 16
+temp: 15
+importantIdxs: 11
+temp: 11
+importantIdxs: 8
+temp: 11
+importantIdxs: 8
+temp: 15
+importantIdxs: 11
+temp: 15
+importantIdxs: 11
+temp: 14
+importantIdxs: 12
+temp: 13
+importantIdxs: 9
+temp: 10
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 9
+importantIdxs: 7
+temp: 7
+importantIdxs: 5
+temp: 7
+importantIdxs: 6
+temp: 10
+importantIdxs: 8
+temp: 4
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 3
+importantIdxs: 3
+temp: 2
+importantIdxs: 2
+temp: 1
+importantIdxs: 1
+temp: 1
+importantIdxs: 1
+temp: 0
+importantIdxs: 0
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 3674
+temp: 72
+importantIdxs: 70
+sorting ops: 444
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 8
+importantIdxs: 6
+sorting ops: 24
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 13
+importantIdxs: 8
+sorting ops: 48
+temp: 11
+importantIdxs: 7
+sorting ops: 38
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 8
+importantIdxs: 6
+sorting ops: 24
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 10
+importantIdxs: 8
+sorting ops: 33
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 11
+importantIdxs: 9
+sorting ops: 38
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 13
+importantIdxs: 10
+sorting ops: 48
+temp: 16
+importantIdxs: 13
+sorting ops: 64
+temp: 19
+importantIdxs: 15
+sorting ops: 80
+temp: 20
+importantIdxs: 16
+sorting ops: 86
+temp: 19
+importantIdxs: 14
+sorting ops: 80
+temp: 22
+importantIdxs: 17
+sorting ops: 98
+temp: 22
+importantIdxs: 15
+sorting ops: 98
+temp: 17
+importantIdxs: 14
+sorting ops: 69
+temp: 20
+importantIdxs: 15
+sorting ops: 86
+temp: 18
+importantIdxs: 14
+sorting ops: 75
+temp: 17
+importantIdxs: 14
+sorting ops: 69
+temp: 23
+importantIdxs: 17
+sorting ops: 104
+temp: 16
+importantIdxs: 13
+sorting ops: 64
+temp: 19
+importantIdxs: 16
+sorting ops: 80
+temp: 15
+importantIdxs: 11
+sorting ops: 58
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 15
+importantIdxs: 11
+sorting ops: 58
+temp: 15
+importantIdxs: 11
+sorting ops: 58
+temp: 14
+importantIdxs: 12
+sorting ops: 53
+temp: 13
+importantIdxs: 9
+sorting ops: 48
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 10
+importantIdxs: 8
+sorting ops: 33
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 1102
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 3674
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 13
+importantIdxs: 8
+sorting ops: 48
+temp: 11
+importantIdxs: 7
+sorting ops: 38
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 8
+importantIdxs: 6
+sorting ops: 24
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 13
+importantIdxs: 9
+sorting ops: 48
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 7
+importantIdxs: 7
+sorting ops: 19
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 13
+importantIdxs: 11
+sorting ops: 48
+temp: 13
+importantIdxs: 11
+sorting ops: 48
+temp: 20
+importantIdxs: 15
+sorting ops: 86
+temp: 18
+importantIdxs: 15
+sorting ops: 75
+temp: 26
+importantIdxs: 19
+sorting ops: 122
+temp: 23
+importantIdxs: 17
+sorting ops: 104
+temp: 21
+importantIdxs: 16
+sorting ops: 92
+temp: 22
+importantIdxs: 16
+sorting ops: 98
+temp: 21
+importantIdxs: 17
+sorting ops: 92
+temp: 22
+importantIdxs: 17
+sorting ops: 98
+temp: 23
+importantIdxs: 18
+sorting ops: 104
+temp: 17
+importantIdxs: 14
+sorting ops: 69
+temp: 23
+importantIdxs: 17
+sorting ops: 104
+temp: 16
+importantIdxs: 13
+sorting ops: 64
+temp: 20
+importantIdxs: 17
+sorting ops: 86
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 15
+importantIdxs: 11
+sorting ops: 58
+temp: 14
+importantIdxs: 12
+sorting ops: 53
+temp: 13
+importantIdxs: 9
+sorting ops: 48
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 10
+importantIdxs: 8
+sorting ops: 33
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 1200
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 4310
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 72
+importantIdxs: 70
+sorting ops: 444
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 8
+importantIdxs: 6
+sorting ops: 24
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 72
+importantIdxs: 70
+sorting ops: 444
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 129
+importantIdxs: 84
+sorting ops: 904
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 10
+importantIdxs: 9
+sorting ops: 33
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 13
+importantIdxs: 8
+sorting ops: 48
+temp: 11
+importantIdxs: 7
+sorting ops: 38
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 12
+importantIdxs: 8
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 8
+importantIdxs: 6
+sorting ops: 24
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 2
+sorting ops: 4
+temp: 2
+importantIdxs: 1
+sorting ops: 2
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 13
+importantIdxs: 9
+sorting ops: 48
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 7
+importantIdxs: 7
+sorting ops: 19
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 13
+importantIdxs: 11
+sorting ops: 48
+temp: 13
+importantIdxs: 11
+sorting ops: 48
+temp: 20
+importantIdxs: 15
+sorting ops: 86
+temp: 18
+importantIdxs: 15
+sorting ops: 75
+temp: 26
+importantIdxs: 19
+sorting ops: 122
+temp: 23
+importantIdxs: 17
+sorting ops: 104
+temp: 21
+importantIdxs: 16
+sorting ops: 92
+temp: 22
+importantIdxs: 16
+sorting ops: 98
+temp: 21
+importantIdxs: 17
+sorting ops: 92
+temp: 22
+importantIdxs: 17
+sorting ops: 98
+temp: 23
+importantIdxs: 18
+sorting ops: 104
+temp: 17
+importantIdxs: 14
+sorting ops: 69
+temp: 23
+importantIdxs: 17
+sorting ops: 104
+temp: 16
+importantIdxs: 13
+sorting ops: 64
+temp: 20
+importantIdxs: 17
+sorting ops: 86
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 11
+importantIdxs: 8
+sorting ops: 38
+temp: 16
+importantIdxs: 12
+sorting ops: 64
+temp: 15
+importantIdxs: 11
+sorting ops: 58
+temp: 14
+importantIdxs: 12
+sorting ops: 53
+temp: 13
+importantIdxs: 9
+sorting ops: 48
+temp: 10
+importantIdxs: 7
+sorting ops: 33
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 10
+importantIdxs: 8
+sorting ops: 33
+temp: 4
+importantIdxs: 3
+sorting ops: 8
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 1200
+Total count of flip cycles: 155
+Average size of importantIdxs: 7
+Additional sorting ops: 4310
+temp: 24
+importantIdxs: 16
+sorting ops: 110
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 75
+Total count of flip cycles: 14
+Average size of importantIdxs: 5
+Additional sorting ops: 213
+temp: 14
+importantIdxs: 12
+sorting ops: 53
+temp: 9
+importantIdxs: 7
+sorting ops: 28
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 6
+importantIdxs: 6
+sorting ops: 15
+temp: 12
+importantIdxs: 9
+sorting ops: 43
+temp: 6
+importantIdxs: 6
+sorting ops: 15
+temp: 9
+importantIdxs: 8
+sorting ops: 28
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 110
+Total count of flip cycles: 23
+Average size of importantIdxs: 4
+Additional sorting ops: 270
+temp: 18
+importantIdxs: 13
+sorting ops: 75
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 5
+importantIdxs: 4
+sorting ops: 11
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 93
+Total count of flip cycles: 24
+Average size of importantIdxs: 3
+Additional sorting ops: 197
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 6
+Total count of flip cycles: 3
+Average size of importantIdxs: 2
+Additional sorting ops: 8
+temp: 165
+importantIdxs: 112
+sorting ops: 1215
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 226
+Total count of flip cycles: 19
+Average size of importantIdxs: 11
+Additional sorting ops: 1323
+temp: 7
+importantIdxs: 5
+sorting ops: 19
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 21
+Total count of flip cycles: 16
+Average size of importantIdxs: 1
+Additional sorting ops: 19
+temp: 117
+importantIdxs: 78
+sorting ops: 803
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 169
+Total count of flip cycles: 17
+Average size of importantIdxs: 9
+Additional sorting ops: 892
+temp: 41
+importantIdxs: 29
+sorting ops: 219
+temp: 7
+importantIdxs: 6
+sorting ops: 19
+temp: 4
+importantIdxs: 4
+sorting ops: 8
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 8
+importantIdxs: 7
+sorting ops: 24
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 5
+importantIdxs: 5
+sorting ops: 11
+temp: 4
+importantIdxs: 4
+sorting ops: 8
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 105
+Total count of flip cycles: 17
+Average size of importantIdxs: 6
+Additional sorting ops: 350
+temp: 23
+importantIdxs: 12
+sorting ops: 104
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 6
+importantIdxs: 5
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 6
+importantIdxs: 4
+sorting ops: 15
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 3
+importantIdxs: 3
+sorting ops: 4
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 346
+Total count of flip cycles: 85
+Average size of importantIdxs: 4
+Additional sorting ops: 709
+temp: 2
+importantIdxs: 2
+sorting ops: 2
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 2
+Total count of flip cycles: 2
+Average size of importantIdxs: 1
+Additional sorting ops: 2
+temp: 1
+importantIdxs: 1
+sorting ops: 0
+temp: 0
+importantIdxs: 0
+sorting ops: -2147483648
+Total count of important indices: 1
+Total count of flip cycles: 2
+Average size of importantIdxs: 0
+Additional sorting ops: 0

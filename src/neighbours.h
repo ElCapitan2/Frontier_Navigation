@@ -21,20 +21,22 @@ public:
 
      bool indexTest(bool printLog);
 
+     int getLeft(int index);
+     int getRight(int index);
+     int getTop(int index);
+     int getBottom(int index);
+     int getLeftTop(int index);
+     int getRightTop(int index);
+     int getLeftBottom(int index);
+     int getRightBottom(int index);
+
 private:
 
     int maxIndex;
     int height;
     int width;
 
-    int getLeft(int index);
-    int getRight(int index);
-    int getTop(int index);
-    int getBottom(int index);
-    int getLeftTop(int index);
-    int getRightTop(int index);
-    int getLeftBottom(int index);
-    int getRightBottom(int index);
+
 
 };
 

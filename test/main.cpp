@@ -16,6 +16,7 @@ int main(int argc, char** argv)
     test.test_linearInterpolation();
     test.test_areVecsEqual();
     test.test_linearInCoord();
+    test.test_sortAndRemoveEquals();
     test.test_printPoint();
 
 //    std::vector<std::vector<int> > vec;

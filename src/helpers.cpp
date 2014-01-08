@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <float.h>
+#include <algorithm>
+#include <iostream>
+#include <fstream>
 
 double Helpers::linearInterpolation(double start_x, double start_y, double end_x, double end_y, double x, bool print)
 {
@@ -266,6 +269,20 @@ double Helpers::angleInDegree(geometry_msgs::Vector3 vecA, geometry_msgs::Vector
     return angle;
 }
 
+vec_single Helpers::sortAndRemoveEquals(vec_single v)
+{
+    if (v.size() == 0) return v;
+    // O(log(n)*n)
+    std::sort(v.begin(), v.end());
+    // O(n)
+    vec_single sortedAndUnique;
+    for (int i = 0; i < v.size() - 1; i++) {
+        if (v[i] != v[i+1]) sortedAndUnique.push_back(v[i]);
+    }
+    sortedAndUnique.push_back(v[v.size()-1]);
+    return sortedAndUnique;
+}
+
 void Helpers::print(std::vector<std::vector<unsigned int> > toPrint) {
     for (unsigned int i = 0; i < toPrint.size(); i++) {
         for (unsigned int j = 0; j < toPrint[i].size(); j++) {
@@ -287,4 +304,13 @@ void Helpers::printPoint(geometry_msgs::Point point, char* name, int precision) 
     case 6: printf("%s(%.6f/%.6f/%.6f)\n", name, point.x, point.y, point.z); break;
     default: printf("%s(%.4f/%.4f/%.4f)\n", name, point.x, point.y, point.z);
     }
+}
+
+void Helpers::writeToFile(char* path, char* msg, int value) {
+    std::ofstream file;
+    file.open(path, std::ios::app);
+    if (file.is_open()) {
+        file << msg << ": " << value << std::endl;
+        file.close();
+    } else printf("File NOT open\n");
 }

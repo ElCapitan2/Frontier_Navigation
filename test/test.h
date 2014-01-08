@@ -8,6 +8,7 @@ public:
     bool test_printPoint();
     bool test_areVecsEqual();
     bool test_linearInCoord();
+    bool test_sortAndRemoveEquals();
     void test_circleArea(int index, double radius);
 
 };

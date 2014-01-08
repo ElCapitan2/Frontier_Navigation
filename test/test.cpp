@@ -2,6 +2,7 @@
 #include <stdio.h>
 //#include <ros/ros.h>
 #include <helpers.h>
+#include <exception>
 
 Test::Test() {
     good_ = 0;
@@ -109,7 +110,24 @@ bool Test::test_linearInCoord()
     geometry_msgs::Point pt = Helpers::gridToPoint(4352, 1600, 1184, 0.05, -50.8, -30.0);
     int index = Helpers::pointToGrid(pt, 1600, 1184, 0.05, -50.8, -30.0);
 
-    printf("x: %f; y: %f; index: %d\n", pt.x, pt.y, index);
+    printf("x: %f; y: %f; index: %d\n\n", pt.x, pt.y, index);
+}
+
+bool Test::test_sortAndRemoveEquals()
+{
+    printIntro(__func__);
+    vec_single test;
+    test.push_back(3);
+    test.push_back(8);
+    test.push_back(8);
+    test.push_back(2);
+    test.push_back(3);
+    test = Helpers::sortAndRemoveEquals(test);
+    bool result1 = true;
+    for (int i = 0; i < test.size()-1; i++) {
+        if (test[i] > test[i+1]) result1 = false;
+    }
+    printResultMessage(result1, __func__);
 }
 
 void Test::test_circleArea(int index, double radius) {

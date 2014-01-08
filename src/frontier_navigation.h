@@ -61,6 +61,7 @@ private:
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
     nav_msgs::OccupancyGrid::ConstPtr map_;
+    nav_msgs::OccupancyGrid filteredMap_;
     geometry_msgs::PoseStamped activeGoal_;
     actionlib_msgs::GoalStatus goalStatus_;
 
