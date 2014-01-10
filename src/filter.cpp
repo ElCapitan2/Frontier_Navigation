@@ -24,14 +24,15 @@ void Frontier_Navigation::preFilterMap(int radius) {
 
     Neighbours neighbours(map_->info.width, map_->info.height);
     int iterations = radius*2/map_->info.resolution;
-    printf("Iterations: %d\n", iterations);
+    printf("Filtering map...\n");
 
     int8_t data = 0;
     const int8_t FREESPACE = 0;
     std::vector<int8_t> filteredData = map_->data;
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
 
-    int flipCycles = 0;
+    int filterCycles = 0;
+    int filteredCells = 0;
     int compares = 0;
     int neighbourLookUps = 0;
 
@@ -39,7 +40,7 @@ void Frontier_Navigation::preFilterMap(int radius) {
     filteredMap->data = filteredData;
 
     vec_single importantIdxs;
-    // O(n*n)
+    // O(iterations*iterations)
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
             importantIdxs.push_back(startIndex + j + i*map_->info.height);
@@ -71,10 +72,12 @@ void Frontier_Navigation::preFilterMap(int radius) {
                 case -3: min3.cells.push_back(Helpers::gridToPoint(index, map_)); break;
                 default: break;
                 }
+                compares++;
                 if (kernel <= 0 && kernel >= -3) {
                     neighbourLookUps += 16;
                     filteredData[index] = FREESPACE;
 //                    filteredMap->data[index] = FREESPACE;
+                    compares += 8;
                     // fetch important indices for next round
                     if (neighbours.getValLeft(index, filteredMap) == -1) temp.push_back(neighbours.getLeft(index));
                     if (neighbours.getValRight(index, filteredMap) == -1) temp.push_back(neighbours.getRight(index));
@@ -88,14 +91,14 @@ void Frontier_Navigation::preFilterMap(int radius) {
 
             }
         }
+        // O(temp.size()*log(temp.size())) + O(temp.size())
         importantIdxs = Helpers::sortAndRemoveEquals(temp);
-        flipCycles++;
+        filterCycles++;
+        filteredCells += importantIdxs.size();
         filteredMap->data = filteredData;
         cntOfImportantIdxs += temp.size();
-        if (temp.size() > 0) sortingOperations += temp.size() * (log(temp.size())/log(2));
-        Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "temp", temp.size());
-        Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "importantIdxs", importantIdxs.size());
-        Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "sorting ops", temp.size() * (log(temp.size())/log(2)));
+        compares++;
+        if (temp.size() > 0) sortingOperations += temp.size() + temp.size() * (log(temp.size())/log(2));
 //        printf("Important indices before cut: %d\n", temp.size());
 //        printf("Important Indices: %d\n", importantIdxs.size());
         temp.clear();
@@ -104,10 +107,15 @@ void Frontier_Navigation::preFilterMap(int radius) {
 //        printf("Neighbour look ups: %d\n", neighbourLookUps);
     }
 
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Filtering map...", -1);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Filter cycles", filterCycles);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Filtered cells", filteredCells);
     Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Total count of important indices", cntOfImportantIdxs);
-    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Total count of flip cycles", flipCycles);
-    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Average size of importantIdxs", cntOfImportantIdxs/flipCycles);
-    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Additional sorting ops", sortingOperations);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Average size of importantIdxs", cntOfImportantIdxs/filterCycles);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Compares", compares);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Neighbour lookups", neighbourLookUps);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Sorting ops", sortingOperations);
+    Helpers::writeToFile("/home/u_private/ros_develop/frontier_navigation/files/filter.txt", "Operations", iterations*iterations + sortingOperations + compares + neighbourLookUps);
 
     for (int i = 0; i < importantIdxs.size(); i++) min4.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
 
@@ -120,10 +128,12 @@ void Frontier_Navigation::preFilterMap(int radius) {
     filteredMap->header = map_->header;
     filteredMap->info = map_->info;
 
-    printf("Flip cylces: %d\n", flipCycles);
-    printf("Compares: %d\n", compares);
-    printf("Neighbour look ups: %d\n", neighbourLookUps);
-    printf("Sorting ops: %d\n", sortingOperations);
+    printf("\tFilter cylces: %d\n", filterCycles);
+    printf("\tFiltered cells: %d\n", filteredCells);
+    printf("\tCompares: %d\n", compares);
+    printf("\tNeighbour lookups: %d\n", neighbourLookUps);
+    printf("\tSorting ops: %d\n", sortingOperations);
+    printf("\tOperations: %d\n", iterations*iterations + sortingOperations + compares + neighbourLookUps);
 
     this->zeros_pub_.publish(zeros);
     this->min1_pub_.publish(min1);
