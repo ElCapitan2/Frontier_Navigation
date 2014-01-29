@@ -7,59 +7,80 @@
 // occupied-space = 100
 // unknown-space == -1
 
-void Frontier_Navigation::findAndPrepareFrontiersWithinRadius(int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers) {
-    // 1. find raw frontier indices themselves
-    std::vector<unsigned int> frontierIdxs = findFrontierIdxsWithinRadius(radius);
-    // 2. compute adjacency matrix out of found frontier indices
-    adjacencyMatrixOfFrontiers = computeAdjacencyMatrixOfFrontiers(frontierIdxs);
-    // 3. find frontiers out of computed adjacency matrix
-    frontiers = findFrontiers(adjacencyMatrixOfFrontiers);
+void Frontier_Navigation::findFrontierRegions(const geometry_msgs::PoseStamped &center, int radius, vec_double &frontierRegions, vec_double &adjacencyMatrixOfFrontierCells) {
+    // 1. find raw frontierCells themselves
+    printf("Searching for frontier cells...\n");
+    std::vector<unsigned int> frontierCells = findFrontierCells(center, radius);
+    // 2. compute adjacency matrix out of found frontierCells
+    printf("Computing adjacency matrix...\n");
+    adjacencyMatrixOfFrontierCells = computeAdjacencyMatrixOfFrontierCells(frontierCells);
+    // 3. find frontierRegions out of computed adjacency matrix
+    printf("Computing frontierRegions...\n");
+    frontierRegions = findFrontierRegions(adjacencyMatrixOfFrontierCells);
 }
 
-std::vector<unsigned int> Frontier_Navigation::findFrontierIdxsWithinRadius(int radius) {
-    // Based on robots coordinate system
-    // Make sure not to leave given coordinate system!
+std::vector<unsigned int> Frontier_Navigation::findFrontierCells(const geometry_msgs::PoseStamped &center, int radius) {
 
-    geometry_msgs::Point pos = this->robot_position_.pose.position;
-    geometry_msgs::Point startPoint;
-    startPoint.x = pos.x - radius;
-    startPoint.y = pos.y - radius;
-    startPoint.z = 0;
+    // setup search area
+    int startCell;
+    int iterations;
+    Helpers::setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-    int startIndex = Helpers::pointToGrid(startPoint, this->map_);
+    // performance measure
+    int compares = 0;
+    int neighbourLookUps = 0;
+    int fSpaceCells = 0;
 
     Neighbours neighbours(map_->info.width, map_->info.height);
-    int iterations = radius*2/map_->info.resolution;
 
-    std::vector<unsigned int> frontierIdxs;
+    std::vector<unsigned int> frontierCells;
     int8_t data = 0;
-    int index;
+    unsigned int index;
+    // O(iterations*iterations)
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
-            index = startIndex + j + i*map_->info.height;
-            data = map_->data[index];
+            index = startCell + j + i*this->map_->info.height;
+            data = this->map_->data[index];
             // if free-space is next to unknown-space free-space-index will be added
             // to indexedRawFrontiers
-            if (data == 0) {
-                if (neighbours.getValLeft(index, map_) == -1) {
-                    frontierIdxs.push_back(index);
+            compares++;
+            if (data == F_SPACE) {
+                fSpaceCells++;
+                if (neighbours.getValLeft(index, map_) == U_SPACE) {
+                    frontierCells.push_back(index);
+                    compares++;
+                    neighbourLookUps++;
                 }
-                else if (neighbours.getValRight(index, map_) == -1) {
-                    frontierIdxs.push_back(index);
+                else if (neighbours.getValRight(index, map_) == U_SPACE) {
+                    frontierCells.push_back(index);
+                    compares += 2;
+                    neighbourLookUps += 2;
                 }
-                else if (neighbours.getValTop(index, map_) == -1) {
-                    frontierIdxs.push_back(index);
+                else if (neighbours.getValTop(index, map_) == U_SPACE) {
+                    frontierCells.push_back(index);
+                    compares += 3;
+                    neighbourLookUps += 3;
                 }
-                else if (neighbours.getValBottom(index, map_) == -1) {
-                    frontierIdxs.push_back(index);
+                else if (neighbours.getValBottom(index, map_) == U_SPACE) {
+                    frontierCells.push_back(index);
+                    compares += 4;
+                    neighbourLookUps += 4;
+                } else {
+                    compares += 4;
+                    neighbourLookUps += 4;
                 }
             }        
         }
     }
-    return frontierIdxs;
+    printf("\tVisited cells: %d\n", iterations*iterations);
+    printf("\tf-Space cells: %d\n", fSpaceCells);
+    printf("\tFound frontierCells: %d\n", frontierCells.size());
+    printf("\tCompares: %d\n", compares);
+    printf("\tNeighbour lookups: %d\n", neighbourLookUps);
+    return frontierCells;
 }
 
-vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<unsigned int> &frontierIdxs) {
+vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontierCells(std::vector<unsigned int> &frontierCells) {
 
     // frontierIdxs has to be sorted!!!!
     // i.e.:
@@ -72,24 +93,27 @@ vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<un
     std::vector<unsigned int> neighbours;
     int width = this->map_->info.width;
 
-    for (unsigned int position = 0; position < frontierIdxs.size(); position++) {
-        int frontierIndex = frontierIdxs[position];
+    // s = frontierIdxs.size()
+    // O([sum(i=1;s-1;i)*2 + 2] * s)
+    // O(s*s*s)
+    for (unsigned int position = 0; position < frontierCells.size(); position++) {
+        int frontierIndex = frontierCells[position];
         neighbours.push_back(0);
         neighbours.push_back(frontierIndex);
         // bottom
         for (unsigned int i = 0; i < position; i++) {
-            int currentElement = frontierIdxs[i];
+            int currentElement = frontierCells[i];
             if (currentElement == frontierIndex-width-1) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex-width) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex-width+1) {neighbours.push_back(currentElement); break;}
         }
         // left
-        if (frontierIdxs[position-1] == frontierIndex-1) neighbours.push_back(frontierIdxs[position-1]);
+        if (frontierCells[position-1] == frontierIndex-1) neighbours.push_back(frontierCells[position-1]);
         // right
-        if (frontierIdxs[position+1] == frontierIndex+1) neighbours.push_back(frontierIdxs[position+1]);
+        if (frontierCells[position+1] == frontierIndex+1) neighbours.push_back(frontierCells[position+1]);
         // top
-        for (unsigned int i = position+1; i < frontierIdxs.size(); i++) {
-            int currentElement = frontierIdxs[i];
+        for (unsigned int i = position+1; i < frontierCells.size(); i++) {
+            int currentElement = frontierCells[i];
             if (currentElement == frontierIndex+width-1) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex+width) neighbours.push_back(currentElement);
             else if (currentElement == frontierIndex+width+1) {neighbours.push_back(currentElement); break;}
@@ -100,31 +124,31 @@ vec_double Frontier_Navigation::computeAdjacencyMatrixOfFrontiers(std::vector<un
     return adjacencyMatrixOfFrontiers;
 }
 
-vec_double Frontier_Navigation::findFrontiers(vec_double &adjacencyMatrixOfFrontiers) {
-    vec_double frontiers;
-    std::vector<unsigned int> neighbours;
+vec_double Frontier_Navigation::findFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells) {
+    vec_double frontierRegions;
+    vec_single frontierRegion;
     int component = 1;
-    for (unsigned int i = 0; i < adjacencyMatrixOfFrontiers.size(); i++) {
-        if (adjacencyMatrixOfFrontiers[i][0] == 0) {
-            recursivelyFindFrontiers(adjacencyMatrixOfFrontiers, neighbours, i, component);
-            frontiers.push_back(neighbours);
-            neighbours.clear();
+    for (unsigned int i = 0; i < adjacencyMatrixOfFrontierCells.size(); i++) {
+        if (adjacencyMatrixOfFrontierCells[i][0] == 0) {
+            recursivelyFindFrontierRegions(adjacencyMatrixOfFrontierCells, frontierRegion, i, component);
+            frontierRegions.push_back(frontierRegion);
+            frontierRegion.clear();
             component++;
         }
     }
-    return frontiers;
+    return frontierRegions;
 }
 
-void Frontier_Navigation::recursivelyFindFrontiers(vec_double &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component) {
+void Frontier_Navigation::recursivelyFindFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells, std::vector<unsigned int> &neighbours, int index, int component) {
     // point not yet visited
-    if (adjacencyMatrixOfFrontiers[index][0] == 0) {
-        adjacencyMatrixOfFrontiers[index][0] = component;
-        neighbours.push_back(adjacencyMatrixOfFrontiers[index][1]);
-        for (unsigned int i = 2; i < adjacencyMatrixOfFrontiers[index].size(); i++) {
-            int nextIndex = adjacencyMatrixOfFrontiers[index][i];
-            for (unsigned int j = 0; j < adjacencyMatrixOfFrontiers.size(); j++) {
-                if (adjacencyMatrixOfFrontiers[j][1] == nextIndex) {
-                    recursivelyFindFrontiers(adjacencyMatrixOfFrontiers, neighbours, j, component);
+    if (adjacencyMatrixOfFrontierCells[index][0] == 0) {
+        adjacencyMatrixOfFrontierCells[index][0] = component;
+        neighbours.push_back(adjacencyMatrixOfFrontierCells[index][1]);
+        for (unsigned int i = 2; i < adjacencyMatrixOfFrontierCells[index].size(); i++) {
+            int nextIndex = adjacencyMatrixOfFrontierCells[index][i];
+            for (unsigned int j = 0; j < adjacencyMatrixOfFrontierCells.size(); j++) {
+                if (adjacencyMatrixOfFrontierCells[j][1] == nextIndex) {
+                    recursivelyFindFrontierRegions(adjacencyMatrixOfFrontierCells, neighbours, j, component);
                 }
             }
         }

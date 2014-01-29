@@ -133,6 +133,7 @@ geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, doub
 geometry_msgs::Point Helpers::gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     return gridToPoint(index, map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y, print);
 }
+//geometry_msgs::Point Helpers::gridToPoint(int index, )
 
 nav_msgs::GridCells Helpers::circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     int index = Helpers::pointToGrid(pt, map);
@@ -306,11 +307,41 @@ void Helpers::printPoint(geometry_msgs::Point point, char* name, int precision) 
     }
 }
 
-void Helpers::writeToFile(char* path, char* msg, int value) {
-    std::ofstream file;
-    file.open(path, std::ios::app);
-    if (file.is_open()) {
-        file << msg << ": " << value << std::endl;
-        file.close();
+void Helpers::writeToFile(char* file, char* msg, int value) {
+    char* path = "/home/u_private/ros_develop/frontier_navigation/logs/";
+    char * newArray = new char[std::strlen(path)+std::strlen(file)+1];
+    std::strcpy(newArray,path);
+    std::strcat(newArray,file);
+    std::ofstream stream;
+    stream.open(newArray, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg << ": " << value << std::endl;
+        stream.close();
     } else printf("File NOT open\n");
+}
+
+int Helpers::computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
+    geometry_msgs::Point startPoint;
+    startPoint.x = center.pose.position.x - radius;
+    startPoint.y = center.pose.position.y - radius;
+    startPoint.z = 0;
+    return Helpers::pointToGrid(startPoint, map);
+}
+
+geometry_msgs::Point Helpers::computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius, bool print) {
+    geometry_msgs::Point startPoint;
+    startPoint.x = center.pose.position.x - radius;
+    startPoint.y = center.pose.position.y - radius;
+    startPoint.z = 0;
+    return startPoint;
+}
+
+void Helpers::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations, bool print) {
+    startCell = computeStartCellOfRectangle(center, radius, map, print);
+    iterations = radius*2/map->info.resolution;
+}
+
+void Helpers::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations, bool print) {
+    startPoint = computeStartPointOfRectangle(center, radius);
+    iterations = radius*2/map->info.resolution;
 }

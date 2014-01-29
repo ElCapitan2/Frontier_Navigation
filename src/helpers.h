@@ -51,9 +51,13 @@ public:
 
     // misc
     static vec_single sortAndRemoveEquals(vec_single v);
-    static void writeToFile(char *path, char *msg, int value);
+    static void writeToFile(char *file, char *msg, int value);
 
     // printers
     static void printPoint(geometry_msgs::Point point, char *name, int precison = 4);
 
+    static int computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+    static geometry_msgs::Point computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius, bool print = false);
+    static void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations, bool print = false);
+    static void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations, bool print = false);
 };
