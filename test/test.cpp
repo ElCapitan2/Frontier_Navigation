@@ -2,6 +2,7 @@
 #include <stdio.h>
 //#include <ros/ros.h>
 #include <helpers.h>
+#include <map_operations.h>
 #include <exception>
 
 Test::Test() {
@@ -26,6 +27,19 @@ bool compareDoubles(double target, double actual) {
 }
 void printIntro(const char* name) {
     printf("%s\n", name);
+}
+
+void createOccupancyGrid(boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid, std::vector<double> &x, std::vector<double> &y) {
+    occGrid->info.height = 10;
+    occGrid->info.width = 6;
+    occGrid->info.resolution = 0.5;
+    occGrid->info.origin.position.x = -2.0;
+    occGrid->info.origin.position.y = -1.0;
+    for (unsigned int i = 0; i < occGrid->info.height * occGrid->info.width; i++) occGrid->data.push_back(0);
+    double xArr[6] = {-1.75, -1.25, -0.75, -0.25, 0.25, 0.75};
+    for (int i = 0; i < 6; i++) x.push_back(xArr[i]);
+    double yArr[10] = {-0.75, -0.25, 0.25, 0.75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75};
+    for (int i = 0; i < 10; i++) y.push_back(yArr[i]);
 }
 
 bool Test::test_linearInterpolation() {
@@ -104,15 +118,6 @@ bool Test::test_areVecsEqual() {
     return equal_1 && !equal_2;
 }
 
-bool Test::test_linearInCoord()
-{
-    printIntro(__func__);
-    geometry_msgs::Point pt = Helpers::gridToPoint(4352, 1600, 1184, 0.05, -50.8, -30.0);
-    int index = Helpers::pointToGrid(pt, 1600, 1184, 0.05, -50.8, -30.0);
-
-    printf("x: %f; y: %f; index: %d\n\n", pt.x, pt.y, index);
-}
-
 bool Test::test_sortAndRemoveEquals()
 {
     printIntro(__func__);
@@ -124,10 +129,77 @@ bool Test::test_sortAndRemoveEquals()
     test.push_back(3);
     test = Helpers::sortAndRemoveEquals(test);
     bool result1 = true;
-    for (int i = 0; i < test.size()-1; i++) {
+    for (unsigned int i = 0; i < test.size()-1; i++) {
         if (test[i] > test[i+1]) result1 = false;
     }
     printResultMessage(result1, __func__);
+    return result1;
+}
+
+bool Test::test_cellToPoint() {
+    printIntro(__func__);
+    MapOperations mapOps;
+    boost::shared_ptr<nav_msgs::OccupancyGrid> occGrid(new nav_msgs::OccupancyGrid);
+    std::vector<double> x;
+    std::vector<double> y;
+    createOccupancyGrid(occGrid, x, y);
+    geometry_msgs::Point pt1;
+    geometry_msgs::Point pt2;
+    int index = 0;
+    bool result = true;
+    bool temp = true;
+    for (unsigned int i = 0; i < occGrid->info.height; i++) {
+        for (unsigned int j = 0; j < occGrid->info.width; j++) {
+            index = j + i*occGrid->info.width;
+            pt1 = mapOps.cellToPoint(index, occGrid);
+            pt2 = mapOps.cellToPoint(index, occGrid->info.width, occGrid->info.resolution, occGrid->info.origin.position.x, occGrid->info.origin.position.y);
+            if (pt1.x != pt2.x || pt1.x != x[j]) {
+                temp = false;
+                result = false;
+            }
+            printf("\tpt1.x: %f pt2.x: %f x: %f %s\n", pt1.x, pt2.x, x[j], resultMsg(temp));
+            temp = true;
+            if (pt1.y != pt2.y || pt1.y != y[i]) {
+                temp = false;
+                result = false;
+            }
+            printf("\tpt1.y: %f pt2.y: %f y: %f %s\n", pt1.y, pt2.y, y[i], resultMsg(temp));
+            temp = true;
+        }
+    }
+    printResultMessage(result, __func__);
+    return result;
+}
+
+bool Test::test_pointToCell() {
+    printIntro(__func__);
+    MapOperations mapOps;
+    boost::shared_ptr<nav_msgs::OccupancyGrid> occGrid(new nav_msgs::OccupancyGrid);
+    std::vector<double> x;
+    std::vector<double> y;
+    createOccupancyGrid(occGrid, x, y);
+    geometry_msgs::Point pt;
+    pt.z = 0.0;
+    unsigned int index1;
+    unsigned int index2;
+    bool result = true;
+    bool temp = true;
+    for (unsigned int i = 0; i < occGrid->info.height; i++) {
+        for (unsigned int j = 0; j < occGrid->info.width; j++) {
+            pt.x = x[j];
+            pt.y = y[i];
+            index1 = mapOps.pointToCell(pt, occGrid);
+            index2 = mapOps.pointToCell(pt, occGrid->info.width, occGrid->info.resolution, occGrid->info.origin.position.x, occGrid->info.origin.position.y);
+            if (index1 != index2 || index1 != j + i*occGrid->info.width) {
+                temp = false;
+                result = false;
+            }
+            printf("\tindex1: %d index2: %d index: %d %s\n", index1, index2, j + i*occGrid->info.width, resultMsg(temp));
+            temp = true;
+        }
+    }
+    printResultMessage(result, __func__);
+    return result;
 }
 
 void Test::test_circleArea(int index, double radius) {
