@@ -3,4 +3,9 @@
 *.internal
 *.make
 *.includecache
+*.launch
+*.yaml~
+*.launc~
+*.h~
+*.cpp~
 CMakeLists.txt.user
