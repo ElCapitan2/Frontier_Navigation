@@ -4,7 +4,11 @@
 #include "types.h"
 #include "actionlib_msgs/GoalStatus.h"
 #include <constants.h>
-#include <state_machines.h>
+#include <map_operations.h>
+//#include <state_machines.h>
+
+enum processStates {INIT, PROCESSING_MAP_STARTED, PROCESSING_MAP_DONE};
+enum strategies {NORMAL, NO_FRONTIER_REGIONS_FOUND, DRIVE_TO_GOAL_BEFORE_UPDATE, STUCK, GOAL_REJECTED, DUPLICATED_GOAL};
 
 class Frontier_Navigation {
 
@@ -18,28 +22,28 @@ public:
     void cmdVelCallback(const geometry_msgs::Twist& cmd_vel);
     void goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus);
 
-    void preFilterMap_fi(int radius);
-    void preFilterMap_Fi(int radius);
-    void preFilterMap_FI(int radius);
-    void preFilterMap_FII(const geometry_msgs::PoseStamped &center, int radius);
+//    void preFilterMap_fi(int radius);
+//    void preFilterMap_Fi(int radius);
+//    void preFilterMap_FI(int radius);
+//    void preFilterMap_FII(const geometry_msgs::PoseStamped &center, int radius);
 
     void check(std::vector<geometry_msgs::Point> test);
 
 
-    void escapeStrategy();
+    void escapeStrategy(strategies strategy);
 private:
 
     void processMap(geometry_msgs::PoseStamped center);
 
-    // find frontierRegions
-    void findFrontierRegions(const geometry_msgs::PoseStamped &center, int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
-    std::vector<unsigned int> findFrontierCells(const geometry_msgs::PoseStamped &center, int radius);
-    vec_double computeAdjacencyMatrixOfFrontierCells(std::vector<unsigned int> &frontierCells);
-    vec_double findFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells);
-    void recursivelyFindFrontierRegions(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
+//    // find frontierRegions
+//    void findFrontierRegions(const geometry_msgs::PoseStamped &center, int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
+//    std::vector<unsigned int> findFrontierCells(const geometry_msgs::PoseStamped &center, int radius);
+//    vec_double computeAdjacencyMatrixOfFrontierCells(std::vector<unsigned int> &frontierCells);
+//    vec_double findFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells);
+//    void recursivelyFindFrontierRegions(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
 
     // quality of frontierRegions
-    std::vector<int> determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
+    std::vector<int> determineBestFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
     std::vector<double> computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
 
     geometry_msgs::PoseStamped nextGoal(vec_single frontier);
@@ -54,9 +58,12 @@ private:
     void preFilterMap(const geometry_msgs::PoseStamped &center, int radius);
 
 
-    Process_Machine processMachine;
-    Error_Machine errorMachine;
+//    Process_Machine processMachine;
 
+    processStates processState_;
+    strategies strategy_;
+
+    MapOperations mapOps_;
 
     bool frontierConstraints(vec_single &frontier, bool print = false);
     bool cmdVelConstraints(const geometry_msgs::Twist& cmd_vel, bool print = false);
@@ -86,10 +93,10 @@ private:
     nav_msgs::GridCells pathTracker_;
     unsigned int pathCounter_;
     nav_msgs::GridCells goalTracker_;
-    nav_msgs::GridCells unusedFrontierTracker_;
 
     vec_double whiteList_;
     std::vector<geometry_msgs::PoseStamped> goals_;
+
 
 
     double radius_;

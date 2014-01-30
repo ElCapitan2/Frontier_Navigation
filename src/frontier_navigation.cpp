@@ -25,9 +25,10 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     boost::shared_ptr<nav_msgs::OccupancyGrid> mapCopy2_(new nav_msgs::OccupancyGrid);
     this->map_ = mapCopy2_;
 
+    this->processState_ = PROCESSING_MAP_DONE;
+    this->strategy_ = NORMAL;
+
     this->pathCounter_ = 0;
-    this->processingMapCallback_ = false;
-    this->escapeStrategy_ = false;
     this->pathTracker_.header.frame_id = "/map";
     // has to be fixed somehow
     // doesn't work with "= map->info.resolution" since map is not there yet
@@ -51,6 +52,8 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 //    if (this->escapeStrategy_) break;
     ROS_WARN("\"not_moving_timer\" fired. Robot is likely to be stuck!!");
+    strategies strategy = STUCK;
+    escapeStrategy(strategy);
     // determine reason for being stuck and set flags for mapCallback
     // - too close to obstacle
     //   -> backup robot and change orientation
@@ -64,99 +67,102 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
     // - not moving but sending 0-valued cmd_vel commands
     //   -> trigger recording of cmd_vel commands and check whether they are 0-valued or valid
 
-    nav_msgs::GridCells circle = Helpers::circleArea(this->robot_position_.pose.position, 1.0, this->map_);
-    int8_t unknown = 100;
-    for (int i = 0; i < circle.cells.size(); i++) {
-        if (this->map_->data[Helpers::pointToGrid(circle.cells[i], this->map_)] == unknown) printf("STUCK??\n");
-    }
-    if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REACHED??\n");
-    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("BAD GOAL??\n");
-
-//    geometry_msgs::PoseStamped goal;
-//    goal.header.frame_id = "/map";
-//    goal.pose.position.x = this->robot_position_.x+2;
-//    goal.pose.position.y = this->robot_position_.y;
-//    this->goal_pub_.publish(goal);
-//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
-//    system("rostopic pub -1 cmd_vel geometry_msgs/Twist  '{linear:  {x: 1.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'");
+//    nav_msgs::GridCells circle = Helpers::circleArea(this->robot_position_.pose.position, 1.0, this->map_);
+//    int8_t unknown = 100;
+//    for (int i = 0; i < circle.cells.size(); i++) {
+//        if (this->map_->data[mapOps.pointToCell(circle.cells[i], this->map_)] == unknown) printf("STUCK??\n");
+//    }
+//    if (Helpers::distance(this->activeGoal_, this->robot_position_) <= 1.0) printf("GOAL REACHED??\n");
+//    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("BAD GOAL??\n");
 }
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
     printf("\n");
     printf("Frontier_Navigation received map\n");
     printf("\twidth: %d; height: %d; res: %f; x_org: %f; y_org: %f\n", map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y);
-    this->map_->data = map->data;
-    this->map_->header = map->header;
-    this->map_->info = map->info;
-//    if (processingMapCallback_ || escapeStrategy_) printf("\tMap will NOT be processed!\n");
-//    if (processingMapCallback_) printf("\tMap will NOT be processed!\n");
-//    else {
-//        printf("\tMap will be processed!\n");
-//        processMap(this->robot_position_);
-//    }
+    map_->data = map->data;
+    map_->header = map->header;
+    map_->info = map->info;
 
-    processMachine.transition_processMap();
-
+    // check for duplicated goals
+    int size = goalTracker_.cells.size();
+    if (size > 1 && Helpers::distance(goalTracker_.cells[size-1], goalTracker_.cells[size-2]) < 0.5) {
+        printf("Duplicatet goals detected\n");
+        strategies strategy = DUPLICATED_GOAL;
+        escapeStrategy(strategy);
+    }
+    else {
+        if (processState_ == PROCESSING_MAP_DONE && strategy_ == NORMAL) {
+            printf("Map will be processed\n");
+            processMap(robot_position_);
+        } else printf("Map will NOT be processed\n");
+    }
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
-    this->robot_position_ = robot_position;
-    this->pathCounter_++;
+    robot_position_ = robot_position;
+    pathCounter_++;
     if (pathCounter_%10 == 0) {
-        this->pathTracker_.cells.push_back(robot_position.pose.position);
-        this->pathTracker_pub_.publish(this->pathTracker_);
+        pathTracker_.cells.push_back(robot_position.pose.position);
+        pathTracker_pub_.publish(pathTracker_);
     }
-//    if (Helpers::distance(robot_position, this->activeGoal_) < 3.0) {
-//        ROS_WARN("Robot reached goal area without sending new map data.");
-//        processMap();
-//    }
 }
 
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
-    this->not_moving_timer_ = this->nodeHandle_->createTimer(ros::Duration(this->timeout_), &Frontier_Navigation::timerCallback, this, true);
-    cmdVelConstraints(cmd_vel);
+    if (cmd_vel.angular.x == 0.0 && cmd_vel.angular.y == 0.0 && cmd_vel.angular.z == 0.0 &&
+            cmd_vel.linear.x == 0.0 && cmd_vel.linear.y == 0.0 && cmd_vel.linear.z == 0);
+    else {
+        not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
+        cmdVelConstraints(cmd_vel);
+    }
 }
 
 void Frontier_Navigation::goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus) {
-    if (goalStatus.status == actionlib_msgs::GoalStatus::REJECTED) ROS_WARN("Goal in state REJECTED");
-    this->goalStatus_ = goalStatus;
+    if (goalStatus.status == actionlib_msgs::GoalStatus::SUCCEEDED) printf("SUCEEDED!\n");
+    if (goalStatus.status == actionlib_msgs::GoalStatus::REJECTED) {
+        ROS_WARN("Goal in state REJECTED");
+        strategies strategy = GOAL_REJECTED;
+        escapeStrategy(strategy);
+    }
+    goalStatus_ = goalStatus;
 }
 
 void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
-    processMachine.transition_processMap();
-    this->processingMapCallback_ = true;
+
+    processState_ = PROCESSING_MAP_STARTED;
+
+
+
     vec_double frontierRegions;
     vec_double adjacencyMatrixOfFrontierCells;
 
     double radius;
-    if (this->escapeStrategy_) {
-        radius = this->map_->info.width/2 * this->map_->info.resolution;
-        center.pose.position.x = this->map_->info.origin.position.x + radius;
-        center.pose.position.y = this->map_->info.origin.position.y + radius;
-    } else radius = this->radius_;
+    if (strategy_ == NO_FRONTIER_REGIONS_FOUND) {
+        radius = this->map_->info.width/2 * map_->info.resolution;
+        center.pose.position.x = map_->info.origin.position.x + radius;
+        center.pose.position.y = map_->info.origin.position.y + radius;
+    } else radius = radius_;
 
-    for (int i = 1; i <= this->attempts_; i++) {
+    for (int i = 1; i <= attempts_; i++) {
 
-        // 1. filter map within given radius
-        preFilterMap(center, radius);
         publishOutlineOfSearchRectangle(center, radius);
 
+        // 1. filter map within given radius
+        mapOps_.preFilterMap(map_, center, radius);
+        filteredMap_pub_.publish(map_);
+
         // 2. find frontiers and prepare them for further processing
-        findFrontierRegions(center, radius, frontierRegions, adjacencyMatrixOfFrontierCells);
+        mapOps_.findFrontierRegions(map_, center, radius, frontierRegions, adjacencyMatrixOfFrontierCells);
         if (frontierRegions.size() == 0) {
-            radius += this->stepping_;
+            radius += stepping_;
             printf("No frontierRegions detected within given radius\n");
-            printf("Search radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
+            printf("Search radius increased (old: %f, new: %f, stepping: %f)\n", radius-stepping_, radius, stepping_);
             continue;
         }
 
         // 3. find best suitable frontierRegion
         bool found = false;
-        std::vector<int> frontierRegionIDs = determineBestFrontier(adjacencyMatrixOfFrontierCells, frontierRegions);
-
+        std::vector<int> frontierRegionIDs = determineBestFrontierRegions(adjacencyMatrixOfFrontierCells, frontierRegions);
         for (int j = 0; j < frontierRegionIDs.size(); j++) {
             geometry_msgs::PoseStamped goal = nextGoal(frontierRegions[j]);
             bool add = true;
@@ -179,7 +185,7 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         int cnt = 0;
         for (int j = 0; j < whiteList_.size(); j++) {
             cnt += whiteList_[j].size();
-            for (int k = 0; k < whiteList_[j].size(); k++) min1.cells.push_back(Helpers::gridToPoint(whiteList_[j][k], this->map_));
+            for (int k = 0; k < whiteList_[j].size(); k++) min1.cells.push_back(mapOps_.cellToPoint(whiteList_[j][k], this->map_));
         }
 
         min1_pub_.publish(min1);
@@ -193,14 +199,14 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         publishFrontierPts(frontierRegions);
         printf("Frontier selection...\n");
         for (int j = 0; j < frontierRegionIDs.size(); j++) {
-//            publishFrontierPts(frontiers, frontierIDs[j]);
             if (frontierConstraints(frontierRegions[frontierRegionIDs[j]], true)) {
                 publishFrontierPts(frontierRegions, frontierRegionIDs[j]);
                 geometry_msgs::PoseStamped goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
-                this->activeGoal_ = goal;
+                activeGoal_ = goal;
                 printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
-                printf("\tNext Goal! goal(%f, %f, %f)\n", this->activeGoal_.pose.position.x, this->activeGoal_.pose.position.y, this->activeGoal_.pose.position.z);
-//                publishGoal(goal);
+                printf("\tNext Goal! goal(%f, %f, %f)\n", activeGoal_.pose.position.x, activeGoal_.pose.position.y, activeGoal_.pose.position.z);
+                publishGoal(goal);
+                goalTracker_.cells.push_back(goal.pose.position);
                 found = true;
                 break;
             } else {
@@ -209,29 +215,28 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         }
 
         if (found) break;
-        else if (i == this->attempts_) {
-            // 3.b no valid connected frontiers found
-            // - look up saved but not used connected frontiers
-            // - find connected frontiers including the whole map
+        else if (i == attempts_) {
             printf("\tNo suitable frontierRegions found within maximum radius. STRATEGY NEEDED!!!\n");
-            escapeStrategy();
+            strategies strategy = NO_FRONTIER_REGIONS_FOUND;
+            escapeStrategy(strategy);
         } else {
             // 3.c increase radius and do it again
-            radius += this->stepping_;
+            radius += stepping_;
             printf("\tNo frontierRegion passed constraints within current radius\n");
-            printf("\tSearch radius increased (old: %f, new: %f, stepping: %f)\n", radius-this->stepping_, radius, this->stepping_);
+            printf("\tSearch radius increased (old: %f, new: %f, stepping: %f)\n", radius-stepping_, radius, stepping_);
             frontierRegions.clear();
             adjacencyMatrixOfFrontierCells.clear();
         }
     }
-    this->processingMapCallback_ = false;
+    processState_ = PROCESSING_MAP_DONE;
 }
 
 // Define constraints which are necassary for further processing of found connected frontiers
 // I.e. set minimum amount of points in set of connected frontiers
 bool Frontier_Navigation::frontierConstraints(vec_single &frontier, bool print) {
-    bool frontierSize (frontier.size() > this->threshold_);
-    bool goalStatus = (this->goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED);
+    bool frontierSize (frontier.size() > threshold_);
+    bool goalStatus = true;
+//    bool goalStatus = (goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED);
     if (print) printf("\tConstraints: size = %s; goalStatus = %s\n", (frontierSize)?"true":"false", (goalStatus)?"true":"false");
     return (frontierSize && goalStatus);
 }
@@ -247,9 +252,9 @@ bool Frontier_Navigation::cmdVelConstraints(const geometry_msgs::Twist &cmd_vel,
 
 geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
 {
-    unsigned int robotPos = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
-    geometry_msgs::Point close = Helpers::gridToPoint(Helpers::closestPoint(frontier, robotPos, this->map_->info.width), this->map_);
-    geometry_msgs::Point far = Helpers::gridToPoint(Helpers::furthermostPoint(frontier, robotPos, this->map_->info.width), this->map_);
+    unsigned int robotPos = mapOps_.pointToCell(this->robot_position_.pose.position, map_);
+    geometry_msgs::Point close = mapOps_.cellToPoint(Helpers::closestPoint(frontier, robotPos, map_->info.width), map_);
+    geometry_msgs::Point far = mapOps_.cellToPoint(Helpers::furthermostPoint(frontier, robotPos, map_->info.width), map_);
 //    printf("pos(%f/%f/%f)\n", robot_position_.pose.position.x, robot_position_.pose.position.y, robot_position_.pose.position.z);
 //    printf("close(%f/%f/%f)\n", close.x, close.y, close.z);
 //    printf("far(%f/%f/%f)\n", far.x, far.y, far.z);
@@ -262,19 +267,19 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
 //    printf("frontierVec(%f/%f/%f)\n", frontierVec.x, frontierVec.y, frontierVec.z);
 
     geometry_msgs::PoseStamped point;
-    int goalIndex = Helpers::closestPoint(frontier, Helpers::pointToGrid(this->robot_position_.pose.position, this->map_), this->map_->info.width);
-    point.pose.position = Helpers::gridToPoint(goalIndex, this->map_);
+    int goalIndex = Helpers::closestPoint(frontier, mapOps_.pointToCell(this->robot_position_.pose.position, this->map_), this->map_->info.width);
+    point.pose.position = mapOps_.cellToPoint(goalIndex, map_);
 
     // get vector between robot and goal
     geometry_msgs::Vector3 robotToGoalVec;
-    robotToGoalVec.x = point.pose.position.x - this->robot_position_.pose.position.x;
-    robotToGoalVec.y = point.pose.position.y - this->robot_position_.pose.position.y;
-    robotToGoalVec.z = point.pose.position.z - this->robot_position_.pose.position.z;
+    robotToGoalVec.x = point.pose.position.x - robot_position_.pose.position.x;
+    robotToGoalVec.y = point.pose.position.y - robot_position_.pose.position.y;
+    robotToGoalVec.z = point.pose.position.z - robot_position_.pose.position.z;
     double length = Helpers::length(robotToGoalVec);
 //    printf("robotToGoalVec(%f/%f/%f)\n", robotToGoalVec.x, robotToGoalVec.y, robotToGoalVec.z);
 //    printf("length of robotToGoalVec: %f\n", length);
 
-    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.5, this->map_);
+    nav_msgs::GridCells circle = Helpers::circle(goalIndex, 1.5, map_);
     publishCircle(goalIndex);
     geometry_msgs::Vector3 goalToCircleVec;
 
@@ -316,11 +321,49 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     return point;
 }
 
-void Frontier_Navigation::escapeStrategy() {
-    this->escapeStrategy_ = true;
-    printf("Escape Strategy\n");
-    printf("\tUse white listed frontierRegions...\n");
-
-    printf("\tScan entire map for frontierRegions...\n");
-    this->escapeStrategy_ = false;
+void Frontier_Navigation::escapeStrategy(strategies strategy) {
+    if (strategy_ == NORMAL) {
+        strategy_ = strategy;
+        switch (strategy_) {
+        case NO_FRONTIER_REGIONS_FOUND: {
+            printf("NO_FRONTIER_REGIONS_FOUND strategy initiated...\n");
+            printf("Going through white listed frontierRegions...\n");
+            bool found = false;
+            for (int i = whiteList_.size()-1; i >= 0; i--) {
+                if (frontierConstraints(whiteList_[i], true)) {
+                    publishGoal(goals_[i]);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) printf("\tNew goal found\n");
+            else printf("\tNew goal NOT found\n");
+            break;
+        }
+        case STUCK: {
+            printf("STUCK strategy initiated...\n");
+            // - reached goal but did not receive map update
+            //   -> go through whitelist
+            // - setting same goal multiple times. happens when robot is within goal area and map update doesn't
+            //   change anything
+            //   -> solved by DUPLICATED_GOAL
+            // - zero vel_cmd commands
+            break;
+        }
+        case GOAL_REJECTED: {
+            printf("GOAL_REJECTED strategy initiated...\n");
+            // - caused by path going through u-Space
+            //   -> blacklist last goal
+            break;
+        }
+        case DUPLICATED_GOAL: {
+            printf("DUPLICATED_GOAL strategy initiated...\n");
+            // blacklist last goal
+            // remove last goal from goalTracker
+            break;
+        }
+        default: printf("Strategy not implemented yet...\n");
+        }
+        strategy_ = NORMAL;
+    } else printf("Strategy rejected. Another strategy already running...\n");
 }

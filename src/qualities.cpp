@@ -31,7 +31,7 @@ double qualityOfDirection(geometry_msgs::PoseStamped robot_position, geometry_ms
 
 bool compare(std::vector<double> vec1, std::vector<double> vec2) {return (vec1[0] > vec2[0]);}
 
-std::vector<int> Frontier_Navigation::determineBestFrontier(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
+std::vector<int> Frontier_Navigation::determineBestFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
     std::vector<double> qualities = computeQualityOfFrontiers(adjacencyMatrixOfFrontiers, frontiers);
     std::vector<std::vector<double> > sortedQualities;
     for (double i = 0; i < qualities.size(); i++) {
@@ -60,7 +60,7 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
     int edgesCntOfFrontiers[frontiersCnt];
     double distancesToFrontiers[frontiersCnt];
     geometry_msgs::Point goalsInFrontiers[frontiersCnt];
-    int robotPos = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
+    int robotPos = mapOps_.pointToCell(this->robot_position_.pose.position, this->map_);
 
     for (int i = 0; i < frontiersCnt; i++) {
         if (frontiers[i].size() < smallestFrontierSize) smallestFrontierSize = frontiers[i].size();
@@ -69,7 +69,7 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
         distancesToFrontiers[i] = (Helpers::distance(closestPoint, robotPos, this->map_->info.width, this->map_->info.resolution));
         if (distancesToFrontiers[i] < smallestDistance) smallestDistance = distancesToFrontiers[i];
         if (distancesToFrontiers[i] > largestDistance) largestDistance = distancesToFrontiers[i];
-        goalsInFrontiers[i] = Helpers::gridToPoint(closestPoint, this->map_);
+        goalsInFrontiers[i] = mapOps_.cellToPoint(closestPoint, this->map_);
         // init to prevent fraud data
         edgesCntOfFrontiers[i] = 0;
     }

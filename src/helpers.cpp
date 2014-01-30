@@ -133,7 +133,6 @@ geometry_msgs::Point Helpers::gridToPoint(int index, int width, int height, doub
 geometry_msgs::Point Helpers::gridToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     return gridToPoint(index, map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y, print);
 }
-//geometry_msgs::Point Helpers::gridToPoint(int index, )
 
 nav_msgs::GridCells Helpers::circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     int index = Helpers::pointToGrid(pt, map);

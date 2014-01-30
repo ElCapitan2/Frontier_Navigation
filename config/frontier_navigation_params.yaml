@@ -2,11 +2,11 @@
 
 # Rectangle around robot in which frontiers will be detected
 # Further settings will be added
-radius: 5.0
+radius: 2.0
 # Attempts to find frontiers within an increasing rectangle around robot
-attempts: 5
+attempts: 4
 # Radius will be increased be stepping
-stepping: 5.0
+stepping: 2.0
 # Sets of connected frontiers which are smaller will not be considered for next goal
 threshold: 25
 # Should be zero. Is being used for debbuging issues [s]
