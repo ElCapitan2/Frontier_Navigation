@@ -1,0 +1,10 @@
+<launch>
+	<node pkg="stage" type="stageros" name="stageros" output="screen" args="$(find stage)/world/michael.world" />
+	<node pkg="gmapping" type="slam_gmapping" respawn="false" name="gmapping" args="scan:=/base_scan" output="screen" required = "true"/>
+	<node name="sb_navigation" pkg="sb_navigation" type="sbnavigation" respawn="false" output="screen" required = "false"> 
+      		<rosparam file="$(find sb_navigation)/config_new/costmap_local_params.yaml" command="load" ns="local_costmap" />
+      		<rosparam file="$(find sb_navigation)/config_new/costmap_global_params.yaml" command="load" ns="global_costmap" />
+      		<rosparam file="$(find sb_navigation)/config_new/dwa_lp_params.yaml" command="load" ns="dwa_local_planner"  />
+      		<rosparam file="$(find sb_navigation)/config_new/navfn_gp_params.yaml" command="load" ns="navfn_global_planner"  />
+ 	</node>
+</launch>
