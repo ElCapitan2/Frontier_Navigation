@@ -1,5 +1,4 @@
 #include "frontier_navigation.h"
-#include "helpers.h"
 
 void Frontier_Navigation::publishFrontierPts(vec_double frontiers) {
     nav_msgs::GridCells frontierPts;

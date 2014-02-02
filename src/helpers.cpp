@@ -1,10 +1,5 @@
 #include "helpers.h"
-#include <stdio.h>
-#include <math.h>
-#include <float.h>
-#include <algorithm>
-#include <iostream>
-#include <fstream>
+
 
 double Helpers::linearInterpolation(double start_x, double start_y, double end_x, double end_y, double x, bool print)
 {

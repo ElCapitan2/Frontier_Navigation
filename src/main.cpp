@@ -1,5 +1,6 @@
+#include <ros/ros.h>
+
 #include "frontier_navigation.h"
-#include "ros/ros.h"
 
 int main(int argc, char** argv)
 {   

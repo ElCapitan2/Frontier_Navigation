@@ -1,14 +1,16 @@
-#include "nav_msgs/OccupancyGrid.h"
-#include <tf/transform_listener.h>
-#include "nav_msgs/GridCells.h"
-#include "types.h"
-#include "actionlib_msgs/GoalStatus.h"
-#include <constants.h>
-#include <map_operations.h>
-//#include <state_machines.h>
+#include <vector>
+#include <stdlib.h>
 
+#include <nav_msgs/OccupancyGrid.h>
+#include <tf/transform_listener.h>
+#include <nav_msgs/GridCells.h>
+#include <actionlib_msgs/GoalStatus.h>
+#include <tf/transform_listener.h>
+
+#include "types.h"
+#include "constants.h"
+#include "map_operations.h"
 #include "helpers.h"
-#include "neighbours.h"
 
 
 enum processStates {INIT, PROCESSING_MAP_STARTED, PROCESSING_MAP_DONE};

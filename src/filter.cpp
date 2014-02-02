@@ -1,10 +1,4 @@
-#include <map_operations.h>
-#include "helpers.h"
-//#include <neighbours.h>
-#include <constants.h>
-
-
-
+#include "map_operations.h"
 
 //void MapOperations::check(std::vector<geometry_msgs::Point> test) {
 //    vec_single transfer;

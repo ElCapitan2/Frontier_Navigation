@@ -1,4 +1,3 @@
-//#include "frontier_navigation.h"
 #include "map_operations.h"
 
 // free-space = 0

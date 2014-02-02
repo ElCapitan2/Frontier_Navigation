@@ -1,9 +1,4 @@
 #include "frontier_navigation.h"
-#include "tf/transform_listener.h"
-//#include "neighbours.h"
-#include <vector>
-#include <stdlib.h>
-#include "helpers.h"
 
 Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 {

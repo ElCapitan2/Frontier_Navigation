@@ -1,7 +1,7 @@
-#include "frontier_navigation.h"
-#include "helpers.h"
 #include <limits>
 #include <algorithm>
+
+#include "frontier_navigation.h"
 
 double qualityOfConnectivity(int edges, int frontierPoints) {
     if (frontierPoints == 1) return 0.0;

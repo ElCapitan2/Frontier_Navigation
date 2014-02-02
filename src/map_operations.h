@@ -29,6 +29,7 @@ public:
     geometry_msgs::Point cellToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
 
     // neighbour stuff
+    // ...
 
     // neighbouring cells
     unsigned int getLeftCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map);

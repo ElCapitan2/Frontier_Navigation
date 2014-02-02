@@ -1,12 +1,20 @@
-#ifndef INC_HELPERS_H
-#define INC_HELPERS_H
+#ifndef HELPERS_H
+#define HELPERS_H
+
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
+#include <algorithm>
+#include <iostream>
+#include <fstream>
 
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/Vector3.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/GridCells.h>
+
 #include "types.h"
-#include <geometry_msgs/Vector3.h>
 
 class Helpers {
 public:
@@ -62,4 +70,4 @@ public:
 };
 
 
-#endif  /* INC_HELPERS_H */
+#endif  /* HELPERS_H */
