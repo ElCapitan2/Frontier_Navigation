@@ -10,7 +10,6 @@
 
 #include "types.h"
 #include "helpers.h"
-#include "neighbours.h"
 #include "constants.h"
 
 class MapOperations {
@@ -61,6 +60,10 @@ public:
     // 3x3 neighbourhood
     int neighbourhoodValue(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map);
 
+    // misc
+    void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations);
+    void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations);
+
 
 private:
 
@@ -75,6 +78,11 @@ private:
     vec_double computeAdjacencyMatrixOfFrontierCells(std::vector<unsigned int> &frontierCells);
     vec_double computeFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells);
     void recursivelyComputeFrontierRegions(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
+
+    // misc
+    unsigned int computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map);
+    geometry_msgs::Point computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius);
+
 
     boost::shared_ptr<nav_msgs::OccupancyGrid> map_;
 

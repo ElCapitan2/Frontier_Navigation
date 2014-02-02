@@ -1,6 +1,6 @@
 #include <map_operations.h>
 #include "helpers.h"
-#include <neighbours.h>
+//#include <neighbours.h>
 #include <constants.h>
 
 
@@ -323,9 +323,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
     // setup search area
     int startCell;
     int iterations;
-    Helpers::setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-    Neighbours neighbours(map_->info.width, map_->info.height);
+//    Neighbours neighbours(map_->info.width, map_->info.height);
 
 
 
@@ -370,8 +370,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 //            if ((data == -1 && true) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < sqrt(2.0)*radius)) {
             if (data == -1) {
                 ops += 17;
-                int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
-                        neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
+//                int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
+//                        neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
+                int kernel = neighbourhoodValue(index, filteredMap);
                 if (kernel <= 0 && kernel >= -3) {
                     filteredCellsInIteration++;
                     // 1 write and max 16 compares and max 3 pushs and max 3 writes
@@ -379,40 +380,40 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
                     additionalOperations += 11;
                     filteredCells++;
                     filteredMap->data[index] = F_SPACE;
-                    min4.cells.push_back(Helpers::gridToPoint(index, map_));
+                    min4.cells.push_back(cellToPoint(index, map_));
 
 
-                    if (neighbours.getValLeft(index, filteredMap) == -1 && flags[neighbours.getLeft(index)] == false) {
-                        temp.push_back(neighbours.getLeft(index));
-                        flags[neighbours.getLeft(index)] = true;
+                    if (getLeftVal(index, filteredMap) == -1 && flags[getLeftCell(index, map_)] == false) {
+                        temp.push_back(getLeftCell(index, map_));
+                        flags[getLeftCell(index, map_)] = true;
                     }
-                    if (neighbours.getValRight(index, filteredMap) == -1 && flags[neighbours.getRight(index)] == false) {
-                        temp.push_back(neighbours.getRight(index));
-                        flags[neighbours.getRight(index)] = true;
+                    if (getRightVal(index, filteredMap) == -1 && flags[getRightCell(index, map_)] == false) {
+                        temp.push_back(getRightCell(index, map_));
+                        flags[getRightCell(index, map_)] = true;
                     }
-                    if (neighbours.getValTop(index, filteredMap) == -1 && flags[neighbours.getTop(index)] == false) {
-                        temp.push_back(neighbours.getTop(index));
-                        flags[neighbours.getTop(index)] = true;
+                    if (getTopVal(index, filteredMap) == -1 && flags[getTopCell(index, map_)] == false) {
+                        temp.push_back(getTopCell(index, map_));
+                        flags[getTopCell(index, map_)] = true;
                     }
-                    if (neighbours.getValBottom(index, filteredMap) == -1 && flags[neighbours.getBottom(index)] == false) {
-                        temp.push_back(neighbours.getBottom(index));
-                        flags[neighbours.getBottom(index)] = true;
+                    if (getBottomVal(index, filteredMap) == -1 && flags[getBottomCell(index, map_)] == false) {
+                        temp.push_back(getBottomCell(index, map_));
+                        flags[getBottomCell(index, map_)] = true;
                     }
-                    if (neighbours.getValLeftTop(index, filteredMap) == -1 && flags[neighbours.getLeftTop(index)] == false) {
-                        temp.push_back(neighbours.getLeftTop(index));
-                        flags[neighbours.getLeftTop(index)] = true;
+                    if (getLeftTopVal(index, filteredMap) == -1 && flags[getLeftTopCell(index, map_)] == false) {
+                        temp.push_back(getLeftTopCell(index, map_));
+                        flags[getLeftTopCell(index, map_)] = true;
                     }
-                    if (neighbours.getValLeftBottom(index, filteredMap) == -1 && flags[neighbours.getLeftBottom(index)] == false) {
-                        temp.push_back(neighbours.getLeftBottom(index));
-                        flags[neighbours.getLeftBottom(index)] = true;
+                    if (getLeftBottomVal(index, filteredMap) == -1 && flags[getLeftBottomCell(index, map_)] == false) {
+                        temp.push_back(getLeftBottomCell(index, map_));
+                        flags[getLeftBottomCell(index, map_)] = true;
                     }
-                    if (neighbours.getValRightTop(index, filteredMap) == -1 && flags[neighbours.getRightTop(index)] == false) {
-                        temp.push_back(neighbours.getRightTop(index));
-                        flags[neighbours.getRightTop(index)] = true;
+                    if (getRightTopVal(index, filteredMap) == -1 && flags[getRightTopCell(index, map_)] == false) {
+                        temp.push_back(getRightTopCell(index, map_));
+                        flags[getRightTopCell(index, map_)] = true;
                     }
-                    if (neighbours.getValRightBottom(index, filteredMap) == -1 && flags[neighbours.getRightBottom(index)] == false) {
-                        temp.push_back(neighbours.getRightBottom(index));
-                        flags[neighbours.getRightBottom(index)] = true;
+                    if (getRightBottomVal(index, filteredMap) == -1 && flags[getRightBottomCell(index, map_)] == false) {
+                        temp.push_back(getRightBottomCell(index, map_));
+                        flags[getRightBottomCell(index, map_)] = true;
                     }
                 }
             }

@@ -7,6 +7,10 @@
 #include <map_operations.h>
 //#include <state_machines.h>
 
+#include "helpers.h"
+#include "neighbours.h"
+
+
 enum processStates {INIT, PROCESSING_MAP_STARTED, PROCESSING_MAP_DONE};
 enum strategies {NORMAL, NO_FRONTIER_REGIONS_FOUND, DRIVE_TO_GOAL_BEFORE_UPDATE, STUCK, GOAL_REJECTED, DUPLICATED_GOAL};
 

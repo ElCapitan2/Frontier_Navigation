@@ -171,3 +171,29 @@ int MapOperations::neighbourhoodValue(unsigned int index, const nav_msgs::Occupa
     value += getRightBottomVal(index, map);
     return value;
 }
+
+unsigned int MapOperations::computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map) {
+    geometry_msgs::Point startPoint;
+    startPoint.x = center.pose.position.x - radius;
+    startPoint.y = center.pose.position.y - radius;
+    startPoint.z = 0;
+    return Helpers::pointToGrid(startPoint, map);
+}
+
+geometry_msgs::Point MapOperations::computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius) {
+    geometry_msgs::Point startPoint;
+    startPoint.x = center.pose.position.x - radius;
+    startPoint.y = center.pose.position.y - radius;
+    startPoint.z = 0;
+    return startPoint;
+}
+
+void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations) {
+    startCell = computeStartCellOfRectangle(center, radius, map);
+    iterations = radius*2/map->info.resolution;
+}
+
+void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations) {
+    startPoint = computeStartPointOfRectangle(center, radius);
+    iterations = radius*2/map->info.resolution;
+}

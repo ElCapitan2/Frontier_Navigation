@@ -47,11 +47,12 @@ void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped goal) {
 
 void Frontier_Navigation::publishOutlineOfSearchRectangle(geometry_msgs::PoseStamped &center, int radius) {
     nav_msgs::GridCells rectangle;
+    MapOperations mapOps;
     geometry_msgs::Point startPoint;
     geometry_msgs::Point add;
     add.z = 0;
     int iterations;
-    Helpers::setupSearchArea(center, radius, this->map_, startPoint, iterations);
+    mapOps.setupSearchArea(center, radius, this->map_, startPoint, iterations);
     int height = this->map_->info.height;
     double resolution = this->map_->info.resolution;
     for (int i = 0; i < iterations; i++) {

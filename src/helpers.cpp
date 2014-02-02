@@ -319,28 +319,6 @@ void Helpers::writeToFile(char* file, char* msg, int value) {
     } else printf("File NOT open\n");
 }
 
-int Helpers::computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
-    geometry_msgs::Point startPoint;
-    startPoint.x = center.pose.position.x - radius;
-    startPoint.y = center.pose.position.y - radius;
-    startPoint.z = 0;
-    return Helpers::pointToGrid(startPoint, map);
-}
 
-geometry_msgs::Point Helpers::computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius, bool print) {
-    geometry_msgs::Point startPoint;
-    startPoint.x = center.pose.position.x - radius;
-    startPoint.y = center.pose.position.y - radius;
-    startPoint.z = 0;
-    return startPoint;
-}
 
-void Helpers::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations, bool print) {
-    startCell = computeStartCellOfRectangle(center, radius, map, print);
-    iterations = radius*2/map->info.resolution;
-}
 
-void Helpers::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations, bool print) {
-    startPoint = computeStartPointOfRectangle(center, radius);
-    iterations = radius*2/map->info.resolution;
-}

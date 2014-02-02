@@ -1,7 +1,5 @@
-#include "frontier_navigation.h"
-#include "helpers.h"
-#include "neighbours.h"
-#include "types.h"
+//#include "frontier_navigation.h"
+#include "map_operations.h"
 
 // free-space = 0
 // occupied-space = 100
@@ -25,14 +23,14 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
     // setup search area
     int startCell;
     int iterations;
-    Helpers::setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center, radius, map_, startCell, iterations);
 
     // performance measure
     int compares = 0;
     int neighbourLookUps = 0;
     int fSpaceCells = 0;
 
-    Neighbours neighbours(map_->info.width, map_->info.height);
+//    Neighbours neighbours(map_->info.width, map_->info.height);
 
     std::vector<unsigned int> frontierCells;
     int8_t data = 0;
@@ -47,22 +45,26 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
             compares++;
             if (data == F_SPACE) {
                 fSpaceCells++;
-                if (neighbours.getValLeft(index, map_) == U_SPACE) {
+                if (isUSpace(getLeftVal(index, map_), map_)) {
+//                if (neighbours.getValLeft(index, map_) == U_SPACE) {
                     frontierCells.push_back(index);
                     compares++;
                     neighbourLookUps++;
                 }
-                else if (neighbours.getValRight(index, map_) == U_SPACE) {
+//                else if (neighbours.getValRight(index, map_) == U_SPACE) {
+                else if (isUSpace(getRightVal(index, map_), map_)) {
                     frontierCells.push_back(index);
                     compares += 2;
                     neighbourLookUps += 2;
                 }
-                else if (neighbours.getValTop(index, map_) == U_SPACE) {
+//                else if (neighbours.getValTop(index, map_) == U_SPACE) {
+                else if (isUSpace(getTopVal(index, map_), map_)) {
                     frontierCells.push_back(index);
                     compares += 3;
                     neighbourLookUps += 3;
                 }
-                else if (neighbours.getValBottom(index, map_) == U_SPACE) {
+//                else if (neighbours.getValBottom(index, map_) == U_SPACE) {
+                else if (isUSpace(getBottomVal(index, map_), map_)) {
                     frontierCells.push_back(index);
                     compares += 4;
                     neighbourLookUps += 4;
