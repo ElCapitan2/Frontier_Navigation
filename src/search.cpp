@@ -44,26 +44,34 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
             compares++;
             if (data == F_SPACE) {
                 fSpaceCells++;
-                if (isUSpace(getLeftVal(index, map_), map_)) {
+                if (isUSpace(getLeftCell(index, map_), map_)) {
+//                if (isUSpace(getLeftVal(index, map_), map_)) {
 //                if (neighbours.getValLeft(index, map_) == U_SPACE) {
+//                if (getLeftVal(index, map_) == U_SPACE) {
                     frontierCells.push_back(index);
                     compares++;
                     neighbourLookUps++;
                 }
 //                else if (neighbours.getValRight(index, map_) == U_SPACE) {
-                else if (isUSpace(getRightVal(index, map_), map_)) {
+//                else if (isUSpace(getRightVal(index, map_), map_)) {
+                else if (isUSpace(getRightCell(index, map_), map_)) {
+//                else if (getRightVal(index, map_) == U_SPACE) {
                     frontierCells.push_back(index);
                     compares += 2;
                     neighbourLookUps += 2;
                 }
+//                else if (getTopVal(index, map_) == U_SPACE) {
 //                else if (neighbours.getValTop(index, map_) == U_SPACE) {
-                else if (isUSpace(getTopVal(index, map_), map_)) {
+//                else if (isUSpace(getTopVal(index, map_), map_)) {
+                else if (isUSpace(getTopCell(index, map_), map_)) {
                     frontierCells.push_back(index);
                     compares += 3;
                     neighbourLookUps += 3;
                 }
+//                else if (getBottomVal(index, map_) == U_SPACE) {
 //                else if (neighbours.getValBottom(index, map_) == U_SPACE) {
-                else if (isUSpace(getBottomVal(index, map_), map_)) {
+//                else if (isUSpace(getBottomVal(index, map_), map_)) {
+                else if (isUSpace(getBottomCell(index, map_), map_)) {
                     frontierCells.push_back(index);
                     compares += 4;
                     neighbourLookUps += 4;

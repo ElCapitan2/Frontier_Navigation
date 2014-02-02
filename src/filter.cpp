@@ -323,10 +323,14 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 
 
 
+
+
     int8_t data = 0;
 //    const int8_t FREESPACE = 0;
     std::vector<int8_t> filteredData = map_->data;
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
+    filteredMap->header = map_->header;
+    filteredMap->info = map_->info;
 
     int filterCycles = 0;
     int filteredCells = 0;
@@ -341,13 +345,22 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
             importantIdxs.push_back(startCell + j + i*map_->info.height);
         }
     }
+
     int ops = 0;
     std::vector<bool> flags;
     for (unsigned int i = 0; i < map_->info.height * map_->info.width; i++) {
         flags.push_back(false);
     }
     int filteredCellsInIteration = 0;
+
+
+
+
+
     while (importantIdxs.size() > 0) {
+
+
+
 
 //    while (filterCycles < 2) {
         filterCycles++;
@@ -356,18 +369,40 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
         min1.cells.clear();
         vec_single temp;
         unsigned int index;
+
+
+
+
         for (unsigned int i = 0; i < importantIdxs.size(); i++) {
             index = importantIdxs[i];
 //            data = filteredData[index];
             data = filteredMap->data[index];
             ops++;
 //            if ((data == -1 && true) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < sqrt(2.0)*radius)) {
+
+
+
+
             if (data == -1) {
+
+
+
                 ops += 17;
+
+
+
 //                int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
 //                        neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
                 int kernel = neighbourhoodValue(index, filteredMap);
+
+
+
                 if (kernel <= 0 && kernel >= -3) {
+
+
+
+
+
                     filteredCellsInIteration++;
                     // 1 write and max 16 compares and max 3 pushs and max 3 writes
                     ops += 12;
@@ -413,6 +448,7 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
             }
         }
 
+
 //        printf("\t\tFiltered Cells: %d - %d\n", filterCycles, filteredCellsInIteration);
 //        printf("\t\tPotentials: %d - %d\n", filterCycles, temp.size());
         filteredCellsInIteration = 0;
@@ -430,6 +466,11 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 
 
     }
+
+
+
+
+
     printf("\tRadius: %d\n", radius);
     printf("\tFilter cylces: %d\n", filterCycles);
     printf("\tFiltered cells: %d\n", filteredCells);
@@ -441,8 +482,7 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 //    min1.header.frame_id = "/map";
 //    this->min4_pub_.publish(min4);
 //    this->min1_pub_.publish(min1);
-    filteredMap->header = map_->header;
-    filteredMap->info = map_->info;
+
 //    this->filteredMap_pub_.publish(filteredMap);
 
     this->map_ = filteredMap;
