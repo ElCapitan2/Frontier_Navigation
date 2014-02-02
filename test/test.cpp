@@ -2,7 +2,6 @@
 #include <stdio.h>
 //#include <ros/ros.h>
 #include <helpers.h>
-#include <map_operations.h>
 #include <exception>
 
 Test::Test() {
@@ -10,9 +9,33 @@ Test::Test() {
     bad_ = 0;
 }
 
-void printResultMessage(bool passed, const char* name) {
-    if (passed) printf("\t\e[1;32m-> %s passed\e[0m\n\n", name);
-    else printf("\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+void printResultMessage(bool passed, const char* name, int indentationLevel = 0) {
+    switch (indentationLevel) {
+    case 0: {
+        if (passed) printf("\t\e[1;32m-> %s passed\e[0m\n\n", name);
+        else printf("\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+        break;
+    }
+    case 1: {
+        if (passed) printf("\t\t\e[1;32m-> %s passed\e[0m\n\n", name);
+        else printf("\t\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+        break;
+    }
+    case 2: {
+        if (passed) printf("\t\t\e[1;32m-> %s passed\e[0m\n\n", name);
+        else printf("\t\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+        break;
+    }
+    case 3: {
+        if (passed) printf("\t\t\e[1;32m-> %s passed\e[0m\n\n", name);
+        else printf("\t\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+        break;
+    }
+    default: {
+        if (passed) printf("\t\t\e[1;32m-> %s passed\e[0m\n\n", name);
+        else printf("\t\t\e[1;31m-> !!!!! %s FAILED !!!!!\e[0m\n\n", name);
+    }
+    }
 }
 
 char* resultMsg(bool passed) {
@@ -25,8 +48,14 @@ bool compareDoubles(double target, double actual) {
     if (relativeError <= 0.00001) return true;
     else return false;
 }
-void printIntro(const char* name) {
-    printf("%s\n", name);
+void printIntro(const char* name, int indentationLevel = 0) {
+    switch (indentationLevel) {
+    case 0: printf("%s\n", name); break;
+    case 1: printf("\t%s\n", name); break;
+    case 2: printf("\t\t%s\n", name); break;
+    case 3: printf("%\t\t\ts\n", name); break;
+    default: printf("%s\n", name);
+    }
 }
 
 void createOccupancyGrid(boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid, std::vector<double> &x, std::vector<double> &y) {
@@ -35,7 +64,13 @@ void createOccupancyGrid(boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid, st
     occGrid->info.resolution = 0.5;
     occGrid->info.origin.position.x = -2.0;
     occGrid->info.origin.position.y = -1.0;
-    for (unsigned int i = 0; i < occGrid->info.height * occGrid->info.width; i++) occGrid->data.push_back(0);
+    for (unsigned int i = 0; i < occGrid->info.height * occGrid->info.width; i++) {
+        switch (i % 3) {
+        case 0: occGrid->data.push_back(F_SPACE); break;
+        case 1: occGrid->data.push_back(U_SPACE); break;
+        case 2: occGrid->data.push_back(O_SPACE); break;
+        }
+    }
     double xArr[6] = {-1.75, -1.25, -0.75, -0.25, 0.25, 0.75};
     for (int i = 0; i < 6; i++) x.push_back(xArr[i]);
     double yArr[10] = {-0.75, -0.25, 0.25, 0.75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75};
@@ -136,13 +171,28 @@ bool Test::test_sortAndRemoveEquals()
     return result1;
 }
 
-bool Test::test_cellToPoint() {
+bool Test::test_Map_Operations()
+{
     printIntro(__func__);
+    bool result;
     MapOperations mapOps;
     boost::shared_ptr<nav_msgs::OccupancyGrid> occGrid(new nav_msgs::OccupancyGrid);
     std::vector<double> x;
     std::vector<double> y;
     createOccupancyGrid(occGrid, x, y);
+    bool t1 = test_cellToPoint(mapOps, occGrid, x, y);
+    bool t2 = test_pointToCell(mapOps, occGrid, x, y);
+    bool t3 = test_getXCell(mapOps, occGrid);
+    bool t4 = test_getXValue(mapOps, occGrid);
+    bool t5 = test_isXSpace(mapOps, occGrid);
+    bool t6 = test_neighbourhoodValue(mapOps, occGrid);
+    result = t1 && t2 && t3 && t4 && t5 && t6;
+    printResultMessage(result, __func__);
+    return result;
+}
+
+bool Test::test_cellToPoint(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid, std::vector<double> x, std::vector<double> y) {
+    printIntro(__func__, 1);
     geometry_msgs::Point pt1;
     geometry_msgs::Point pt2;
     int index = 0;
@@ -157,27 +207,22 @@ bool Test::test_cellToPoint() {
                 temp = false;
                 result = false;
             }
-            printf("\tpt1.x: %f pt2.x: %f x: %f %s\n", pt1.x, pt2.x, x[j], resultMsg(temp));
+            printf("\t\tpt1.x: %f pt2.x: %f x: %f %s\n", pt1.x, pt2.x, x[j], resultMsg(temp));
             temp = true;
             if (pt1.y != pt2.y || pt1.y != y[i]) {
                 temp = false;
                 result = false;
             }
-            printf("\tpt1.y: %f pt2.y: %f y: %f %s\n", pt1.y, pt2.y, y[i], resultMsg(temp));
+            printf("\t\tpt1.y: %f pt2.y: %f y: %f %s\n", pt1.y, pt2.y, y[i], resultMsg(temp));
             temp = true;
         }
     }
-    printResultMessage(result, __func__);
+    printResultMessage(result, __func__, 1);
     return result;
 }
 
-bool Test::test_pointToCell() {
-    printIntro(__func__);
-    MapOperations mapOps;
-    boost::shared_ptr<nav_msgs::OccupancyGrid> occGrid(new nav_msgs::OccupancyGrid);
-    std::vector<double> x;
-    std::vector<double> y;
-    createOccupancyGrid(occGrid, x, y);
+bool Test::test_pointToCell(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid, std::vector<double> x, std::vector<double> y) {
+    printIntro(__func__, 1);
     geometry_msgs::Point pt;
     pt.z = 0.0;
     unsigned int index1;
@@ -194,11 +239,255 @@ bool Test::test_pointToCell() {
                 temp = false;
                 result = false;
             }
-            printf("\tindex1: %d index2: %d index: %d %s\n", index1, index2, j + i*occGrid->info.width, resultMsg(temp));
+            printf("\t\tindex1: %d index2: %d index: %d %s\n", index1, index2, j + i*occGrid->info.width, resultMsg(temp));
             temp = true;
         }
     }
-    printResultMessage(result, __func__);
+    printResultMessage(result, __func__, 1);
+    return result;
+}
+
+bool Test::test_getXCell(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid)
+{
+    printIntro(__func__, 1);
+    bool result = true;
+
+    bool resultLeft = true;
+    bool resultRight = true;
+    bool resultTop = true;
+    bool resultBottom = true;
+    bool resultLeftTop = true;
+    bool resultLeftBottom = true;
+    bool resultRightTop = true;
+    bool resultRightBottom = true;
+
+    unsigned int left;
+    unsigned int right;
+    unsigned int top;
+    unsigned int bottom;
+    unsigned int leftTop;
+    unsigned int leftBottom;
+    unsigned int rightTop;
+    unsigned int rightBottom;
+
+    for (unsigned int row = 0; row < occGrid->info.height; row++) {
+        for (unsigned int col = 0; col < occGrid->info.width; col++) {
+            unsigned int index = col + row*occGrid->info.width;
+            left = mapOps.getLeftCell(index, occGrid);
+            right = mapOps.getRightCell(index, occGrid);
+            top = mapOps.getTopCell(index, occGrid);
+            bottom = mapOps.getBottomCell(index, occGrid);
+            leftTop = mapOps.getLeftTopCell(index, occGrid);
+            leftBottom = mapOps.getLeftBottomCell(index, occGrid);
+            rightTop = mapOps.getRightTopCell(index, occGrid);
+            rightBottom = mapOps.getRightBottomCell(index, occGrid);
+            // left
+            if (col == 0) {
+                if (left != -1) resultLeft =  false;
+            } else {
+                if (left != index-1) resultLeft = false;
+            }
+            // right
+            if (col == occGrid->info.width - 1) {
+                if (right != -1) resultRight = false;
+            } else {
+                if (right != index+1) resultRight = false;
+            }
+            // top
+            if (row == occGrid->info.height - 1) {
+                if (top != -1) resultTop = false;
+            } else {
+                if (top != index + occGrid->info.width) resultTop = false;
+            }
+            // bottom
+            if (row ==  0) {
+                if (bottom != -1) resultBottom = false;
+            } else {
+                if (bottom != index - occGrid->info.width) resultBottom = false;
+            }
+            // left top
+            if (col == 0 || row == occGrid->info.height - 1) {
+                if (leftTop != -1) resultLeftTop = false;
+            } else {
+                if (leftTop != index + occGrid->info.width - 1) resultLeftTop = false;
+            }
+            // left bottom
+            if (col == 0 || row == 0) {
+                if (leftBottom != -1) resultLeftBottom = false;
+            } else {
+                if (leftBottom != index - occGrid->info.width - 1) resultLeftBottom = false;
+            }
+            // right top
+            if (col == occGrid->info.width - 1 || row == occGrid->info.height - 1) {
+                if (rightTop != -1) resultRightTop = false;
+            } else {
+                if (rightTop != index + occGrid->info.width + 1) resultRightTop = false;
+            }
+            // right bottom
+            if (col == occGrid->info.width - 1 || row == 0) {
+                if (rightBottom != -1) resultRightBottom = false;
+            } else {
+                if (rightBottom != index - occGrid->info.width + 1) resultRightBottom = false;
+            }
+        }
+    }
+    printf("\t\tLeft: %s\n", resultMsg(resultLeft));
+    printf("\t\tRight: %s\n", resultMsg(resultRight));
+    printf("\t\tTop: %s\n", resultMsg(resultTop));
+    printf("\t\tBottom: %s\n", resultMsg(resultBottom));
+    printf("\t\tLeftTop: %s\n", resultMsg(resultLeftTop));
+    printf("\t\tLeftBottom: %s\n", resultMsg(resultLeftBottom));
+    printf("\t\tRightTop: %s\n", resultMsg(resultRightTop));
+    printf("\t\tRightBottom: %s\n", resultMsg(resultRightBottom));
+
+    result = resultLeft && resultRight && resultTop && resultBottom && resultLeftTop &&
+            resultLeftBottom && resultRightTop && resultRightBottom;
+
+    printResultMessage(result, __func__, 1);
+    return result;
+}
+
+bool Test::test_getXValue(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid)
+{
+    printIntro(__func__, 1);
+    bool result;
+
+    bool resultLeft = true;
+    bool resultRight = true;
+    bool resultTop = true;
+    bool resultBottom = true;
+    bool resultLeftTop = true;
+    bool resultLeftBottom = true;
+    bool resultRightTop = true;
+    bool resultRightBottom = true;
+
+    int8_t left;
+    int8_t right;
+    int8_t top;
+    int8_t bottom;
+    int8_t leftTop;
+    int8_t leftBottom;
+    int8_t rightTop;
+    int8_t rightBottom;
+
+    int8_t val[3] = {0, -1, 100};
+
+    for (unsigned int row = 0; row < occGrid->info.height; row++) {
+        for (unsigned int col = 0; col < occGrid->info.width; col++) {
+            unsigned int index = col + row*occGrid->info.width;
+            left = mapOps.getLeftVal(index, occGrid);
+            right = mapOps.getRightVal(index, occGrid);
+            top = mapOps.getTopVal(index, occGrid);
+            bottom = mapOps.getBottomVal(index, occGrid);
+            leftTop = mapOps.getLeftTopVal(index, occGrid);
+            leftBottom = mapOps.getLeftBottomVal(index, occGrid);
+            rightTop = mapOps.getRightTopVal(index, occGrid);
+            rightBottom = mapOps.getRightBottomVal(index, occGrid);
+            // left
+            if (col == 0) {
+                if (left != -1) resultLeft =  false;
+            } else {
+                if (left != val[mapOps.getLeftCell(index, occGrid) % 3]) resultLeft =  false;
+            }
+            // right
+            if (col == occGrid->info.width - 1) {
+                if (right != -1) resultRight = false;
+            } else {
+                if (right != val[mapOps.getRightCell(index, occGrid) % 3]) resultRight = false;
+            }
+            // top
+            if (row == occGrid->info.height - 1) {
+                if (top != -1) resultTop = false;
+            } else {
+                if (top != val[mapOps.getTopCell(index, occGrid) % 3]) resultTop = false;
+            }
+            // bottom
+            if (row ==  0) {
+                if (bottom != -1) resultBottom = false;
+            } else {
+                if (bottom != val[mapOps.getBottomCell(index, occGrid) % 3]) resultBottom = false;
+            }
+            // left top
+            if (col == 0 || row == occGrid->info.height - 1) {
+                if (leftTop != -1) resultLeftTop = false;
+            } else {
+                if (leftTop != val[mapOps.getLeftTopCell(index, occGrid) % 3]) resultLeftTop = false;
+            }
+            // left bottom
+            if (col == 0 || row == 0) {
+                if (leftBottom != -1) resultLeftBottom = false;
+            } else {
+                if (leftBottom != val[mapOps.getLeftBottomCell(index, occGrid) % 3]) resultLeftBottom = false;
+            }
+            // right top
+            if (col == occGrid->info.width - 1 || row == occGrid->info.height - 1) {
+                if (rightTop != -1) resultRightTop = false;
+            } else {
+                if (rightTop != val[mapOps.getRightTopCell(index, occGrid) % 3]) resultRightTop = false;
+            }
+            // right bottom
+            if (col == occGrid->info.width - 1 || row == 0) {
+                if (rightBottom != -1) resultRightBottom = false;
+            } else {
+                if (rightBottom != val[mapOps.getRightBottomCell(index, occGrid) % 3]) resultRightBottom = false;
+            }
+        }
+    }
+
+    printf("\t\tLeft: %s\n", resultMsg(resultLeft));
+    printf("\t\tRight: %s\n", resultMsg(resultRight));
+    printf("\t\tTop: %s\n", resultMsg(resultTop));
+    printf("\t\tBottom: %s\n", resultMsg(resultBottom));
+    printf("\t\tLeftTop: %s\n", resultMsg(resultLeftTop));
+    printf("\t\tLeftBottom: %s\n", resultMsg(resultLeftBottom));
+    printf("\t\tRightTop: %s\n", resultMsg(resultRightTop));
+    printf("\t\tRightBottom: %s\n", resultMsg(resultRightBottom));
+
+    result = resultLeft && resultRight && resultTop && resultBottom && resultLeftTop &&
+            resultLeftBottom && resultRightTop && resultRightBottom;
+
+    printResultMessage(result, __func__, 1);
+    return result;
+}
+
+bool Test::test_isXSpace(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid)
+{
+    printIntro(__func__, 1);
+
+    bool fSpace = true;
+    bool uSpace = true;
+    bool oSpace = true;
+
+    bool result;
+    for (int i = 0; i < occGrid->data.size(); i++) {
+        switch(i % 3) {
+        case 0: if(!mapOps.isFSpace(i, occGrid)) fSpace = false; break;
+        case 1: if(!mapOps.isUSpace(i, occGrid)) uSpace = false; break;
+        case 2: if(!mapOps.isOSpace(i, occGrid)) oSpace = false; break;
+        }
+    }
+    printf("\t\tfSpace: %s\n", resultMsg(fSpace));
+    printf("\t\tuSpace: %s\n", resultMsg(uSpace));
+    printf("\t\toSpace: %s\n", resultMsg(oSpace));
+    result = fSpace && uSpace && oSpace;
+    printResultMessage(result, __func__, 1);
+    return result;
+}
+
+bool Test::test_neighbourhoodValue(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid)
+{
+    printIntro(__func__, 1);
+    bool result = true;
+    int value;
+    for (unsigned int i = 0; i < occGrid->data.size(); i++) {
+        value = 0;
+        value += mapOps.getLeftVal(i, occGrid) + mapOps.getRightVal(i, occGrid);
+        value += mapOps.getTopVal(i, occGrid) + mapOps.getBottomVal(i, occGrid);
+        value += mapOps.getLeftTopVal(i, occGrid) + mapOps.getLeftBottomVal(i, occGrid);
+        value += mapOps.getRightTopVal(i, occGrid) + mapOps.getRightBottomVal(i, occGrid);
+        if (value != mapOps.neighbourhoodValue(i, occGrid)) result = false;
+    }
+    printResultMessage(result, __func__, 1);
     return result;
 }
 

@@ -1,3 +1,6 @@
+#ifndef INC_HELPERS_H
+#define INC_HELPERS_H
+
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/OccupancyGrid.h>
@@ -61,3 +64,5 @@ public:
     static void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations, bool print = false);
     static void setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations, bool print = false);
 };
+
+#endif  /* INC_HELPERS_H */

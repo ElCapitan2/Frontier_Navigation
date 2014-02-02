@@ -17,8 +17,8 @@ int main(int argc, char** argv)
     test.test_areVecsEqual();
     test.test_sortAndRemoveEquals();
     test.test_printPoint();
-    test.test_cellToPoint();
-    test.test_pointToCell();
+
+    test.test_Map_Operations();
 
 //    std::vector<std::vector<int> > vec;
 

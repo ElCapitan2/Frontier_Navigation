@@ -1,11 +1,13 @@
 #include <map_operations.h>
 
-#include "helpers.h"
-#include "neighbours.h"
-#include <algorithm>
-#include <math.h>
-#include <constants.h>
+int maxIndex(const nav_msgs::OccupancyGrid::ConstPtr &map) {
+    return map->info.height * map->info.width - 1;
+}
 
+bool isIndexWithinRange(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map) {
+    if (index < 0 || index > maxIndex(map)) return false;
+    else return true;
+}
 
 int MapOperations::pointToCell(geometry_msgs::Point point, int width, double resolution, double x_org, double y_org, bool print) {
     // find center of cell in which robot is located
@@ -37,4 +39,135 @@ int MapOperations::pointToCell(geometry_msgs::Point point, const nav_msgs::Occup
 
 geometry_msgs::Point MapOperations::cellToPoint(int index, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print) {
     return cellToPoint(index, map->info.width, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y, print);
+}
+
+unsigned int MapOperations::getLeftCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    // check if index is left border of map
+    if (index % map->info.width == 0) return -1;
+    // check if index is wihthin available range
+    if (!isIndexWithinRange(index, map)) return -1;
+    return index - 1;
+}
+unsigned int MapOperations::getRightCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (index % map->info.width == map->info.width - 1) return -1;
+    if (!isIndexWithinRange(index, map)) return -1;
+    return index + 1;
+}
+unsigned int MapOperations::getTopCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (index + map->info.width > maxIndex(map)) return -1;
+    if (!isIndexWithinRange(index, map)) return -1;
+    return index + map->info.width;
+}
+unsigned int MapOperations::getBottomCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (index >= 0 && index < map->info.width) return -1;
+    if (!isIndexWithinRange(index, map)) return -1;
+    return index - map->info.width;
+}
+unsigned int MapOperations::getLeftTopCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    return getTopCell(getLeftCell(index, map), map);
+}
+unsigned int MapOperations::getRightTopCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    return getTopCell(getRightCell(index, map), map);
+}
+unsigned int MapOperations::getLeftBottomCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    return getBottomCell(getLeftCell(index, map), map);
+}
+unsigned int MapOperations::getRightBottomCell(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    return getBottomCell(getRightCell(index, map), map);
+}
+
+int8_t MapOperations::getLeftVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int left = getLeftCell(index, map);
+    if (left == -1) return -1;
+    else return map->data[left];
+}
+
+int8_t MapOperations::getRightVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int right = getRightCell(index, map);
+    if (right == -1) return -1;
+    else return map->data[right];
+}
+
+int8_t MapOperations::getTopVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int top = getTopCell(index, map);
+    if (top == -1) return -1;
+    else return map->data[top];
+}
+
+int8_t MapOperations::getBottomVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int bottom = getBottomCell(index, map);
+    if (bottom == -1) return -1;
+    else return map->data[bottom];
+}
+
+int8_t MapOperations::getLeftTopVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int leftTop = getLeftTopCell(index, map);
+    if (leftTop == -1) return -1;
+    else return map->data[leftTop];
+}
+
+int8_t MapOperations::getLeftBottomVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int leftBottom = getLeftBottomCell(index, map);
+    if (leftBottom == -1) return -1;
+    else return map->data[leftBottom];
+}
+
+int8_t MapOperations::getRightTopVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int rightTop = getRightTopCell(index, map);
+    if (rightTop == -1) return -1;
+    else return map->data[rightTop];
+}
+
+int8_t MapOperations::getRightBottomVal(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    unsigned int rightBottom = getRightBottomCell(index, map);
+    if (rightBottom == -1) return -1;
+    else return map->data[rightBottom];
+}
+
+bool MapOperations::isFSpace(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (map->data[index] == F_SPACE) return true;
+    else return false;
+}
+
+bool MapOperations::isUSpace(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (map->data[index] == U_SPACE) return true;
+    else return false;
+}
+
+bool MapOperations::isOSpace(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    if (map->data[index] == O_SPACE) return true;
+    else return false;
+}
+
+int MapOperations::neighbourhoodValue(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map)
+{
+    int value = 0;
+    value += getLeftVal(index, map);
+    value += getRightVal(index, map);
+    value += getTopVal(index, map);
+    value += getBottomVal(index, map);
+    value += getLeftTopVal(index, map);
+    value += getLeftBottomVal(index, map);
+    value += getRightTopVal(index, map);
+    value += getRightBottomVal(index, map);
+    return value;
 }
