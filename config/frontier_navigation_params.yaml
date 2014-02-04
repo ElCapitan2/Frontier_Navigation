@@ -28,9 +28,5 @@ worstCaseOfConnectivity: 2.0
 weightOfSize: 2.0
 weightOfDistance: 1.0
 weightOfDirection: 4.0
-
-
-
-
-
-
+# Exploration settings
+explore: true

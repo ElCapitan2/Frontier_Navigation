@@ -118,7 +118,6 @@ private:
     double weightOfSize_;
     double weightOfDistance_;
     double weightOfDirection_;
-    bool processingMapCallback_;
-    bool escapeStrategy_;
+    bool explore_;
 
 };

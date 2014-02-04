@@ -23,8 +23,10 @@ void Frontier_Navigation::publishFrontierPts(vec_double frontiers, int best_fron
 }
 
 void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped goal) {
-    goal.header.frame_id = "/map";
-    this->goal_pub_.publish(goal);
+    if (this->explore_) {
+        goal.header.frame_id = "/map";
+        this->goal_pub_.publish(goal);
+    }
 }
 
 //void Frontier_Navigation::publishOutlineOfSearchRectangle(geometry_msgs::PoseStamped &center, int radius) {

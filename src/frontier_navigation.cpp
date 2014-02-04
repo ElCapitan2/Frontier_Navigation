@@ -42,6 +42,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
     this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
     this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
+    this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
@@ -80,18 +81,18 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
     map_->info = map->info;
 
     // check for duplicated goals
-    int size = goalTracker_.cells.size();
-    if (size > 1 && Helpers::distance(goalTracker_.cells[size-1], goalTracker_.cells[size-2]) < 0.5) {
-        printf("Duplicatet goals detected\n");
-        strategies strategy = DUPLICATED_GOAL;
-        escapeStrategy(strategy);
-    }
-    else {
+//    int size = goalTracker_.cells.size();
+//    if (size > 1 && Helpers::distance(goalTracker_.cells[size-1], goalTracker_.cells[size-2]) < 0.5) {
+//        printf("Duplicatet goals detected\n");
+//        strategies strategy = DUPLICATED_GOAL;
+//        escapeStrategy(strategy);
+//    }
+//    else {
         if (processState_ == PROCESSING_MAP_DONE && strategy_ == NORMAL) {
             printf("Map will be processed\n");
             processMap(robot_position_);
         } else printf("Map will NOT be processed\n");
-    }
+//    }
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
