@@ -4,6 +4,8 @@ files/
 lib/
 logs/
 qtcreator-build/
+launch/
 
-.gitignore~
+*.*~
+
 CMakeLists.txt.user
