@@ -6,7 +6,10 @@ logs/
 qtcreator-build/
 launch/
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> db9729657dd6c672a9ded3a3373acfa057613eef
 *.*~
 
 CMakeLists.txt.user
