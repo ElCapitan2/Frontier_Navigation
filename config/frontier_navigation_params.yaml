@@ -22,7 +22,7 @@ minDistance: 1.0
 timeout: 20.0
 # Attempts to get robot into a better position. If this fails robot will be stuck!
 timeoutAttempts: 5
-# settings for function which evaluates quality of set of connected frontiers
+# Settings for function which evaluates quality of set of connected frontiers
 weightOfConnectivity: 3.0
 worstCaseOfConnectivity: 2.0
 weightOfSize: 2.0
@@ -30,3 +30,5 @@ weightOfDistance: 1.0
 weightOfDirection: 4.0
 # Exploration settings
 explore: true
+# Count of duplicated/equal goals before goal will be blacklisted
+duplicatedGoals: 3

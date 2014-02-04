@@ -101,6 +101,7 @@ private:
     nav_msgs::GridCells goalTracker_;
 
     vec_double whiteList_;
+    std::vector<geometry_msgs::PoseStamped> blackList_;
     std::vector<geometry_msgs::PoseStamped> goals_;
 
 
@@ -119,5 +120,6 @@ private:
     double weightOfDistance_;
     double weightOfDirection_;
     bool explore_;
+    int duplicatedGoals_;
 
 };

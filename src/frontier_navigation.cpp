@@ -43,6 +43,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
     this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
     this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
+    this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
@@ -81,18 +82,24 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  
     map_->info = map->info;
 
     // check for duplicated goals
-//    int size = goalTracker_.cells.size();
-//    if (size > 1 && Helpers::distance(goalTracker_.cells[size-1], goalTracker_.cells[size-2]) < 0.5) {
-//        printf("Duplicatet goals detected\n");
-//        strategies strategy = DUPLICATED_GOAL;
-//        escapeStrategy(strategy);
-//    }
-//    else {
-        if (processState_ == PROCESSING_MAP_DONE && strategy_ == NORMAL) {
-            printf("Map will be processed\n");
-            processMap(robot_position_);
-        } else printf("Map will NOT be processed\n");
-//    }
+    int size = goalTracker_.cells.size();
+    int cnt = 0;
+    if (size > duplicatedGoals_) {
+        for (int i = size-2; i >= size - duplicatedGoals_ - 1; i--) {
+            if (Helpers::distance(goalTracker_.cells[size-1], goalTracker_.cells[i]) < 0.5) cnt++;
+        }
+        if (cnt == duplicatedGoals_) {
+            printf("Duplicated goals detected\n");
+            strategies strategy = DUPLICATED_GOAL;
+            escapeStrategy(strategy);
+        } else if (cnt != 0) {
+            printf("\t%d of %d goals are duplicates or equal!\n", cnt, duplicatedGoals_);
+        }
+    }
+    if (processState_ == PROCESSING_MAP_DONE && strategy_ == NORMAL) {
+        printf("Map will be processed\n");
+        processMap(robot_position_);
+    } else printf("Map will NOT be processed\n");
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
@@ -114,7 +121,6 @@ void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
 }
 
 void Frontier_Navigation::goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus) {
-    if (goalStatus.status == actionlib_msgs::GoalStatus::SUCCEEDED) printf("SUCEEDED!\n");
     if (goalStatus.status == actionlib_msgs::GoalStatus::REJECTED) {
         ROS_WARN("Goal in state REJECTED");
         strategies strategy = GOAL_REJECTED;
@@ -194,10 +200,25 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
 
         publishFrontierPts(frontierRegions);
         printf("Frontier selection...\n");
+        bool constraint_1 = false;
+        bool constraint_2 = true;
+        geometry_msgs::PoseStamped goal;
+
         for (int j = 0; j < frontierRegionIDs.size(); j++) {
-            if (frontierConstraints(frontierRegions[frontierRegionIDs[j]], true)) {
+            if (frontierConstraints(frontierRegions[frontierRegionIDs[j]])) {
+                goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
+                constraint_1 = true;
+            }
+            // check if goal is blacklisted
+            for (int i = blackList_.size()-1; i >= 0; i--) {
+                if (Helpers::distance(goal, blackList_[i]) < 0.5) {
+                    printf("\tCalculated goal is BLACKLISTED!\n");
+                    constraint_2 = false;
+                    break;
+                }
+            }
+            if (constraint_1 && constraint_2) {
                 publishFrontierPts(frontierRegions, frontierRegionIDs[j]);
-                geometry_msgs::PoseStamped goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
                 activeGoal_ = goal;
                 printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
                 printf("\tNext Goal! goal(%f, %f, %f)\n", activeGoal_.pose.position.x, activeGoal_.pose.position.y, activeGoal_.pose.position.z);
@@ -206,6 +227,8 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
                 found = true;
                 break;
             } else {
+                constraint_1 = false;
+                constraint_2 = true;
                 printf("\tfrontier %d of %d size: %d - Constraints NOT passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
             }
         }
@@ -326,7 +349,7 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             printf("Going through white listed frontierRegions...\n");
             bool found = false;
             for (int i = whiteList_.size()-1; i >= 0; i--) {
-                if (frontierConstraints(whiteList_[i], true)) {
+                if (frontierConstraints(whiteList_[i])) {
                     publishGoal(goals_[i]);
                     found = true;
                     break;
@@ -354,7 +377,7 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
         }
         case DUPLICATED_GOAL: {
             printf("DUPLICATED_GOAL strategy initiated...\n");
-            // blacklist last goal
+            this->blackList_.push_back(this->activeGoal_);
             // remove last goal from goalTracker
             break;
         }
