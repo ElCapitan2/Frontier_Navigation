@@ -37,6 +37,7 @@ public:
 
 
     void escapeStrategy(strategies strategy);
+    bool evaluateConstraints(vec_single &frontierRegion, geometry_msgs::PoseStamped &goal);
 private:
 
     void processMap(geometry_msgs::PoseStamped center);
@@ -71,7 +72,7 @@ private:
 
     MapOperations mapOps_;
 
-    bool frontierConstraints(vec_single &frontier, bool print = false);
+
     bool cmdVelConstraints(const geometry_msgs::Twist& cmd_vel, bool print = false);
 
     ros::NodeHandle* nodeHandle_;
@@ -100,9 +101,9 @@ private:
     unsigned int pathCounter_;
     nav_msgs::GridCells goalTracker_;
 
-    vec_double whiteList_;
+    vec_double whiteListedFrontierRegions_;
     std::vector<geometry_msgs::PoseStamped> blackList_;
-    std::vector<geometry_msgs::PoseStamped> goals_;
+    std::vector<geometry_msgs::PoseStamped> whiteListedGoals_;
 
 
 

@@ -166,36 +166,40 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         bool found = false;
         std::vector<int> frontierRegionIDs = determineBestFrontierRegions(adjacencyMatrixOfFrontierCells, frontierRegions);
         for (int j = 0; j < frontierRegionIDs.size(); j++) {
+            if (frontierRegions[j].size() < this->threshold_) {
+                printf("\tfrontierRegion %d NOT added to whitelist (too small)\n", j+1);
+                continue;
+            }
             geometry_msgs::PoseStamped goal = nextGoal(frontierRegions[j]);
             bool add = true;
-            for (int k = 0; k < whiteList_.size(); k++) {
-                if (Helpers::distance(goal, goals_[k]) < 1.0) {
+            for (int k = 0; k < whiteListedFrontierRegions_.size(); k++) {
+                if (Helpers::distance(goal, whiteListedGoals_[k]) < 1.0) {
                     add = false;
                     break;
                 }
             }
             if (add) {
-                whiteList_.push_back(frontierRegions[j]);
-                goals_.push_back(goal);
-                printf("\tfrontierRegion %d added\n", j+1);
-            } else printf("\tfrontierRegion %d NOT added\n", j+1);
+                whiteListedFrontierRegions_.push_back(frontierRegions[j]);
+                whiteListedGoals_.push_back(goal);
+                printf("\tfrontierRegion %d added to whitelist\n", j+1);
+            } else printf("\tfrontierRegion %d NOT added to whitelist (already in there)\n", j+1);
             add = true;
         }
         nav_msgs::GridCells min1;
         min1.cell_height = min1.cell_width = map_->info.resolution;
         min1.header.frame_id = "/map";
         int cnt = 0;
-        for (int j = 0; j < whiteList_.size(); j++) {
-            cnt += whiteList_[j].size();
-            for (int k = 0; k < whiteList_[j].size(); k++) min1.cells.push_back(mapOps_.cellToPoint(whiteList_[j][k], this->map_));
+        for (int j = 0; j < whiteListedFrontierRegions_.size(); j++) {
+            cnt += whiteListedFrontierRegions_[j].size();
+            for (int k = 0; k < whiteListedFrontierRegions_[j].size(); k++) min1.cells.push_back(mapOps_.cellToPoint(whiteListedFrontierRegions_[j][k], this->map_));
         }
 
         min1_pub_.publish(min1);
 
-        printf("\tAmount of stored frontierRegions (white list): %d\n", whiteList_.size());
+        printf("\tAmount of stored frontierRegions (white list): %d\n", whiteListedFrontierRegions_.size());
         printf("\tAmount of stored frontierCells: %d\n", cnt);
 
-        Helpers::writeToFile("whiteList1.txt", "", whiteList_.size());
+        Helpers::writeToFile("whiteList1.txt", "", whiteListedFrontierRegions_.size());
         Helpers::writeToFile("whiteList2.txt", "", cnt);
 
         publishFrontierPts(frontierRegions);
@@ -205,19 +209,20 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         geometry_msgs::PoseStamped goal;
 
         for (int j = 0; j < frontierRegionIDs.size(); j++) {
-            if (frontierConstraints(frontierRegions[frontierRegionIDs[j]])) {
-                goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
-                constraint_1 = true;
-            }
-            // check if goal is blacklisted
-            for (int i = blackList_.size()-1; i >= 0; i--) {
-                if (Helpers::distance(goal, blackList_[i]) < 0.5) {
-                    printf("\tCalculated goal is BLACKLISTED!\n");
-                    constraint_2 = false;
-                    break;
-                }
-            }
-            if (constraint_1 && constraint_2) {
+            goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
+//            if (frontierConstraints(frontierRegions[frontierRegionIDs[j]])) {
+//                goal = nextGoal(frontierRegions[frontierRegionIDs[j]]);
+//                constraint_1 = true;
+//            }
+//            // check if goal is blacklisted
+//            for (int i = blackList_.size()-1; i >= 0; i--) {
+//                if (Helpers::distance(goal, blackList_[i]) < 0.5) {
+//                    printf("\tCalculated goal is BLACKLISTED!\n");
+//                    constraint_2 = false;
+//                    break;
+//                }
+//            }
+            if (evaluateConstraints(frontierRegions[frontierRegionIDs[j]], goal)) {
                 publishFrontierPts(frontierRegions, frontierRegionIDs[j]);
                 activeGoal_ = goal;
                 printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
@@ -227,10 +232,23 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
                 found = true;
                 break;
             } else {
-                constraint_1 = false;
-                constraint_2 = true;
                 printf("\tfrontier %d of %d size: %d - Constraints NOT passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
             }
+
+//            if (constraint_1 && constraint_2) {
+//                publishFrontierPts(frontierRegions, frontierRegionIDs[j]);
+//                activeGoal_ = goal;
+//                printf("\tfrontier %d of %d size: %d - Constraints passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
+//                printf("\tNext Goal! goal(%f, %f, %f)\n", activeGoal_.pose.position.x, activeGoal_.pose.position.y, activeGoal_.pose.position.z);
+//                publishGoal(goal);
+//                goalTracker_.cells.push_back(goal.pose.position);
+//                found = true;
+//                break;
+//            } else {
+//                constraint_1 = false;
+//                constraint_2 = true;
+//                printf("\tfrontier %d of %d size: %d - Constraints NOT passed!\n", frontierRegionIDs[j], frontierRegions.size(), frontierRegions[frontierRegionIDs[j]].size());
+//            }
         }
 
         if (found) break;
@@ -248,16 +266,6 @@ void Frontier_Navigation::processMap(geometry_msgs::PoseStamped center) {
         }
     }
     processState_ = PROCESSING_MAP_DONE;
-}
-
-// Define constraints which are necassary for further processing of found connected frontiers
-// I.e. set minimum amount of points in set of connected frontiers
-bool Frontier_Navigation::frontierConstraints(vec_single &frontier, bool print) {
-    bool frontierSize (frontier.size() > threshold_);
-    bool goalStatus = true;
-//    bool goalStatus = (goalStatus_.status != actionlib_msgs::GoalStatus::REJECTED);
-    if (print) printf("\tConstraints: size = %s; goalStatus = %s\n", (frontierSize)?"true":"false", (goalStatus)?"true":"false");
-    return (frontierSize && goalStatus);
 }
 
 bool Frontier_Navigation::cmdVelConstraints(const geometry_msgs::Twist &cmd_vel, bool print)
@@ -348,15 +356,19 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             printf("NO_FRONTIER_REGIONS_FOUND strategy initiated...\n");
             printf("Going through white listed frontierRegions...\n");
             bool found = false;
-            for (int i = whiteList_.size()-1; i >= 0; i--) {
-                if (frontierConstraints(whiteList_[i])) {
-                    publishGoal(goals_[i]);
+            for (int i = whiteListedFrontierRegions_.size()-1; i >= 0; i--) {
+                if (evaluateConstraints(whiteListedFrontierRegions_[i], whiteListedGoals_[i])) {
+                    publishGoal(whiteListedGoals_[i]);
                     found = true;
                     break;
                 }
             }
             if (found) printf("\tNew goal found\n");
             else printf("\tNew goal NOT found\n");
+            // -> map totally explored
+            //         OR
+            // -> go over entire map
+            // -> set strategy to DRIVE_TO_GOAL_BEFORE_UPDATE
             break;
         }
         case STUCK: {
@@ -367,19 +379,25 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             //   change anything
             //   -> solved by DUPLICATED_GOAL
             // - zero vel_cmd commands
+            // - no map_update for other reasons
             break;
         }
         case GOAL_REJECTED: {
             printf("GOAL_REJECTED strategy initiated...\n");
             // - caused by path going through u-Space
             //   -> blacklist last goal
+            //   -> map update is coming -> all good
+            //   -> map update is NOT coming -> STUCK
+            this->blackList_.push_back(this->activeGoal_);
             break;
         }
         case DUPLICATED_GOAL: {
             printf("DUPLICATED_GOAL strategy initiated...\n");
             this->blackList_.push_back(this->activeGoal_);
-            // remove last goal from goalTracker
             break;
+        }
+        case DRIVE_TO_GOAL_BEFORE_UPDATE: {
+            printf("DRIVE_TO_GOAL_BEFORE_UPDATE strategy initiated...\n");
         }
         default: printf("Strategy not implemented yet...\n");
         }
