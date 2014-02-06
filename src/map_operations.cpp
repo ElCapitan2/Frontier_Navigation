@@ -188,12 +188,12 @@ geometry_msgs::Point MapOperations::computeStartPointOfRectangle(const geometry_
     return startPoint;
 }
 
-void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations) {
+void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, int &startCell, int &iterations) {
     startCell = computeStartCellOfRectangle(center, radius, map);
     iterations = radius*2/map->info.resolution;
 }
 
-void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations) {
+void MapOperations::setupSearchArea(const geometry_msgs::PoseStamped &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations) {
     startPoint = computeStartPointOfRectangle(center, radius);
     iterations = radius*2/map->info.resolution;
 }
