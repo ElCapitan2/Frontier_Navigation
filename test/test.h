@@ -20,6 +20,8 @@ public:
     bool test_isXSpace(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
     bool test_neighbourhoodValue(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
 
+    bool test_getOrdinal();
+
     void test_circleArea(int index, double radius);
 
 };

@@ -327,6 +327,24 @@ void Helpers::writeToFile(char *file, char *msg) {
     } else printf("File NOT open\n");
 }
 
+char* Helpers::getOrdinal(unsigned int number) {
+
+    std::stringstream strs;
+    strs << number;
+
+    if (number % 10 > 3) strs << "th";
+    else if (number == 11 || number == 12 || number == 13) strs << "th";
+    else if (number % 10 == 1) strs << "st";
+    else if (number % 10 == 2) strs << "nd";
+    else if (number % 10 == 3) strs << "rd";
+    else strs << "th";
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
+    return char_type;
+}
+
 
 
 

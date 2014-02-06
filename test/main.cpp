@@ -20,6 +20,8 @@ int main(int argc, char** argv)
 
     test.test_Map_Operations();
 
+    test.test_getOrdinal();
+
 //    std::vector<std::vector<int> > vec;
 
 //    std::vector<int> insert;
