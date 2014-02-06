@@ -22,8 +22,11 @@ void Frontier_Navigation::publishFrontierPts(vec_double frontiers, int best_fron
     this->bestFrontier_pub_.publish(frontierPts);
 }
 
-void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped goal) {
+void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped &goal, bool print) {
     if (this->explore_) {
+        this->activeGoal_ = goal;
+        goalTracker_.cells.push_back(goal.pose.position);
+        if (print) printf("\tNext Goal! goal(%f, %f, %f)\n", activeGoal_.pose.position.x, activeGoal_.pose.position.y, activeGoal_.pose.position.z);
         goal.header.frame_id = "/map";
         this->goal_pub_.publish(goal);
     }
@@ -80,4 +83,31 @@ void Frontier_Navigation::publishCircle(int goalIndex) {
     circle.cell_height = circle.cell_width = this->map_->info.resolution;
     circle.header.frame_id = "/map";
     this->circle_pub_.publish(circle);
+}
+
+void Frontier_Navigation::publishLists() {
+
+    nav_msgs::GridCells blacklist;
+    nav_msgs::GridCells whitelistedGoals;
+    nav_msgs::GridCells whitelistedFrontierRegions;
+    blacklist.header = whitelistedGoals.header = whitelistedFrontierRegions.header = this->map_->header;
+    blacklist.cell_height = blacklist.cell_width = 0.05;
+    whitelistedGoals.cell_height = whitelistedGoals.cell_width = 0.05;
+    whitelistedFrontierRegions.cell_height = whitelistedFrontierRegions.cell_width = 0.05;
+    MapOperations mapOps;
+
+    for (int i = 0; i < this->blackList_.size(); i++) {
+        blacklist.cells.push_back(blackList_[i].pose.position);
+    }
+
+    for (int i = 0; i < this->whiteListedFrontierRegions_.size(); i++) {
+        whitelistedGoals.cells.push_back(whiteListedGoals_[i].pose.position);
+        for (int j = 0; j < whiteListedFrontierRegions_[i].size(); j++) {
+            whitelistedFrontierRegions.cells.push_back(mapOps.cellToPoint(whiteListedFrontierRegions_[i][j], map_));
+        }
+    }
+
+    blackList_pub_.publish(blacklist);
+    whiteListedGoals_pub_.publish(whitelistedGoals);
+    whiteListedFrontierRegions_pub_.publish(whitelistedFrontierRegions);
 }
