@@ -26,27 +26,30 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->processState_ = PROCESSING_MAP_DONE;
     this->strategy_ = NORMAL;
 
+    this->cmd_vel_cnt_ = 0;
+    this->mapCallbackCnt_ = 0;
+
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
     // has to be fixed somehow
     // doesn't work with "= map->info.resolution" since map is not there yet
     this->pathTracker_.cell_height = this->pathTracker_.cell_width = 0.05;
 
-    this->nodeHandle_->param("/frontier_navigation/radius", radius_, 5.0);
-    this->nodeHandle_->param("/frontier_navigation/attempts", attempts_, 4);
-    this->nodeHandle_->param("/frontier_navigation/stepping", stepping_, 5.0);
-    this->nodeHandle_->param("/frontier_navigation/threshold", threshold_, 250);
-    this->nodeHandle_->param("/frontier_navigation/sleep", sleep_, 0);
-    this->nodeHandle_->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
-    this->nodeHandle_->param("/frontier_navigation/timeout", timeout_, 5.0);
-    this->nodeHandle_->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
-    this->nodeHandle_->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
-    this->nodeHandle_->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
-    this->nodeHandle_->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
-    this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
-    this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
-    this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
-    this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
+    this->nodeHandle_->param("/Frontier_Navigation/radius", radius_, 5.0);
+    this->nodeHandle_->param("/Frontier_Navigation/attempts", attempts_, 4);
+    this->nodeHandle_->param("/Frontier_Navigation/stepping", stepping_, 5.0);
+    this->nodeHandle_->param("/Frontier_Navigation/threshold", threshold_, 250);
+    this->nodeHandle_->param("/Frontier_Navigation/sleep", sleep_, 0);
+    this->nodeHandle_->param("/Frontier_Navigation/minDistance", minDinstance_, 3.0);
+    this->nodeHandle_->param("/Frontier_Navigation/timeout", timeout_, 5.0);
+    this->nodeHandle_->param("/Frontier_Navigation/timeoutAttempts", timeoutAttempts_, 5);
+    this->nodeHandle_->param("/Frontier_Navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
+    this->nodeHandle_->param("/Frontier_Navigation/worstCase", worstCaseOfConnectivity_, 2.0);
+    this->nodeHandle_->param("/Frontier_Navigation/weightOfSize", weightOfSize_, 2.0);
+    this->nodeHandle_->param("/Frontier_Navigation/weightOfDistance", weightOfDistance_, 1.0);
+    this->nodeHandle_->param("/Frontier_Navigation/weightOfDirection", weightOfDirection_, 4.0);
+    this->nodeHandle_->param("/Frontier_Navigation/explore", explore_, true);
+    this->nodeHandle_->param("/Frontier_Navigation/duplicatedGoals", duplicatedGoals_, 10);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
@@ -76,9 +79,9 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 //    if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) printf("BAD GOAL??\n");
 }
 
-void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr&  map) {
+void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& map) {
     printf("\n");
-    printf("Frontier_Navigation received map\n");
+    printf("Frontier_Navigation received %s map\n", Helpers::getOrdinal(++this->mapCallbackCnt_));
     printf("\twidth: %d; height: %d; res: %f; x_org: %f; y_org: %f\n", map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y);
     map_->data = map->data;
     map_->header = map->header;
@@ -117,10 +120,10 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
     if (cmd_vel.angular.x == 0.0 && cmd_vel.angular.y == 0.0 && cmd_vel.angular.z == 0.0 &&
             cmd_vel.linear.x == 0.0 && cmd_vel.linear.y == 0.0 && cmd_vel.linear.z == 0) {
-        Helpers::writeToFile("blacklist.txt", "cmd_vel");
-        this->blackList_.push_back(this->activeGoal_);
+        if(++cmd_vel_cnt_ > 25) this->blackList_.push_back(this->activeGoal_);
     }
     else {
+        cmd_vel_cnt_ = 0;
         not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
         cmdVelConstraints(cmd_vel);
     }
@@ -147,7 +150,7 @@ void Frontier_Navigation::explore() {
     bool success = false;
     double radius = this->radius_;
     geometry_msgs::PoseStamped goal;
-    for (int i = 0; i <= this->attempts_; i++) {
+    for (int i = 0; i < this->attempts_; i++) {
         success = findNextGoal(this->robot_position_, radius, goal);
         if (success) {
             publishGoal(goal, true);
@@ -192,7 +195,7 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
     int currentFRID;
     for (int j = 0; j < frontierRegionIDs.size(); j++) {
         currentFRID = frontierRegionIDs[j];
-//        printf("\tfrontierRegion %d\t", currentFRID+1);
+        printf("\tfrontierRegion %d\t", currentFRID+1);
         if (!evaluateFrontierRegion(frontierRegions[currentFRID])) continue;
         tempGoal = nextGoal(frontierRegions[currentFRID]);
         if (!found && evaluateGoal(tempGoal)) {
@@ -322,16 +325,16 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             else {
                 printf("\tNew goal NOT found\n");
                 printf("\tSearching across entire map...\n");
-                geometry_msgs::PoseStamped center;
-                double radius = this->map_->info.width/2 * map_->info.resolution;
-                center.pose.position.x = map_->info.origin.position.x + radius;
-                center.pose.position.y = map_->info.origin.position.y + radius;
-                if (findNextGoal(center, radius, this->activeGoal_)) {
-                    strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
-                    publishGoal(this->activeGoal_, true);
-                    publishLists();
-                }
-                else printf("\tMap seems to be explored totally\n");
+//                geometry_msgs::PoseStamped center;
+//                double radius = this->map_->info.width/2 * map_->info.resolution;
+//                center.pose.position.x = map_->info.origin.position.x + radius;
+//                center.pose.position.y = map_->info.origin.position.y + radius;
+//                if (findNextGoal(center, radius, this->activeGoal_)) {
+//                    strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
+//                    publishGoal(this->activeGoal_, true);
+//                    publishLists();
+//                }
+//                else printf("\tMap seems to be explored totally\n");
             }
             break;
         }

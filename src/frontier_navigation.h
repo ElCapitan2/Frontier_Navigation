@@ -116,7 +116,8 @@ private:
     std::vector<geometry_msgs::PoseStamped> whiteListedGoals_;
 
 
-
+    unsigned int mapCallbackCnt_;
+    int cmd_vel_cnt_;
     double radius_;
     int attempts_;
     double stepping_;
