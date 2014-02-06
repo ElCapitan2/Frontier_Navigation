@@ -5,6 +5,7 @@ lib/
 logs/
 qtcreator-build/
 launch/
+src/.cccc/
 
 *.*~
 
