@@ -37,10 +37,17 @@ public:
 
 
     void escapeStrategy(strategies strategy);
-    bool evaluateConstraints(vec_single &frontierRegion, geometry_msgs::PoseStamped &goal);
+    bool evaluateGoal(geometry_msgs::PoseStamped &goal);
+    bool evaluateWhitelist(geometry_msgs::PoseStamped &goal);
+    bool evaluateFrontierRegion(vec_single &frontierRegion);
+    void explore();
+    bool findNextGoal(geometry_msgs::PoseStamped &center, double radius, geometry_msgs::PoseStamped &goal);
+    void strategy_NO_FRONTIER_REGIONS_FOUND();
+    void publishLists();
+    bool evaluateBlackList(geometry_msgs::PoseStamped &goal);
 private:
 
-    void processMap(geometry_msgs::PoseStamped center);
+//    void processMap(geometry_msgs::PoseStamped center);
 
 //    // find frontierRegions
 //    void findFrontierRegions(const geometry_msgs::PoseStamped &center, int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
@@ -59,7 +66,7 @@ private:
     void publishFrontierPts(vec_double frontiers);
     void publishFrontierPts(vec_double frontiers, int best_frontier);
     void publishOutlineOfSearchRectangle(geometry_msgs::PoseStamped &center, int radius);
-    void publishGoal(geometry_msgs::PoseStamped goal);
+    void publishGoal(geometry_msgs::PoseStamped &goal, bool print = false);
     void publishCircle(int goalIndex);
 
     void preFilterMap(const geometry_msgs::PoseStamped &center, int radius);
@@ -88,6 +95,9 @@ private:
     ros::Publisher min3_pub_;
     ros::Publisher min4_pub_;
     ros::Publisher filteredMap_pub_;
+    ros::Publisher blackList_pub_;
+    ros::Publisher whiteListedGoals_pub_;
+    ros::Publisher whiteListedFrontierRegions_pub_;
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
 //    nav_msgs::OccupancyGrid::ConstPtr map_;
