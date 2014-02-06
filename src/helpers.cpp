@@ -314,6 +314,19 @@ void Helpers::writeToFile(char* file, char* msg, int value) {
     } else printf("File NOT open\n");
 }
 
+void Helpers::writeToFile(char *file, char *msg) {
+    char* path = "/home/u_private/ros_develop/frontier_navigation/logs/";
+    char * newArray = new char[std::strlen(path)+std::strlen(file)+1];
+    std::strcpy(newArray,path);
+    std::strcat(newArray,file);
+    std::ofstream stream;
+    stream.open(newArray, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg << std::endl;
+        stream.close();
+    } else printf("File NOT open\n");
+}
+
 
 
 

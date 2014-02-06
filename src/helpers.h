@@ -67,6 +67,7 @@ public:
     // printers
     static void printPoint(geometry_msgs::Point point, char *name, int precison = 4);
 
+    static void writeToFile(char *file, char *msg);
 };
 
 
