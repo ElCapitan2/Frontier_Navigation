@@ -46,7 +46,7 @@ bool whiteListConstraints(std::vector<geometry_msgs::PoseStamped> &whitelist, ge
 
 bool Frontier_Navigation::evaluateFrontierRegion(vec_single &frontierRegion) {
     bool c1 = frontierRegionConstraints(frontierRegion, this->threshold_);
-//    if (!c1) printf("Too small (%d)\n", frontierRegion.size());
+    if (!c1) printf("Too small (%d)\n", frontierRegion.size());
     return c1;
 }
 
@@ -65,9 +65,11 @@ bool Frontier_Navigation::evaluateGoal(geometry_msgs::PoseStamped &goal) {
 bool Frontier_Navigation::evaluateWhitelist(geometry_msgs::PoseStamped &goal) {
     bool c1 = blackListConstraints(this->blackList_, goal, 0.5);
     bool c2 = whiteListConstraints(this->whiteListedGoals_, goal, 0.5);
+    bool c3 = safetyAreaConstraint(goal, this->map_);
     if (!c1) printf("Goal is BLACKLISTED and won't be added to whitelist\n");
     if (!c2) printf("Goal already whitelisted\n");
-    return c1 && c2;
+    if (!c3) printf("Goal is too close to o-Space and won't be added to whitelist\n");
+    return c1 && c2 && c3;
 }
 
 bool Frontier_Navigation::evaluateBlackList(geometry_msgs::PoseStamped &goal) {
