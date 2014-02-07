@@ -45,6 +45,8 @@ public:
     void strategy_NO_FRONTIER_REGIONS_FOUND();
     void publishLists();
     bool evaluateBlackList(geometry_msgs::PoseStamped &goal);
+    void clenupWhitelist();
+    void clenupBlacklist();
 private:
 
 //    void processMap(geometry_msgs::PoseStamped center);
@@ -114,6 +116,8 @@ private:
     vec_double whiteListedFrontierRegions_;
     std::vector<geometry_msgs::PoseStamped> blackList_;
     std::vector<geometry_msgs::PoseStamped> whiteListedGoals_;
+//    std::list<geometry_msgs::PoseStamped> whitelistedGoals_;
+//    std::list<vec_single> whitelistedFrontierRegions_;
 
 
     unsigned int mapCallbackCnt_;

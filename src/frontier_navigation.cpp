@@ -150,7 +150,7 @@ void Frontier_Navigation::explore() {
     bool success = false;
     double radius = this->radius_;
     geometry_msgs::PoseStamped goal;
-    for (int i = 0; i < this->attempts_; i++) {
+    for (int i = 1; i <= this->attempts_; i++) {
         success = findNextGoal(this->robot_position_, radius, goal);
         if (success) {
             publishGoal(goal, true);
@@ -211,7 +211,15 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
         }
     }
     int cells = 0;
-    for (int i = 0; i < whiteListedFrontierRegions_.size(); i++) cells += whiteListedFrontierRegions_[i].size();
+    clenupWhitelist();
+
+    std::vector<vec_single>::iterator it;
+    for (it = whiteListedFrontierRegions_.begin(); it != whiteListedFrontierRegions_.end(); ++it) {
+//        it[0];
+
+    }
+
+//    for (int i = 0; i < whitelistedFrontierRegions_.size(); i++) cells += whitelistedFrontierRegions_[i].size();
     printf("\twhitelisted goals:\t%d\n", this->whiteListedGoals_.size());
     printf("\tassociated cells:\t%d\n", cells);
     printf("\tblacklisted goals:\t%d\n", this->blackList_.size());
@@ -263,15 +271,15 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     publishCircle(goalIndex);
     geometry_msgs::Vector3 goalToCircleVec;
 
-    double desiredAnle = 80.0;
-    double bestAnlgeDelata = 180.0;
+    double desiredAngle = 80.0;
+    double bestAnlgeDelta = 180.0;
     for (int i = 0; i < circle.cells.size(); i++) {
         goalToCircleVec.x = circle.cells[i].x - close.x;
         goalToCircleVec.y = circle.cells[i].y - close.y;
         goalToCircleVec.z = circle.cells[i].z - close.z;
         double angle = Helpers::angleInDegree(frontierVec, goalToCircleVec);        
-        if (abs(desiredAnle - angle) < bestAnlgeDelata) {
-            bestAnlgeDelata = abs(desiredAnle-angle);
+        if (abs(desiredAngle - angle) < bestAnlgeDelta) {
+            bestAnlgeDelta = abs(desiredAngle-angle);
             point.pose.position.x = circle.cells[i].x;
             point.pose.position.y = circle.cells[i].y;
             point.pose.position.z = circle.cells[i].z;
@@ -301,6 +309,54 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
     return point;
 }
 
+void Frontier_Navigation::clenupWhitelist() {
+
+    printf("Cleaning up whitelist...\n");
+
+    int cnt = 0;
+    int startCell;
+    int iterations;
+
+    std::vector<geometry_msgs::PoseStamped>::iterator goalIterator;
+    std::vector<vec_single>::iterator frIterator;
+    for (goalIterator = whiteListedGoals_.begin(); goalIterator != whiteListedGoals_.end();) {
+
+        this->mapOps_.setupSearchArea(*goalIterator, 1.0, this->map_, startCell, iterations);
+        bool keepGoal = false;
+
+        unsigned int index;
+        for (int i = 0; i < iterations; i++) {
+            for (int j = 0; j < iterations; j++) {
+                index = startCell + j + i*this->map_->info.width;
+                if (mapOps_.isUSpace(index, this->map_) || mapOps_.isOSpace(index, this->map_)) {
+                    keepGoal = true;
+                    break;
+                }
+            }
+            if (keepGoal) break;
+        }
+        if (keepGoal) {
+            ++goalIterator;
+            ++frIterator;
+        }
+        else {
+            goalIterator = whiteListedGoals_.erase(goalIterator);
+            frIterator = whiteListedFrontierRegions_.erase(frIterator);
+            cnt++;
+        }
+    }
+    printf("\t%d goals removed from whitelist\n", cnt);
+}
+
+void Frontier_Navigation::clenupBlacklist() {
+
+    printf("Cleaning up blacklist...\n");
+
+    int cnt = 0;
+    printf("\tNOT IMPLEMENTED YET \n");
+    printf("\t%d goals removed from blacklist\n", cnt);
+}
+
 void Frontier_Navigation::escapeStrategy(strategies strategy) {
     if (strategy_ == NORMAL) {
         strategy_ = strategy;
@@ -325,16 +381,16 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             else {
                 printf("\tNew goal NOT found\n");
                 printf("\tSearching across entire map...\n");
-//                geometry_msgs::PoseStamped center;
-//                double radius = this->map_->info.width/2 * map_->info.resolution;
-//                center.pose.position.x = map_->info.origin.position.x + radius;
-//                center.pose.position.y = map_->info.origin.position.y + radius;
-//                if (findNextGoal(center, radius, this->activeGoal_)) {
-//                    strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
-//                    publishGoal(this->activeGoal_, true);
-//                    publishLists();
-//                }
-//                else printf("\tMap seems to be explored totally\n");
+                geometry_msgs::PoseStamped center;
+                double radius = this->map_->info.width/2 * map_->info.resolution;
+                center.pose.position.x = map_->info.origin.position.x + radius;
+                center.pose.position.y = map_->info.origin.position.y + radius;
+                if (findNextGoal(center, radius, this->activeGoal_)) {
+                    strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
+                    publishGoal(this->activeGoal_, true);
+                    publishLists();
+                }
+                else printf("\tMap seems to be explored totally\n");
             }
             break;
         }
