@@ -35,21 +35,21 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     // doesn't work with "= map->info.resolution" since map is not there yet
     this->pathTracker_.cell_height = this->pathTracker_.cell_width = 0.05;
 
-    this->nodeHandle_->param("/Frontier_Navigation/radius", radius_, 5.0);
-    this->nodeHandle_->param("/Frontier_Navigation/attempts", attempts_, 4);
-    this->nodeHandle_->param("/Frontier_Navigation/stepping", stepping_, 5.0);
-    this->nodeHandle_->param("/Frontier_Navigation/threshold", threshold_, 250);
-    this->nodeHandle_->param("/Frontier_Navigation/sleep", sleep_, 0);
-    this->nodeHandle_->param("/Frontier_Navigation/minDistance", minDinstance_, 3.0);
-    this->nodeHandle_->param("/Frontier_Navigation/timeout", timeout_, 5.0);
-    this->nodeHandle_->param("/Frontier_Navigation/timeoutAttempts", timeoutAttempts_, 5);
-    this->nodeHandle_->param("/Frontier_Navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
-    this->nodeHandle_->param("/Frontier_Navigation/worstCase", worstCaseOfConnectivity_, 2.0);
-    this->nodeHandle_->param("/Frontier_Navigation/weightOfSize", weightOfSize_, 2.0);
-    this->nodeHandle_->param("/Frontier_Navigation/weightOfDistance", weightOfDistance_, 1.0);
-    this->nodeHandle_->param("/Frontier_Navigation/weightOfDirection", weightOfDirection_, 4.0);
-    this->nodeHandle_->param("/Frontier_Navigation/explore", explore_, true);
-    this->nodeHandle_->param("/Frontier_Navigation/duplicatedGoals", duplicatedGoals_, 10);
+    this->nodeHandle_->param("/frontier_navigation/radius", radius_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/attempts", attempts_, 4);
+    this->nodeHandle_->param("/frontier_navigation/stepping", stepping_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/threshold", threshold_, 250);
+    this->nodeHandle_->param("/frontier_navigation/sleep", sleep_, 0);
+    this->nodeHandle_->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
+    this->nodeHandle_->param("/frontier_navigation/timeout", timeout_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
+    this->nodeHandle_->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
+    this->nodeHandle_->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfSize", weightOfSize_, 2.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
+    this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
+    this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
+    this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
@@ -317,9 +317,10 @@ void Frontier_Navigation::clenupWhitelist() {
     int startCell;
     int iterations;
 
-    std::vector<geometry_msgs::PoseStamped>::iterator goalIterator;
-    std::vector<vec_single>::iterator frIterator;
-    for (goalIterator = whiteListedGoals_.begin(); goalIterator != whiteListedGoals_.end();) {
+    std::vector<geometry_msgs::PoseStamped>::iterator goalIterator = whiteListedGoals_.begin();
+    std::vector<vec_single>::iterator frIterator = whiteListedFrontierRegions_.begin();
+
+    for (goalIterator; goalIterator != whiteListedGoals_.end();) {        
 
         this->mapOps_.setupSearchArea(*goalIterator, 1.0, this->map_, startCell, iterations);
         bool keepGoal = false;
