@@ -186,7 +186,8 @@ bool Test::test_Map_Operations()
     bool t4 = test_getXValue(mapOps, occGrid);
     bool t5 = test_isXSpace(mapOps, occGrid);
     bool t6 = test_neighbourhoodValue(mapOps, occGrid);
-    result = t1 && t2 && t3 && t4 && t5 && t6;
+    bool t7 = test_setupSearchArea(mapOps, occGrid);
+    result = t1 && t2 && t3 && t4 && t5 && t6 && t7;
     printResultMessage(result, __func__);
     return result;
 }
@@ -491,6 +492,50 @@ bool Test::test_neighbourhoodValue(MapOperations &mapOps, boost::shared_ptr<nav_
     return result;
 }
 
+bool Test::test_setupSearchArea(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid)
+{
+    printIntro(__func__, 1);
+    bool result = true;
+
+    printf("\t\tw: %d, h: %d, r: %f ", occGrid->info.width, occGrid->info.height, occGrid->info.resolution);
+    Helpers::printPoint(occGrid->info.origin.position, "zero", 2);
+    printf("\t\t");
+    geometry_msgs::PoseStamped center;
+    center.pose.position = mapOps.cellToPoint(26, occGrid);
+    Helpers::printPoint(center.pose.position, "center", 2);
+
+    int startCell;
+    int iterations;
+    int idxs_1[] = {12,13,14,15,16,18,19,20,21,22,24,25,26,27,28,30,31,32,33,34,36,37,38,39,40};
+    int idxs_2[] = {19, 20, 21, 25, 26, 27, 31, 32, 33};
+
+    mapOps.setupSearchArea(center, 1.0, occGrid, startCell, iterations);
+    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 1.0, startCell, iterations);
+    int index;
+    int cnt = 0;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++, cnt++) {
+            index = startCell + j + i*occGrid->info.width;
+            if (index != idxs_1[cnt]) result = false;
+            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
+        }
+    }
+
+    mapOps.setupSearchArea(center, 0.5, occGrid, startCell, iterations);
+    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
+    cnt = 0;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++, cnt++) {
+            index = startCell + j + i*occGrid->info.width;
+            if (index != idxs_2[cnt]) result = false;
+            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_2[cnt], index, resultMsg(index == idxs_2[cnt]));
+        }
+    }
+
+    printResultMessage(result, __func__, 1);
+    return result;
+}
+
 bool Test::test_getOrdinal()
 {
     printIntro(__func__);
@@ -507,7 +552,7 @@ bool Test::test_getOrdinal()
             tempResult = false;
             result = false;
         }
-        printf("\tnumber: %d target: %s actual: %s\ \t%s\n", i, ordinals[i], actual, resultMsg(tempResult));
+        printf("\tnumber: %d target: %s actual: %s\t%s\n", i, ordinals[i], actual, resultMsg(tempResult));
 
     }
     printResultMessage(result, __func__);

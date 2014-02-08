@@ -81,8 +81,8 @@ private:
     void recursivelyComputeFrontierRegions(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
 
     // misc
-    unsigned int computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, int radius, const nav_msgs::OccupancyGrid::ConstPtr &map);
-    geometry_msgs::Point computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, int radius);
+    unsigned int computeStartCellOfRectangle(const geometry_msgs::PoseStamped &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map);
+    geometry_msgs::Point computeStartPointOfRectangle(const geometry_msgs::PoseStamped &center, double radius);
 
 
     boost::shared_ptr<nav_msgs::OccupancyGrid> map_;

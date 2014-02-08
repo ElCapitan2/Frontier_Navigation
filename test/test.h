@@ -19,6 +19,7 @@ public:
     bool test_getXValue(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
     bool test_isXSpace(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
     bool test_neighbourhoodValue(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
+    bool test_setupSearchArea(MapOperations &mapOps, boost::shared_ptr<nav_msgs::OccupancyGrid> &occGrid);
 
     bool test_getOrdinal();
 
