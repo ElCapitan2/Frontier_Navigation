@@ -310,7 +310,6 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 
     printf("Filtering map using FII...\n");
 
-    // we search in an area around robot
     nav_msgs::GridCells min4;
     nav_msgs::GridCells min1;
 
@@ -319,14 +318,7 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
     int iterations;
     setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-//    Neighbours neighbours(map_->info.width, map_->info.height);
-
-
-
-
-
-    int8_t data = 0;
-//    const int8_t FREESPACE = 0;
+//    int8_t data = 0;
     std::vector<int8_t> filteredData = map_->data;
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
     filteredMap->header = map_->header;
@@ -351,58 +343,26 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
     for (unsigned int i = 0; i < map_->info.height * map_->info.width; i++) {
         flags.push_back(false);
     }
+
     int filteredCellsInIteration = 0;
-
-
-
-
-
+    unsigned int centerCell = pointToCell(center.pose.position, this->map_);
     while (importantIdxs.size() > 0) {
-
-
-
-
-//    while (filterCycles < 2) {
         filterCycles++;
 //        printf("\tCycle %d\n", filterCycles);
 //        printf("\t\tImportantIdxs.size() = %d\n", importantIdxs.size());
         min1.cells.clear();
         vec_single temp;
         unsigned int index;
-
-
-
-
         for (unsigned int i = 0; i < importantIdxs.size(); i++) {
             index = importantIdxs[i];
 //            data = filteredData[index];
-            data = filteredMap->data[index];
+//            data = filteredMap->data[index];
             ops++;
-//            if ((data == -1 && true) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < sqrt(2.0)*radius)) {
-
-
-
-
-            if (data == -1) {
-
-
-
+//            if (data == -1 && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
+            if (isUSpace(index, filteredMap) && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
                 ops += 17;
-
-
-
-//                int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
-//                        neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
                 int kernel = neighbourhoodValue(index, filteredMap);
-
-
-
                 if (kernel <= 0 && kernel >= -3) {
-
-
-
-
-
                     filteredCellsInIteration++;
                     // 1 write and max 16 compares and max 3 pushs and max 3 writes
                     ops += 12;
@@ -410,7 +370,6 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
                     filteredCells++;
                     filteredMap->data[index] = F_SPACE;
                     min4.cells.push_back(cellToPoint(index, map_));
-
 
                     if (getLeftVal(index, filteredMap) == -1 && flags[getLeftCell(index, map_)] == false) {
                         temp.push_back(getLeftCell(index, map_));
