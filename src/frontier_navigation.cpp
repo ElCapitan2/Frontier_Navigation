@@ -50,6 +50,9 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
     this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
     this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
+
+    not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
+
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
@@ -96,8 +99,7 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& m
         }
         if (cnt == duplicatedGoals_) {
             printf("Duplicated goals detected\n");
-            strategies strategy = DUPLICATED_GOAL;
-            escapeStrategy(strategy);
+            escapeStrategy(DUPLICATED_GOAL);
         } else if (cnt != 0) {
             printf("\t%d of %d goals are duplicates or equal!\n", cnt, duplicatedGoals_);
         }
@@ -200,7 +202,7 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
         tempGoal = nextGoal(frontierRegions[currentFRID]);
         if (!found && evaluateGoal(tempGoal)) {
             publishFrontierPts(frontierRegions, currentFRID);
-            printf("Constraints passed!\n", currentFRID+1, frontierRegions.size());
+            printf("Constraints passed!\n");
             goal = tempGoal;
             found = true;
         }
@@ -210,19 +212,7 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
             printf("Added to whitelist\n");
         }
     }
-    int cells = 0;
     clenupWhitelist();
-
-    std::vector<vec_single>::iterator it;
-    for (it = whiteListedFrontierRegions_.begin(); it != whiteListedFrontierRegions_.end(); ++it) {
-//        it[0];
-
-    }
-
-//    for (int i = 0; i < whitelistedFrontierRegions_.size(); i++) cells += whitelistedFrontierRegions_[i].size();
-    printf("\twhitelisted goals:\t%d\n", this->whiteListedGoals_.size());
-    printf("\tassociated cells:\t%d\n", cells);
-    printf("\tblacklisted goals:\t%d\n", this->blackList_.size());
     publishLists();
     if (found) {
         return true;
@@ -311,7 +301,7 @@ geometry_msgs::PoseStamped Frontier_Navigation::nextGoal(vec_single frontier)
 
 void Frontier_Navigation::clenupWhitelist() {
 
-    printf("Cleaning up whitelist...\n");
+    printf("\tCleaning up whitelist...\n");
 
     int cnt = 0;
     int startCell;
@@ -322,7 +312,7 @@ void Frontier_Navigation::clenupWhitelist() {
 
     for (goalIterator; goalIterator != whiteListedGoals_.end();) {        
 
-        this->mapOps_.setupSearchArea(*goalIterator, 1.0, this->map_, startCell, iterations);
+        this->mapOps_.setupSearchArea(*goalIterator, 1.5, this->map_, startCell, iterations);
         bool keepGoal = false;
 
         unsigned int index;
@@ -346,7 +336,12 @@ void Frontier_Navigation::clenupWhitelist() {
             cnt++;
         }
     }
-    printf("\t%d goals removed from whitelist\n", cnt);
+    int cells = 0;
+    for (int i = 0; i < whiteListedFrontierRegions_.size(); i++) cells += whiteListedFrontierRegions_[i].size();
+    printf("\t\t%d goals removed from whitelist\n", cnt);
+    printf("\t\twhitelisted goals:\t%d\n", this->whiteListedGoals_.size());
+    printf("\t\tassociated cells:\t%d\n", cells);
+    printf("\t\tblacklisted goals:\t%d\n", this->blackList_.size());
 }
 
 void Frontier_Navigation::clenupBlacklist() {
@@ -358,36 +353,59 @@ void Frontier_Navigation::clenupBlacklist() {
     printf("\t%d goals removed from blacklist\n", cnt);
 }
 
+bool Frontier_Navigation::findWhiteListedGoal() {
+    printf("Going through white listed frontierRegions...\n");
+    if (whiteListedFrontierRegions_.size() == 0) {
+        printf("\tNo frontierRegions in whitelist\n");
+        return false;
+    }
+    std::vector<int> frontierRegionIDs = determineBestFrontierRegions(whiteListedFrontierRegions_);
+    publishFrontierPts(whiteListedFrontierRegions_);
+    printf("whitelisted frontierRegion selection...\n");
+    geometry_msgs::PoseStamped tempGoal;
+    bool found = false;
+    int currentFRID;
+    for (int i = 0; i < frontierRegionIDs.size(); i++) {
+        currentFRID = frontierRegionIDs[i];
+        printf("\twhitelisted frontierRegion %d\t", currentFRID+1);
+        tempGoal = nextGoal(whiteListedFrontierRegions_[currentFRID]);
+        if (evaluateGoal(whiteListedGoals_[currentFRID])) {
+            publishFrontierPts(whiteListedFrontierRegions_, currentFRID);
+            printf("Constraints passed!\n");
+            tempGoal = whiteListedGoals_[currentFRID];
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        printf("\tNew goal found\n");
+        publishGoal(tempGoal, true);
+        return true;
+    } else {
+        printf("\tNew goal NOT found\n");
+        return false;
+    }
+}
+
 void Frontier_Navigation::escapeStrategy(strategies strategy) {
+
     if (strategy_ == NORMAL) {
         strategy_ = strategy;
         switch (strategy_) {
         case NO_FRONTIER_REGIONS_FOUND: {
             printf("NO_FRONTIER_REGIONS_FOUND strategy initiated...\n");
-            printf("Going through white listed frontierRegions...\n");
-            bool found = false;
-            for (int i = whiteListedFrontierRegions_.size()-1; i >= 0; i--) {
-                if (evaluateGoal(whiteListedGoals_[i])) {
-                    publishFrontierPts(this->whiteListedFrontierRegions_, i);
-                    publishGoal(whiteListedGoals_[i], true);
-                    publishLists();
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                printf("\tNew goal found\n");
+            if (findWhiteListedGoal()) {
                 this->strategy_ = NORMAL;
             }
             else {
-                printf("\tNew goal NOT found\n");
-                printf("\tSearching across entire map...\n");
+                printf("Searching across entire map...\n");
                 geometry_msgs::PoseStamped center;
                 double radius = this->map_->info.width/2 * map_->info.resolution;
                 center.pose.position.x = map_->info.origin.position.x + radius;
                 center.pose.position.y = map_->info.origin.position.y + radius;
                 if (findNextGoal(center, radius, this->activeGoal_)) {
                     strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
+                    printf("DRIVE_TO_GOAL_BEFORE_UPDATE strategy initiated...\n");
                     publishGoal(this->activeGoal_, true);
                     publishLists();
                 }
@@ -397,6 +415,18 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
         }
         case STUCK: {
             printf("STUCK strategy initiated...\n");
+            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::SUCCEEDED) {
+                printf("\tGoal area entered and no action triggered\n");
+                this->strategy_ = NORMAL;
+                escapeStrategy(NO_FRONTIER_REGIONS_FOUND);
+            }
+            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) {
+                this->goalStatus_.status = actionlib_msgs::GoalStatus::SUCCEEDED;
+                printf("\tGoal rejected\n");
+                this->strategy_ = NORMAL;
+                not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
+                escapeStrategy(GOAL_REJECTED);
+            }
             // - reached goal but did not receive map update
             //   -> go through whitelist
             // - setting same goal multiple times. happens when robot is within goal area and map update doesn't
@@ -417,6 +447,7 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             printf("\tBad goal added to blacklist\n");
             Helpers::writeToFile("blacklist.txt", "rejected");
             strategy_ = NORMAL;
+            not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
             break;
         }
         case DUPLICATED_GOAL: {

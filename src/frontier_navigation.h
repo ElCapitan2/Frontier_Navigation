@@ -47,6 +47,8 @@ public:
     bool evaluateBlackList(geometry_msgs::PoseStamped &goal);
     void clenupWhitelist();
     void clenupBlacklist();
+    bool findWhiteListedGoal();
+
 private:
 
 //    void processMap(geometry_msgs::PoseStamped center);
@@ -60,7 +62,8 @@ private:
 
     // quality of frontierRegions
     std::vector<int> determineBestFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
-    std::vector<double> computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
+    std::vector<int> determineBestFrontierRegions(vec_double &frontierRegions);
+    std::vector<double> computeQualityOfFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
 
     geometry_msgs::PoseStamped nextGoal(vec_single frontier);
 

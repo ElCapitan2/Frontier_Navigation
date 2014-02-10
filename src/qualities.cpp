@@ -31,8 +31,13 @@ double qualityOfDirection(geometry_msgs::PoseStamped robot_position, geometry_ms
 
 bool compare(std::vector<double> vec1, std::vector<double> vec2) {return (vec1[0] > vec2[0]);}
 
+std::vector<int> Frontier_Navigation::determineBestFrontierRegions(vec_double &frontierRegions) {
+    vec_double empty;
+    return determineBestFrontierRegions(empty, frontierRegions);
+}
+
 std::vector<int> Frontier_Navigation::determineBestFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
-    std::vector<double> qualities = computeQualityOfFrontiers(adjacencyMatrixOfFrontiers, frontiers);
+    std::vector<double> qualities = computeQualityOfFrontierRegions(adjacencyMatrixOfFrontiers, frontiers);
     std::vector<std::vector<double> > sortedQualities;
     for (double i = 0; i < qualities.size(); i++) {
         std::vector<double> quality;
@@ -49,8 +54,9 @@ std::vector<int> Frontier_Navigation::determineBestFrontierRegions(vec_double &a
     return sortedFrontierIDs;
 }
 
-std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
+std::vector<double> Frontier_Navigation::computeQualityOfFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers) {
     // load and prepare data which will be needed for quality measure
+    bool calcQualOfConnectivity = !adjacencyMatrixOfFrontiers.empty();
     printf("Processing of frontier qualitites ...\n");
     int frontiersCnt = frontiers.size();
     int smallestFrontierSize = std::numeric_limits<int>::max();
@@ -75,8 +81,10 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
     }
     // make sure that small frontiers will receive small qualities
 //    if (smallestFrontierSize < this->threshold_) smallestFrontierSize = this->threshold_;
-    for (unsigned int i = 0; i < adjacencyMatrixOfFrontiers.size(); i++) {
-        edgesCntOfFrontiers[adjacencyMatrixOfFrontiers[i][0]-1]+=adjacencyMatrixOfFrontiers[i].size()-2;
+    if (calcQualOfConnectivity) {
+        for (unsigned int i = 0; i < adjacencyMatrixOfFrontiers.size(); i++) {
+            edgesCntOfFrontiers[adjacencyMatrixOfFrontiers[i][0]-1]+=adjacencyMatrixOfFrontiers[i].size()-2;
+        }
     }
     printf("\tfrontiers: %d\n", frontiersCnt);
     printf("\tsmallest frontier size: %d; largest frontier size: %d\n", smallestFrontierSize, largestFrontierSize);
@@ -85,8 +93,9 @@ std::vector<double> Frontier_Navigation::computeQualityOfFrontiers(vec_double &a
 //    printf("Quality measure:\n");
     // actual quality measure of each frontier
     std::vector<double> qualities;
+    double qualOfConnectivity = 0.0;
     for (int i = 0; i < frontiersCnt; i++) {
-        double qualOfConnectivity = qualityOfConnectivity(edgesCntOfFrontiers[i], frontiers[i].size());
+        if (calcQualOfConnectivity) qualOfConnectivity = qualityOfConnectivity(edgesCntOfFrontiers[i], frontiers[i].size());
         double qualOfSize = qualityOfSize(smallestFrontierSize, largestFrontierSize, frontiers[i].size());
         double qualOfDistance = qualityOfDistance(smallestDistance, largestDistance, distancesToFrontiers[i]);
         double qualOfDirection = qualityOfDirection(this->robot_position_, goalsInFrontiers[i]);
