@@ -2,13 +2,15 @@
 
 # Rectangle around robot in which frontiers will be detected
 # Further settings will be added
-radius: 2.0
+radius: 3.0
 # Attempts to find frontiers within an increasing rectangle around robot
 attempts: 4
 # Radius will be increased be stepping
-stepping: 2.0
+stepping: 3.0
+
 # Sets of connected frontiers which are smaller will not be considered for next goal
-threshold: 25
+threshold: 30
+
 # Should be zero. Is being used for debbuging issues [s]
 sleep: 0
 # Minimum distance to frontiers. Necessary for avoiding path planing problems
@@ -22,13 +24,21 @@ minDistance: 1.0
 timeout: 20.0
 # Attempts to get robot into a better position. If this fails robot will be stuck!
 timeoutAttempts: 5
+
 # Settings for function which evaluates quality of set of connected frontiers
 weightOfConnectivity: 3.0
 worstCaseOfConnectivity: 2.0
 weightOfSize: 2.0
 weightOfDistance: 1.0
 weightOfDirection: 4.0
-# Exploration settings
-explore: true
+
+explore: false
+
+# cntOfuSpaceCells: frontierRegionCells, which do have uSpace neighbours
+# if (cntOfuSpaceCells/frontierRegion.size < threshold) holds, frontierRegion will be removed from whitelist
+# = 0.0 -> no removing at all
+# > 1.0 -> whitelist will alway be empty
+removeWhitelistedGoalThreshold: 0.2
+
 # Count of duplicated/equal goals before goal will be blacklisted
 duplicatedGoals: 3

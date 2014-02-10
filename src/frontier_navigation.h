@@ -139,6 +139,7 @@ private:
     double weightOfDistance_;
     double weightOfDirection_;
     bool explore_;
+    double removeWhitelistedGoalThreshold_;
     int duplicatedGoals_;
 
 };

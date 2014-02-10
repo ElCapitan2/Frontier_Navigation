@@ -49,6 +49,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/weightOfDistance", weightOfDistance_, 1.0);
     this->nodeHandle_->param("/frontier_navigation/weightOfDirection", weightOfDirection_, 4.0);
     this->nodeHandle_->param("/frontier_navigation/explore", explore_, true);
+    this->nodeHandle_->param("/frontier_navigation/removeWhitelistedGoalThreshold", removeWhitelistedGoalThreshold_, 0.2);
     this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
 
     not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
@@ -212,8 +213,9 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
             printf("Added to whitelist\n");
         }
     }
-    clenupWhitelist();
     publishLists();
+    clenupWhitelist();
+
     if (found) {
         return true;
     } else return false;
@@ -304,40 +306,32 @@ void Frontier_Navigation::clenupWhitelist() {
     printf("\tCleaning up whitelist...\n");
 
     int cnt = 0;
-    int startCell;
-    int iterations;
+    int cells = 0;
 
     std::vector<geometry_msgs::PoseStamped>::iterator goalIterator = whiteListedGoals_.begin();
     std::vector<vec_single>::iterator frIterator = whiteListedFrontierRegions_.begin();
 
-    for (goalIterator; goalIterator != whiteListedGoals_.end();) {        
-
-        this->mapOps_.setupSearchArea(*goalIterator, 1.5, this->map_, startCell, iterations);
-        bool keepGoal = false;
-
-        unsigned int index;
-        for (int i = 0; i < iterations; i++) {
-            for (int j = 0; j < iterations; j++) {
-                index = startCell + j + i*this->map_->info.width;
-                if (mapOps_.isUSpace(index, this->map_) || mapOps_.isOSpace(index, this->map_)) {
-                    keepGoal = true;
-                    break;
-                }
-            }
-            if (keepGoal) break;
+    bool keepGoal;
+    double uSpace;
+    for (frIterator; frIterator != whiteListedFrontierRegions_.end();) {
+        keepGoal = true;
+        uSpace = 0.0;
+        for (int i = 0; i < (*frIterator).size(); i++) {
+            if (this->mapOps_.neighbourhoodValue((*frIterator)[i], this->map_) < 0) uSpace += 1.0;
         }
+        if (uSpace / double((*frIterator).size()) < this->removeWhitelistedGoalThreshold_) keepGoal = false;
+
         if (keepGoal) {
+            cells += (*frIterator).size();
             ++goalIterator;
             ++frIterator;
-        }
-        else {
+        } else {
             goalIterator = whiteListedGoals_.erase(goalIterator);
             frIterator = whiteListedFrontierRegions_.erase(frIterator);
             cnt++;
         }
     }
-    int cells = 0;
-    for (int i = 0; i < whiteListedFrontierRegions_.size(); i++) cells += whiteListedFrontierRegions_[i].size();
+
     printf("\t\t%d goals removed from whitelist\n", cnt);
     printf("\t\twhitelisted goals:\t%d\n", this->whiteListedGoals_.size());
     printf("\t\tassociated cells:\t%d\n", cells);
