@@ -318,7 +318,6 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
     int iterations;
     setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-//    int8_t data = 0;
     std::vector<int8_t> filteredData = map_->data;
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
     filteredMap->header = map_->header;
@@ -346,6 +345,7 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 
     int filteredCellsInIteration = 0;
     unsigned int centerCell = pointToCell(center.pose.position, this->map_);
+
     while (importantIdxs.size() > 0) {
         filterCycles++;
 //        printf("\tCycle %d\n", filterCycles);
@@ -353,13 +353,23 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
         min1.cells.clear();
         vec_single temp;
         unsigned int index;
+
+//        printf("\timpIdxs: %d\n", importantIdxs.size());
+
         for (unsigned int i = 0; i < importantIdxs.size(); i++) {
             index = importantIdxs[i];
 //            data = filteredData[index];
 //            data = filteredMap->data[index];
             ops++;
 //            if (data == -1 && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
-            if (isUSpace(index, filteredMap) && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
+//            if (isUSpace(index, filteredMap) && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
+
+            if (isUSpace(index, filteredMap)) {
+                if (filterCycles > 1) {
+                    if (Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) >= SQRT2 * radius) {
+                    continue;
+                    }
+                }
                 ops += 17;
                 int kernel = neighbourhoodValue(index, filteredMap);
                 if (kernel <= 0 && kernel >= -3) {
