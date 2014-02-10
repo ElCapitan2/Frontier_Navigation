@@ -28,6 +28,7 @@ void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped &goal, bool pri
         goalTracker_.cells.push_back(goal.pose.position);
         if (print) printf("\tNext Goal! goal(%f, %f, %f)\n", activeGoal_.pose.position.x, activeGoal_.pose.position.y, activeGoal_.pose.position.z);
         goal.header.frame_id = "/map";
+//        this->strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
         this->goal_pub_.publish(goal);
     }
 }
