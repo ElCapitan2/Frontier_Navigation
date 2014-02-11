@@ -5,9 +5,6 @@
 
 int main(int argc, char** argv)
 {
-    int good = 0;
-    int bad = 0;
-
     Test test;
     bool t1 = test.test_angleInX();
     bool t2 = test.test_linearInterpolation();
