@@ -301,26 +301,104 @@ void Helpers::printPoint(geometry_msgs::Point point, char* name, int precision) 
     }
 }
 
-void Helpers::writeToFile(char* file, char* msg, int value) {
-    char* path = "/home/u_private/ros_develop/frontier_navigation/logs/";
-    char * newArray = new char[std::strlen(path)+std::strlen(file)+1];
-    std::strcpy(newArray,path);
-    std::strcat(newArray,file);
+void Helpers::writeToFile(char* file, char* msg, int value1, int value2) {
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
     std::ofstream stream;
-    stream.open(newArray, std::ios::app);
+    stream.open(char_type, std::ios::app);
     if (stream.is_open()) {
-        stream << msg << ": " << value << std::endl;
+        stream << msg << "; " << value1 << ";" << value2 << std::endl;
+        stream.close();
+    } else printf("File NOT open\n");
+}
+
+void Helpers::writeToFile(char* file, char* msg, int value1, int value2, int value3) {
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
+    std::ofstream stream;
+    stream.open(char_type, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg << "; " << value1 << ";" << value2 << ";" << value3 << std::endl;
+        stream.close();
+    } else printf("File NOT open\n");
+}
+
+void Helpers::writeToFile(char *file, char *msg, vec_single data) {
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
+    std::ofstream stream;
+    stream.open(char_type, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg;
+        for (int i = 0; i < data.size(); i++) stream << ";" << data[i];
+        stream << std::endl;
+        stream.close();
+    } else printf("File NOT open\n");
+}
+
+void Helpers::writeToFile(char* file, char* msg, int value) {
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
+    std::ofstream stream;
+    stream.open(char_type, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg << "; " << value << std::endl;
+        stream.close();
+    } else printf("File NOT open\n");
+}
+
+void Helpers::writeToFile(char* file, char* msg, double value) {
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
+    std::ofstream stream;
+    stream.open(char_type, std::ios::app);
+    if (stream.is_open()) {
+        stream << msg << "; " << value << std::endl;
         stream.close();
     } else printf("File NOT open\n");
 }
 
 void Helpers::writeToFile(char *file, char *msg) {
-    char* path = "/home/u_private/ros_develop/frontier_navigation/logs/";
-    char * newArray = new char[std::strlen(path)+std::strlen(file)+1];
-    std::strcpy(newArray,path);
-    std::strcat(newArray,file);
+
+    std::stringstream strs;
+    strs << "/home/u_private/ros_develop/frontier_navigation/logs/";
+    strs << file;
+
+    std::string temp_str = strs.str();
+    char* char_type = (char*) temp_str.c_str();
+
     std::ofstream stream;
-    stream.open(newArray, std::ios::app);
+    stream.open(char_type, std::ios::app);
     if (stream.is_open()) {
         stream << msg << std::endl;
         stream.close();
@@ -343,6 +421,42 @@ char* Helpers::getOrdinal(unsigned int number) {
     char* char_type = (char*) temp_str.c_str();
 
     return char_type;
+}
+
+PreFilterMap_FII::PreFilterMap_FII(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations) {
+    this->mapCnt_ = mapCnt;
+    this->radius_ = radius;
+    this->center_ = center;
+    this->startCell_ = startCell;
+    this->iterations_ = iterations;
+}
+void PreFilterMap_FII::printLog(int ops, int addOps) {
+    char* file = "filter.xlsx";
+    int cycles = this->cntOfImpIdxsPerCycle.size();
+    Helpers::writeToFile(file, "Filtering map using FII...");
+    Helpers::writeToFile(file, "mapCnt", this->mapCnt_);
+    Helpers::writeToFile(file, "radius", this->radius_);
+    Helpers::writeToFile(file, "center.x", this->center_.pose.position.x);
+    Helpers::writeToFile(file, "center.y", this->center_.pose.position.y);
+    Helpers::writeToFile(file, "startCell", this->startCell_);
+    Helpers::writeToFile(file, "iterations", this->iterations_);
+    Helpers::writeToFile(file, "cycles", cycles);
+    Helpers::writeToFile(file, "ops", ops);
+    Helpers::writeToFile(file, "addOps", addOps);
+    Helpers::writeToFile(file, "totalOps", ops + addOps);
+    Helpers::writeToFile(file, ";cycle;importantIdxs;filteredCells;potentials;ops;addOps;...");
+    vec_single data;
+    for (int i = 0; i < this->cntOfImpIdxsPerCycle.size(); i++) {
+        data.push_back(i+1);
+        data.push_back(this->cntOfImpIdxsPerCycle[i]);
+        data.push_back(this->cntOfFilteredCellsPerCycle[i]);
+        data.push_back(this->cntOfPotentialImpIdxs[i]);
+        data.push_back(this->cntOfOpsPerCycle[i]);
+        data.push_back(this->cntOfAdditionalOpsPerCycle[i]);
+        data.push_back(0);
+        Helpers::writeToFile(file, "", data);
+        data.clear();
+    }
 }
 
 

@@ -69,6 +69,29 @@ public:
 
     static void writeToFile(char *file, char *msg);
     static char *getOrdinal(unsigned int number);
+    static void writeToFile(char *file, char *msg, double value);
+    static void writeToFile(char* file, char* msg, int value1, int value2);
+    static void writeToFile(char* file, char* msg, int value1, int value2, int value3);
+    static void writeToFile(char *file, char *msg, vec_single data);
+};
+
+class PreFilterMap_FII {
+public:
+    PreFilterMap_FII(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
+    void printLog(int ops, int addOps);
+    vec_single cntOfImpIdxsPerCycle;
+    vec_single cntOfFilteredCellsPerCycle;
+    vec_single cntOfPotentialImpIdxs;
+    vec_single cntOfOpsPerCycle;
+    vec_single cntOfAdditionalOpsPerCycle;
+private:
+    int mapCnt_;
+    double radius_;
+    geometry_msgs::PoseStamped center_;
+    int startCell_;
+    int iterations_;
+    int filterCycles_;
+    int filteredCells_;
 };
 
 
