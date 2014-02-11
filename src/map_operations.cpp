@@ -1,4 +1,4 @@
-#include <map_operations.h>
+#include "map_operations.h"
 
 int maxIndex(const nav_msgs::OccupancyGrid::ConstPtr &map) {
     return map->info.height * map->info.width - 1;

@@ -72,7 +72,7 @@ private:
     void preFilterMap_fi(int radius);
     void preFilterMap_Fi(int radius);
     void preFilterMap_FI(int radius);
-    void preFilterMap_FII(const geometry_msgs::PoseStamped &center, int radius);
+    void preFilterMap_FII(const geometry_msgs::PoseStamped &center, double radius);
 
     // find frontierRegions
     std::vector<unsigned int> findFrontierCells(const geometry_msgs::PoseStamped &center, int radius);

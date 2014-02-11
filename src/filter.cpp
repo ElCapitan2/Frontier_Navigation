@@ -306,77 +306,71 @@
 ////    this->filteredMap_pub_.publish(filteredMap);
 //}
 
-void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, int radius) {
+void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, double radius) {
 
     printf("Filtering map using FII...\n");
 
     nav_msgs::GridCells min4;
     nav_msgs::GridCells min1;
 
-    // setup search area
     int startCell;
     int iterations;
     setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-    std::vector<int8_t> filteredData = map_->data;
+    PreFilterMap_FII log(0, radius, center, startCell, iterations);
+
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
+    filteredMap->data = map_->data;
     filteredMap->header = map_->header;
     filteredMap->info = map_->info;
 
     int filterCycles = 0;
     int filteredCells = 0;
-    int additionalOperations = 0;
+    int filteredCellsInIt = 0;
+    int addOps = 0;
+    int addOpsInIt = 0;
+    int ops = 0;
+    int opsInIt = 0;
 
-    filteredMap->data = filteredData;
-
+    // at first every cell within radius potentially is a cell which can be filtered
     vec_single importantIdxs;
-    // O(iterations*iterations)
+    addOps += iterations*iterations;
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
-            importantIdxs.push_back(startCell + j + i*map_->info.height);
+            importantIdxs.push_back(startCell + j + i*map_->info.width);
         }
     }
 
-    int ops = 0;
+    int maxIndex = startCell + iterations-1 + map_->info.width*(iterations-1);
     std::vector<bool> flags;
-    for (unsigned int i = 0; i < map_->info.height * map_->info.width; i++) {
+    addOps += maxIndex;
+    for (unsigned int i = 0; i < maxIndex; i++) {
         flags.push_back(false);
     }
 
-    int filteredCellsInIteration = 0;
     unsigned int centerCell = pointToCell(center.pose.position, this->map_);
-
     while (importantIdxs.size() > 0) {
         filterCycles++;
-//        printf("\tCycle %d\n", filterCycles);
-//        printf("\t\tImportantIdxs.size() = %d\n", importantIdxs.size());
         min1.cells.clear();
         vec_single temp;
         unsigned int index;
-
-//        printf("\timpIdxs: %d\n", importantIdxs.size());
-
         for (unsigned int i = 0; i < importantIdxs.size(); i++) {
             index = importantIdxs[i];
-//            data = filteredData[index];
-//            data = filteredMap->data[index];
-            ops++;
-//            if (data == -1 && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
-//            if (isUSpace(index, filteredMap) && Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) < SQRT2 * radius) {
-
+            opsInIt += 3;
             if (isUSpace(index, filteredMap)) {
                 if (filterCycles > 1) {
                     if (Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) >= SQRT2 * radius) {
                     continue;
                     }
                 }
-                ops += 17;
+                opsInIt += 17;
                 int kernel = neighbourhoodValue(index, filteredMap);
                 if (kernel <= 0 && kernel >= -3) {
-                    filteredCellsInIteration++;
-                    // 1 write and max 16 compares and max 3 pushs and max 3 writes
-                    ops += 12;
-                    additionalOperations += 11;
+                    filteredCellsInIt++;
+                    // max 3 pushes and 8 compares and 1 write (as in FI)
+                    // max 3 writes and max 8 compares (needed exclusively in FII)
+                    opsInIt += 12;
+                    addOpsInIt += 11;
                     filteredCells++;
                     filteredMap->data[index] = F_SPACE;
                     min4.cells.push_back(cellToPoint(index, map_));
@@ -417,34 +411,39 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
             }
         }
 
+        log.cntOfImpIdxsPerCycle.push_back(importantIdxs.size());
+        log.cntOfFilteredCellsPerCycle.push_back(filteredCellsInIt);
+        log.cntOfPotentialImpIdxs.push_back(temp.size());
+        log.cntOfOpsPerCycle.push_back(opsInIt);
+        log.cntOfAdditionalOpsPerCycle.push_back(addOpsInIt);
 
-//        printf("\t\tFiltered Cells: %d - %d\n", filterCycles, filteredCellsInIteration);
-//        printf("\t\tPotentials: %d - %d\n", filterCycles, temp.size());
-        filteredCellsInIteration = 0;
-        additionalOperations += temp.size();
+
+//        importantIdxs = Helpers::sortAndRemoveEquals(temp);
+        importantIdxs = temp;
+//        for (unsigned int i = 0; i < importantIdxs.size(); i++) {
+//            min1.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
+//        }
+
+        // runtime measure
+        addOps += temp.size();
+        addOps += addOpsInIt;
+        ops += opsInIt;
+
+        // reset
         for (unsigned int i = 0; i < temp.size(); i++) {
             flags[temp[i]] = false;
         }
-        importantIdxs = Helpers::sortAndRemoveEquals(temp);
-
-        for (unsigned int i = 0; i < importantIdxs.size(); i++) {
-            min1.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
-        }
-//        for (int i = 0; i < importantIdxs.size(); i++) printf("%d\n", importantIdxs[i]);
         temp.clear();
-
+        opsInIt = 0;
+        addOpsInIt = 0;
+        filteredCellsInIt = 0;
 
     }
-
-
-
-
-
-    printf("\tRadius: %d\n", radius);
+    printf("\tRadius: %f\n", radius);
     printf("\tFilter cylces: %d\n", filterCycles);
     printf("\tFiltered cells: %d\n", filteredCells);
-    printf("\tAdditional ops: %d\n", additionalOperations);
-    printf("\tActual runtime: %d\n", ops + additionalOperations);
+    printf("\tAdditional ops: %d\n", addOps);
+    printf("\tActual runtime: %d\n", ops + addOps);
 //    min4.cell_height = min4.cell_width = map_->info.resolution;
 //    min4.header.frame_id = "/map";
 //    min1.cell_height = min1.cell_width = map_->info.resolution;
@@ -454,8 +453,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, i
 
 //    this->filteredMap_pub_.publish(filteredMap);
 
-    this->map_ = filteredMap;
+    log.printLog(ops, addOps);
 
+    this->map_ = filteredMap;
 }
 
 
