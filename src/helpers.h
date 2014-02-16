@@ -15,6 +15,7 @@
 #include <nav_msgs/GridCells.h>
 
 #include "types.h"
+#include "map_operations.h"
 
 class Helpers {
 public:
@@ -73,12 +74,30 @@ public:
     static void writeToFile(char* file, char* msg, int value1, int value2);
     static void writeToFile(char* file, char* msg, int value1, int value2, int value3);
     static void writeToFile(char *file, char *msg, vec_single data);
+    static nav_msgs::GridCells circleArea2(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, nav_msgs::GridCells &outline);
 };
 
-class PreFilterMap_FII {
+class PreFilterMap_1 {
 public:
-    PreFilterMap_FII(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
-    void printLog(int ops, int addOps);
+    PreFilterMap_1(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
+    void printLog(int filteredCells, int ops, int addOps);
+    vec_single cntOfFilteredCellsPerCycle;
+    vec_single cntOfOpsPerCycle;
+    vec_single cntOfAdditionalOpsPerCycle;
+private:
+    int mapCnt_;
+    double radius_;
+    geometry_msgs::PoseStamped center_;
+    int startCell_;
+    int iterations_;
+    int filterCycles_;
+    int filteredCells_;
+};
+
+class PreFilterMap_2 {
+public:
+    PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
+    void printLog(int filteredCells, int ops, int addOps);
     vec_single cntOfImpIdxsPerCycle;
     vec_single cntOfFilteredCellsPerCycle;
     vec_single cntOfPotentialImpIdxs;

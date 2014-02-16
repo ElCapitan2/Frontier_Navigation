@@ -150,6 +150,10 @@ void Frontier_Navigation::explore() {
 
     this->processState_ = PROCESSING_MAP_STARTED;
 
+//    nav_msgs::GridCells outline;
+//    this->min1_pub_.publish(Helpers::circleArea2(mapOps_.pointToCell(this->robot_position_.pose.position, map_), 100.0, map_, outline));
+//    this->min2_pub_.publish(outline);
+
     bool success = false;
     double radius = this->radius_;
     geometry_msgs::PoseStamped goal;

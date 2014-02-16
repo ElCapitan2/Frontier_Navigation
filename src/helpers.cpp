@@ -177,6 +177,100 @@ nav_msgs::GridCells Helpers::circleArea(int index, double radius, const nav_msgs
     return circle;
 }
 
+nav_msgs::GridCells Helpers::circleArea2(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, nav_msgs::GridCells &outline) {
+    MapOperations mapOps;
+
+    nav_msgs::GridCells circle;
+
+    int ops = 0;
+    int comps = 0;
+    int d = 0;
+    int startCell;
+    int writes = 0;
+    int iterations;
+    geometry_msgs::PoseStamped center;
+    center.pose.position = mapOps.cellToPoint(index, map);
+
+    mapOps.setupSearchArea(center, radius, map, startCell, iterations);
+
+    int cell;
+    double dist;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++) {
+            cell = startCell + j + i*map->info.width;
+            d++;
+            dist = distance(index, cell, map->info.width, map->info.resolution);
+            comps++;
+            if (dist <= radius) circle.cells.push_back(mapOps.cellToPoint(cell, map));
+        }
+    }
+    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
+    ops = 0;
+    d = 0;
+    comps = 0;
+    writes = 0;
+    circle.cells.clear();
+
+    bool inCircle = false;
+    for (int i = 0; i < iterations; i++) {
+        writes++;
+        inCircle = false;
+        for (int j = 0; j < iterations; j++) {
+            cell = startCell + j + i*map->info.width;
+            d++;
+            dist = distance(index, cell, map->info.width, map->info.resolution);
+            if (inCircle && dist > radius) {
+                comps += 2;
+                writes++;
+                inCircle = false;
+                break;
+            } else comps++;
+            comps++;
+            if (dist <= radius) {
+                writes++;
+                inCircle = true;
+                circle.cells.push_back(mapOps.cellToPoint(cell, map));
+            }
+        }
+    }
+    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
+    ops = 0;
+    d = 0;
+    comps = 0;
+    writes = 0;
+    circle.cells.clear();
+
+    int start = 0;
+    int end = 0;
+    int inserts = 0;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++) {
+            cell = startCell + j + i*map->info.width;
+            d++;
+            dist = distance(index, cell, map->info.width, map->info.resolution);
+            comps++;
+            if (dist <= radius) {
+                writes++;
+                start = j;
+                end = iterations-j;
+                inserts = end-start;
+                for (int k = 0; k <= inserts; k++) circle.cells.push_back(mapOps.cellToPoint(cell++, map));
+                outline.cells.push_back(mapOps.cellToPoint((--cell-inserts), map));
+                outline.cells.push_back(mapOps.cellToPoint(cell, map));
+                break;
+            }
+        }
+    }
+    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
+
+
+    circle.cell_height = circle.cell_width = map->info.resolution;
+    circle.header.frame_id = map->header.frame_id;
+    outline.cell_height = outline.cell_width = map->info.resolution;
+    outline.header.frame_id = map->header.frame_id;
+    return circle;
+}
+
 //void Frontier_Navigation::circle2(double radius) {
 //    nav_msgs::GridCells circle;
 //    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
@@ -423,14 +517,48 @@ char* Helpers::getOrdinal(unsigned int number) {
     return char_type;
 }
 
-PreFilterMap_FII::PreFilterMap_FII(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations) {
+PreFilterMap_1::PreFilterMap_1(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations) {
     this->mapCnt_ = mapCnt;
     this->radius_ = radius;
     this->center_ = center;
     this->startCell_ = startCell;
     this->iterations_ = iterations;
 }
-void PreFilterMap_FII::printLog(int ops, int addOps) {
+void PreFilterMap_1::printLog(int filteredCells, int ops, int addOps) {
+    char* file = "filter.xlsx";
+    int cycles = this->cntOfOpsPerCycle.size();
+    Helpers::writeToFile(file, "Filtering map using fi...");
+    Helpers::writeToFile(file, "mapCnt", this->mapCnt_);
+    Helpers::writeToFile(file, "radius", this->radius_);
+    Helpers::writeToFile(file, "center.x", this->center_.pose.position.x);
+    Helpers::writeToFile(file, "center.y", this->center_.pose.position.y);
+    Helpers::writeToFile(file, "startCell", this->startCell_);
+    Helpers::writeToFile(file, "iterations", this->iterations_);
+    Helpers::writeToFile(file, "cycles", cycles);
+    Helpers::writeToFile(file, "filteredCells", filteredCells);
+    Helpers::writeToFile(file, "ops", ops);
+    Helpers::writeToFile(file, "addOps", addOps);
+    Helpers::writeToFile(file, "totalOps", ops + addOps);
+    Helpers::writeToFile(file, ";cycle;filteredCells;ops;addOps");
+    vec_single data;
+    for (int i = 0; i < this->cntOfOpsPerCycle.size(); i++) {
+        data.push_back(i+1);
+        data.push_back(this->cntOfFilteredCellsPerCycle[i]);
+        data.push_back(this->cntOfOpsPerCycle[i]);
+        data.push_back(this->cntOfAdditionalOpsPerCycle[i]);
+        Helpers::writeToFile(file, "", data);
+        data.clear();
+    }
+}
+
+PreFilterMap_2::PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations) {
+    this->mapCnt_ = mapCnt;
+    this->radius_ = radius;
+    this->center_ = center;
+    this->startCell_ = startCell;
+    this->iterations_ = iterations;
+}
+void PreFilterMap_2::printLog(int filteredCells, int ops, int addOps) {
     char* file = "filter.xlsx";
     int cycles = this->cntOfImpIdxsPerCycle.size();
     Helpers::writeToFile(file, "Filtering map using FII...");
@@ -441,6 +569,7 @@ void PreFilterMap_FII::printLog(int ops, int addOps) {
     Helpers::writeToFile(file, "startCell", this->startCell_);
     Helpers::writeToFile(file, "iterations", this->iterations_);
     Helpers::writeToFile(file, "cycles", cycles);
+    Helpers::writeToFile(file, "filteredCells", filteredCells);
     Helpers::writeToFile(file, "ops", ops);
     Helpers::writeToFile(file, "addOps", addOps);
     Helpers::writeToFile(file, "totalOps", ops + addOps);

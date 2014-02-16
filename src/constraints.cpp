@@ -53,7 +53,7 @@ bool Frontier_Navigation::evaluateFrontierRegion(vec_single &frontierRegion) {
 bool Frontier_Navigation::evaluateGoal(geometry_msgs::PoseStamped &goal) {
     bool c1 = blackListConstraints(this->blackList_, goal, 0.5);
     bool c2 = goalStateConstraints();
-    bool c3 = goalConstraints(goal, this->robot_position_, 0.5);
+    bool c3 = goalConstraints(goal, this->robot_position_, 1.0);
     bool c4 = safetyAreaConstraint(goal, this->map_);
     if (!c1) printf("Goal is BLACKLISTED - try next goal\n");
     if (!c2) printf("Goal triggers bad state\n");

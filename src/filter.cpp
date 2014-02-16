@@ -1,323 +1,143 @@
 #include "map_operations.h"
 
-//void MapOperations::check(std::vector<geometry_msgs::Point> test) {
-//    vec_single transfer;
-//    for (int i = 0; i < test.size(); i++) {
-//        transfer.push_back(Helpers::pointToGrid(test[i], map_));
-//        if (Helpers::gridToPoint(transfer[i], map_).x != test[i].x) printf("CONVERSION ERROR\n");
-//        if (Helpers::gridToPoint(transfer[i], map_).y != test[i].y) printf("CONVERSION ERROR\n");
-//    }
-//    printf("org: %d\n", test.size());
-//    printf("copy: %d\n", Helpers::sortAndRemoveEquals(transfer).size());
-//    if (Helpers::sortAndRemoveEquals(transfer).size() != test.size()) printf("SIZE ERROR\n");
+void MapOperations::preFilterMap_fi(const geometry_msgs::PoseStamped &center, double radius) {
 
-//}
+    printf("Filtering map using fi...\n");
 
-//void MapOperations::preFilterMap_fi(int radius) {
-//    // we search in an area around robot
 //    nav_msgs::GridCells min1;
-//    geometry_msgs::Point pos = this->robot_position_.pose.position;
-//    geometry_msgs::Point startPoint;
-//    startPoint.x = pos.x - radius;
-//    startPoint.y = pos.y - radius;
-//    startPoint.z = 0;
-//    int startIndex = Helpers::pointToGrid(startPoint, this->map_);
-//    Neighbours neighbours(map_->info.width, map_->info.height);
-//    int iterations = radius*2/map_->info.resolution;
-//    printf("Filtering map using fi...\n");
-//    const int8_t FREESPACE = 0;
-//    int ops = 0;
-//    int filterCycles = 0;
-//    int filteredCells = 0;
-//    std::vector<int8_t> filteredData = map_->data;
-//    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
-//    filteredMap->data = filteredData;
-//    bool go_on = true;
-//    while (go_on) {
-//        go_on = false;
-//        for (int i = 0; i < iterations; i++) {
-//            for (int j = 0; j < iterations; j++) {
-//                unsigned int index = startIndex + j + i*map_->info.height;
-//                int8_t data = filteredMap->data[index];
-//                ops += 19;
-//                if ((data == -1) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < 8.0)) {
-//                    int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
-//                            neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
-//                    if (kernel <= 0 && kernel >= -3) {
-//                        go_on = true;
-//                        min1.cells.push_back(Helpers::gridToPoint(index, map_));
-//                        filteredCells++;
-//                        filteredMap->data[index] = FREESPACE;
-//                    }
-//                }
-//            }
-//        }
-//        filterCycles++;
-//    }
-//    printf("\tRadius: %d\n", radius);
-//    printf("\tFilter cylces: %d\n", filterCycles);
-//    printf("\tFiltered cells: %d\n", filteredCells);
-//    printf("\tActual runtime: %d\n", ops);
-//    min1.cell_height = min1.cell_width = map_->info.resolution;
-//    min1.header.frame_id = "/map";
-//    this->min1_pub_.publish(min1);
-////    check(min1.cells);
-//}
-
-//void MapOperations::preFilterMap_Fi(int radius) {
-//    // we search in an area around robot
-//    nav_msgs::GridCells min2;
-//    geometry_msgs::Point pos = this->robot_position_.pose.position;
-//    geometry_msgs::Point startPoint;
-//    startPoint.x = pos.x - radius;
-//    startPoint.y = pos.y - radius;
-//    startPoint.z = 0;
-//    int startIndex = Helpers::pointToGrid(startPoint, this->map_);
-//    Neighbours neighbours(map_->info.width, map_->info.height);
-//    int iterations = radius*2/map_->info.resolution;
-//    printf("Filtering map using Fi...\n");
-//    int8_t data = 0;
-//    const int8_t FREESPACE = 0;
-//    int ops = 0;
-//    int filterCycles = 0;
-//    int filteredCells = 0;
-//    std::vector<int8_t> filteredData = map_->data;
-//    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
-//    filteredMap->data = filteredData;
-//    bool go_on = true;
-//    while (go_on) {
-//        go_on = false;
-//        for (int i = 0; i < iterations; i++) {
-//            for (int j = 0; j < iterations; j++) {
-//                unsigned int index = startIndex + j + i*map_->info.height;
-//                int8_t data = filteredMap->data[index];
-//                ops++;
-//                if ((data == -1) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < 8.0)) {
-//                    ops += 17;
-//                    int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
-//                            neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
-//                    if (kernel <= 0 && kernel >= -3) {
-//                        ops++;
-//                        go_on = true;
-//                        min2.cells.push_back(Helpers::gridToPoint(index, map_));
-//                        filteredCells++;
-//                        filteredMap->data[index] = FREESPACE;
-//                    }
-//                }
-//            }
-//        }
-//        filterCycles++;
-//    }
-//    printf("\tRadius: %d\n", radius);
-//    printf("\tFilter cylces: %d\n", filterCycles);
-//    printf("\tFiltered cells: %d\n", filteredCells);
-////    printf("\tRuntime estimation: %f\n", 10*pow(2*radius/0.05, 4) + 10*pow(2*radius/0.05, 2));
-//    printf("\tActual runtime: %d\n", ops);
-//    min2.cell_height = min2.cell_width = map_->info.resolution;
-//    min2.header.frame_id = "/map";
-//    this->min2_pub_.publish(min2);
-////    check(min2.cells);
-//}
-
-//void MapOperations::preFilterMap_FI(int radius) {
-
-//    // we search in an area around robot
-//    geometry_msgs::Point pos = this->robot_position_.pose.position;
-//    geometry_msgs::Point startPoint;
-//    startPoint.x = pos.x - radius;
-//    startPoint.y = pos.y - radius;
-//    startPoint.z = 0;
-
-//    nav_msgs::GridCells min3;
-//    nav_msgs::GridCells min2;
-////    nav_msgs::GridCells min1;
-////    nav_msgs::GridCells min2;
-////    nav_msgs::GridCells min3;
-////    nav_msgs::GridCells min4;
-
-//    int startIndex = Helpers::pointToGrid(startPoint, this->map_);
-
-//    Neighbours neighbours(map_->info.width, map_->info.height);
-//    int iterations = radius*2/map_->info.resolution;
-//    printf("Filtering map using FI...\n");
-
-//    int8_t data = 0;
-//    const int8_t FREESPACE = 0;
-//    std::vector<int8_t> filteredData = map_->data;
-//    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
-
-//    int filterCycles = 0;
-//    int filteredCells = 0;
-//    int compares = 0;
-//    int neighbourLookUps = 0;
-
-
-//    filteredMap->data = filteredData;
-
-//    int u_space = 0;
-//    int f_space = 0;
-//    int o_space = 0;
-//    vec_single importantIdxs;
-//    // O(iterations*iterations)
-//    for (int i = 0; i < iterations; i++) {
-//        for (int j = 0; j < iterations; j++) {
-//            importantIdxs.push_back(startIndex + j + i*map_->info.height);
-//            int8_t value = map_->data[startIndex + j + i*map_->info.height];
-//            if (value == 0) f_space++;
-//            if (value == -1) u_space++;
-//            if (value == 100) o_space++;
-//        }
-//    }
-
-////    printf("\tf: %d u: %d o: %d\n", f_space, u_space, o_space);
-//    Helpers::writeToFile("max.txt", "", iterations*iterations - o_space - f_space);
-
-//    int cntOfImportantIdxs = 0;
-//    int sortingOperations = 0;
-//    int ops = 0;
-//    while (importantIdxs.size() > 0) {
-//    int rightKernels = 0;
-////    while (filterCycles < 1) {
-////    while (filterCycles < 7) {
-////        printf("\tMax size of importantIdxs START: %d\n", iterations*iterations - o_space - f_space);
-//        vec_single temp;
-////        zeros.cells.clear();
-////        min1.cells.clear();
-//        min2.cells.clear();
-////        min3.cells.clear();
-////        min4.cells.clear();
-//        unsigned int index;
-//        for (int i = 0; i < importantIdxs.size(); i++) {
-//            index = importantIdxs[i];
-////            data = filteredData[index];
-//            data = filteredMap->data[index];
-//            compares++;
-//            ops++;
-//            if ((data == -1 && true) && (Helpers::distance(Helpers::pointToGrid(this->robot_position_.pose.position, map_), index, 4000, 0.05) < 8.0)) {
-//                ops += 17;
-//                neighbourLookUps += 8;
-//                int kernel = neighbours.getValLeft(index, filteredMap) + neighbours.getValRight(index, filteredMap) + neighbours.getValTop(index, filteredMap) + neighbours.getValBottom(index, filteredMap) +
-//                        neighbours.getValLeftBottom(index, filteredMap) + neighbours.getValLeftTop(index, filteredMap) + neighbours.getValRightBottom(index, filteredMap) + neighbours.getValRightTop(index, filteredMap);
-//                switch (kernel) {
-////                case 0: zeros.cells.push_back(Helpers::gridToPoint(index, map_)); break;
-////                case -1: min1.cells.push_back(Helpers::gridToPoint(index, map_)); break;
-////                case -2: min2.cells.push_back(Helpers::gridToPoint(index, map_)); break;
-////                case -3: min3.cells.push_back(Helpers::gridToPoint(index, map_)); break;
-////                case -4: min4.cells.push_back(Helpers::gridToPoint(index, map_)); break;
-//                default: break;
-//                }
-//                compares++;
-//                if (kernel <= 0 && kernel >= -3) {
-//                    rightKernels++;
-//                    // 1 write and 8 compares and max 3 pushs
-//                    ops += 12;
-//                    neighbourLookUps += 8;
-////                    filteredData[index] = FREESPACE;
-//                    filteredCells++;
-//                    filteredMap->data[index] = FREESPACE;
-//                    f_space++;
-//                    compares += 4;
-//                    min3.cells.push_back(Helpers::gridToPoint(index, map_));
-//                    // fetch important indices for next round
-//                    if (neighbours.getValLeft(index, filteredMap) == -1) temp.push_back(neighbours.getLeft(index));
-//                    if (neighbours.getValRight(index, filteredMap) == -1) temp.push_back(neighbours.getRight(index));
-//                    if (neighbours.getValTop(index, filteredMap) == -1) temp.push_back(neighbours.getTop(index));
-//                    if (neighbours.getValBottom(index, filteredMap) == -1) temp.push_back(neighbours.getBottom(index));
-//                    if (neighbours.getValLeftTop(index, filteredMap) == -1) temp.push_back(neighbours.getLeftTop(index));
-//                    if (neighbours.getValLeftBottom(index, filteredMap) == -1) temp.push_back(neighbours.getLeftBottom(index));
-//                    if (neighbours.getValRightTop(index, filteredMap) == -1) temp.push_back(neighbours.getRightTop(index));
-//                    if (neighbours.getValRightBottom(index, filteredMap) == -1) temp.push_back(neighbours.getRightBottom(index));
-//                }
-
-//            }
-//        }
-
-//        // O(temp.size()*log(temp.size())) + O(temp.size())
-//        if (temp.size() > 0) sortingOperations += (temp.size()-1 + temp.size() * (log(temp.size())/log(2)));
-//        importantIdxs = Helpers::sortAndRemoveEquals(temp);
-//        printf("TEMP: %d - IMPORTANT: %d - DIFF: %d\n", temp.size(), importantIdxs.size(), temp.size()-importantIdxs.size());
-
-//        for (int i = 0; i < importantIdxs.size(); i++) {
-//            min2.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
-//        }
-////        printf("TEMP: %d - %d\n", filterCycles, importantIdxs.size());
-////        printf("rightKernels: %d\n", rightKernels);
-//        rightKernels = 0;
-////        for (int i = 0; i < importantIdxs.size(); i++) printf("%d\n", importantIdxs[i]);
-//        filterCycles++;
-////        filteredMap->data = filteredData;
-//        cntOfImportantIdxs += temp.size();
-//        compares++;
-////        printf("\tMax size of importantIdxs: %d\n", iterations*iterations - o_space - f_space);
-////        printf("\tImportant indices before cut down: %d\n", temp.size());
-////        printf("\tImportant Indices after cut down : %d\n", importantIdxs.size());
-//        Helpers::writeToFile("max.txt", "", iterations*iterations - o_space - f_space);
-//        Helpers::writeToFile("before.txt", "", temp.size());
-//        Helpers::writeToFile("after.txt", "", importantIdxs.size());
-//        temp.clear();
-////        printf("Flip cylces: %d\n", flipCycles);
-////        printf("Compares: %d\n", compares);
-////        printf("Neighbour look ups: %d\n", neighbourLookUps);
-////        for (int i = 0; i < importantIdxs.size(); i++) min4.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
-////        min4.cell_height = min4.cell_width = map_->info.resolution;
-////        min4.header.frame_id = "/map";
-////        this->min4_pub_.publish(min4);
-////        check(min3.cells);
-//    }
-
-//    Helpers::writeToFile("filter.txt", "Filtering map...", -1);
-//    Helpers::writeToFile("filter.txt", "Filter cycles", filterCycles);
-//    Helpers::writeToFile("filter.txt", "Filtered cells", filteredCells);
-//    Helpers::writeToFile("filter.txt", "Total count of important indices", cntOfImportantIdxs);
-//    Helpers::writeToFile("filter.txt", "Average size of importantIdxs", cntOfImportantIdxs/filterCycles);
-//    Helpers::writeToFile("filter.txt", "Compares", compares);
-//    Helpers::writeToFile("filter.txt", "Neighbour lookups", neighbourLookUps);
-//    Helpers::writeToFile("filter.txt", "Sorting ops", sortingOperations);
-//    Helpers::writeToFile("filter.txt", "Operations", iterations*iterations + sortingOperations + compares + neighbourLookUps);
-
-////    for (int i = 0; i < importantIdxs.size(); i++) min4.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
-
-//    min3.cell_height = min3.cell_width = map_->info.resolution;
-////    min1.cell_height = min1.cell_width = map_->info.resolution;
-////    min2.cell_height = min2.cell_width = map_->info.resolution;
-////    min3.cell_height = min3.cell_width = map_->info.resolution;
-////    min4.cell_height = min4.cell_width = map_->info.resolution;
-//    min3.header.frame_id = "/map"; //min1.header.frame_id = min2.header.frame_id = min3.header.frame_id = min4.header.frame_id = "/map";
-//    min2.cell_height = min2.cell_width = map_->info.resolution;
-//    min2.header.frame_id = "/map";
-//    filteredMap->header = map_->header;
-//    filteredMap->info = map_->info;
-//    printf("\tRadius: %d\n", radius);
-//    printf("\tFilter cylces: %d\n", filterCycles);
-//    printf("\tFiltered cells: %d\n", filteredCells);
-////    printf("\tCompares: %d\n", compares);
-////    printf("\tNeighbour lookups: %d\n", neighbourLookUps);
-//    printf("\tSorting ops: %d\n", sortingOperations);
-//    printf("\tActual runtime: %d\n", ops + sortingOperations);
-////    printf("\tOperations: %d\n", iterations*iterations + sortingOperations + compares + neighbourLookUps);
-
-//    this->min3_pub_.publish(min3);
-//    this->min2_pub_.publish(min2);
-////    check(min3.cells);
-////    this->min1_pub_.publish(min1);
-////    this->min2_pub_.publish(min2);
-////    this->min3_pub_.publish(min3);
-////    this->min4_pub_.publish(min4);
-////    this->filteredMap_pub_.publish(filteredMap);
-//}
-
-void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, double radius) {
-
-    printf("Filtering map using FII...\n");
-
-    nav_msgs::GridCells min4;
-    nav_msgs::GridCells min1;
 
     int startCell;
     int iterations;
     setupSearchArea(center, radius, this->map_, startCell, iterations);
 
-    PreFilterMap_FII log(0, radius, center, startCell, iterations);
+    PreFilterMap_1 log(0, radius, center, startCell, iterations);
+
+    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
+    filteredMap->data = map_->data;
+    filteredMap->header = map_->header;
+    filteredMap->info = map_->info;
+
+    int filterCycles = 0;
+    int filteredCells = 0;
+    int filteredCellsInIt = 0;
+    int ops = 0;
+    int opsInIt = 0;
+
+    std::vector<int8_t> filteredData = map_->data;
+    filteredMap->data = filteredData;
+    bool go_on = true;
+    while (go_on) {
+        filterCycles++;
+        go_on = false;
+        for (int i = 0; i < iterations; i++) {
+            for (int j = 0; j < iterations; j++) {
+                unsigned int index = startCell + j + i*map_->info.width;
+                opsInIt += 19;
+                if (isUSpace(index, filteredMap)) {
+                    int kernel = neighbourhoodValue(index, filteredMap);
+                    if (kernel <= 0 && kernel >= -3) {
+                        filteredCellsInIt++;
+                        go_on = true;
+//                        min1.cells.push_back(Helpers::gridToPoint(index, map_));
+                        filteredMap->data[index] = F_SPACE;
+                    }
+                }
+            }
+        }
+        log.cntOfFilteredCellsPerCycle.push_back(filteredCellsInIt);
+        log.cntOfOpsPerCycle.push_back(opsInIt);
+        log.cntOfAdditionalOpsPerCycle.push_back(0);
+        filteredCells += filteredCellsInIt;
+        ops += opsInIt;
+        filteredCellsInIt = 0;
+        opsInIt = 0;
+    }
+
+    printf("\tRadius: %f\n", radius);
+    printf("\tFilter cylces: %d\n", filterCycles);
+    printf("\tFiltered cells: %d\n", filteredCells);
+    printf("\tActual runtime: %d\n", ops);
+//    min1.cell_height = min1.cell_width = map_->info.resolution;
+//    min1.header.frame_id = "/map";
+//    this->min1_pub_.publish(min1);
+//    check(min1.cells);
+
+    log.printLog(filteredCells, ops, 0);
+
+//    this->map_ = filteredMap;
+}
+
+void MapOperations::preFilterMap_Fi(const geometry_msgs::PoseStamped &center, double radius) {
+
+    printf("Filtering map using Fi...\n");
+
+    int startCell;
+    int iterations;
+    setupSearchArea(center, radius, this->map_, startCell, iterations);
+
+    PreFilterMap_1 log(0, radius, center, startCell, iterations);
+
+    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
+    filteredMap->data = map_->data;
+    filteredMap->header = map_->header;
+    filteredMap->info = map_->info;
+
+    int filterCycles = 0;
+    int filteredCells = 0;
+    int filteredCellsInIt = 0;
+    int ops = 0;
+    int opsInIt = 0;
+
+    std::vector<int8_t> filteredData = map_->data;
+    filteredMap->data = filteredData;
+    bool go_on = true;
+    while (go_on) {
+        filterCycles++;
+        go_on = false;
+        for (int i = 0; i < iterations; i++) {
+            for (int j = 0; j < iterations; j++) {
+                unsigned int index = startCell + j + i*map_->info.width;
+                opsInIt++;
+                if (isUSpace(index, filteredMap)) {
+                    opsInIt += 17;
+                    int kernel = neighbourhoodValue(index, filteredMap);
+                    if (kernel <= 0 && kernel >= -3) {
+                        ops++;
+                        filteredCellsInIt++;
+                        go_on = true;
+                        filteredMap->data[index] = F_SPACE;
+                    }
+                }
+            }
+        }
+        log.cntOfAdditionalOpsPerCycle.push_back(0);
+        log.cntOfFilteredCellsPerCycle.push_back(filteredCellsInIt);
+        log.cntOfOpsPerCycle.push_back(opsInIt);
+        filteredCells += filteredCellsInIt;
+        ops += opsInIt;
+        filteredCellsInIt = 0;
+        opsInIt = 0;
+    }
+
+    printf("\tRadius: %f\n", radius);
+    printf("\tFilter cylces: %d\n", filterCycles);
+    printf("\tFiltered cells: %d\n", filteredCells);
+    printf("\tActual runtime: %d\n", ops);
+
+    log.printLog(filteredCells, ops, 0);
+
+//    this->map_ = filteredMap;
+}
+
+void MapOperations::preFilterMap_FI(const geometry_msgs::PoseStamped &center, double radius) {
+
+    printf("Filtering mal using FI...\n");
+
+    int startCell;
+    int iterations;
+    setupSearchArea(center, radius, this->map_, startCell, iterations);
+
+    PreFilterMap_2 logs(0, radius, center, startCell, iterations);
 
     boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
     filteredMap->data = map_->data;
@@ -334,7 +154,103 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
 
     // at first every cell within radius potentially is a cell which can be filtered
     vec_single importantIdxs;
-    addOps += iterations*iterations;
+    ops += iterations*iterations;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++) {
+            importantIdxs.push_back(startCell + j + i*map_->info.width);
+        }
+    }
+
+    unsigned int centerCell = pointToCell(center.pose.position, this->map_);
+    while (importantIdxs.size() > 0) {
+        filterCycles++;
+        vec_single temp;
+        unsigned int index;
+        for (int i = 0; i < importantIdxs.size(); i++) {
+            index = importantIdxs[i];
+            opsInIt += 3;
+            if (isUSpace(index, filteredMap)) {
+                if (filterCycles > 1) {
+                    if (Helpers::distance(index, centerCell, this->map_->info.width, this->map_->info.resolution) >= SQRT2 * radius) {
+                    continue;
+                    }
+                }
+                opsInIt += 17;
+                int kernel = neighbourhoodValue(index, filteredMap);
+                if (kernel <= 0 && kernel >= -3) {
+                    filteredCellsInIt++;
+                    opsInIt += 12;
+                    filteredMap->data[index] = F_SPACE;
+                    // fetch important indices for next round
+                    if (getLeftVal(index, filteredMap) == -1) temp.push_back(getLeftCell(index, map_));
+                    if (getRightVal(index, filteredMap) == -1) temp.push_back(getRightCell(index, map_));
+                    if (getTopVal(index, filteredMap) == -1) temp.push_back(getTopCell(index, map_));
+                    if (getBottomVal(index, filteredMap) == -1) temp.push_back(getBottomCell(index, map_));
+                    if (getLeftTopVal(index, filteredMap) == -1) temp.push_back(getLeftTopCell(index, map_));
+                    if (getLeftBottomVal(index, filteredMap) == -1) temp.push_back(getLeftBottomCell(index, map_));
+                    if (getRightTopVal(index, filteredMap) == -1) temp.push_back(getRightTopCell(index, map_));
+                    if (getRightBottomVal(index, filteredMap) == -1) temp.push_back(getRightBottomCell(index, map_));
+                }
+            }
+        }
+
+        logs.cntOfImpIdxsPerCycle.push_back(importantIdxs.size());
+        logs.cntOfFilteredCellsPerCycle.push_back(filteredCellsInIt);
+        logs.cntOfPotentialImpIdxs.push_back(temp.size());
+        logs.cntOfOpsPerCycle.push_back(opsInIt);
+        if (temp.size() > 0) addOpsInIt += (temp.size()-1 + temp.size() * (log(temp.size())/log(2)));
+        logs.cntOfAdditionalOpsPerCycle.push_back(addOpsInIt);
+
+        importantIdxs = Helpers::sortAndRemoveEquals(temp);
+
+        // runtime measure
+        addOps += addOpsInIt;
+        ops += opsInIt;
+        filteredCells += filteredCellsInIt;
+
+        // reset
+        temp.clear();
+        opsInIt = 0;
+        addOpsInIt = 0;
+        filteredCellsInIt = 0;
+
+    }
+    printf("\tRadius: %f\n", radius);
+    printf("\tFilter cylces: %d\n", filterCycles);
+    printf("\tFiltered cells: %d\n", filteredCells);
+    printf("\tAdditional ops: %d\n", addOps);
+    printf("\tActual runtime: %d\n", ops + addOps);
+    logs.printLog(filteredCells, ops, addOps);
+
+//        this->map_ = filteredMap;
+}
+
+void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, double radius) {
+
+    printf("Filtering map using FII...\n");
+
+    int startCell;
+    int iterations;
+    setupSearchArea(center, radius, this->map_, startCell, iterations);
+
+    PreFilterMap_2 log(0, radius, center, startCell, iterations);
+
+    boost::shared_ptr<nav_msgs::OccupancyGrid> filteredMap(new nav_msgs::OccupancyGrid);
+    filteredMap->data = map_->data;
+    filteredMap->header = map_->header;
+    filteredMap->info = map_->info;
+
+    int filterCycles = 0;
+    int filteredCells = 0;
+    int filteredCellsInIt = 0;
+    int addOps = 0;
+    int addOpsInIt = 0;
+    int ops = 0;
+    int opsInIt = 0;
+
+    // at first every cell within radius potentially is a cell which can be filtered
+    vec_single importantIdxs;
+    ops += iterations*iterations;
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
             importantIdxs.push_back(startCell + j + i*map_->info.width);
@@ -343,7 +259,7 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
 
     int maxIndex = startCell + iterations-1 + map_->info.width*(iterations-1);
     std::vector<bool> flags;
-    addOps += maxIndex;
+//    addOps += maxIndex;
     for (unsigned int i = 0; i < maxIndex; i++) {
         flags.push_back(false);
     }
@@ -351,7 +267,6 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
     unsigned int centerCell = pointToCell(center.pose.position, this->map_);
     while (importantIdxs.size() > 0) {
         filterCycles++;
-        min1.cells.clear();
         vec_single temp;
         unsigned int index;
         for (unsigned int i = 0; i < importantIdxs.size(); i++) {
@@ -371,10 +286,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
                     // max 3 writes and max 8 compares (needed exclusively in FII)
                     opsInIt += 12;
                     addOpsInIt += 11;
-                    filteredCells++;
                     filteredMap->data[index] = F_SPACE;
-                    min4.cells.push_back(cellToPoint(index, map_));
 
+                    // fetch important indices for next round
                     if (getLeftVal(index, filteredMap) == -1 && flags[getLeftCell(index, map_)] == false) {
                         temp.push_back(getLeftCell(index, map_));
                         flags[getLeftCell(index, map_)] = true;
@@ -417,17 +331,13 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
         log.cntOfOpsPerCycle.push_back(opsInIt);
         log.cntOfAdditionalOpsPerCycle.push_back(addOpsInIt);
 
-
-//        importantIdxs = Helpers::sortAndRemoveEquals(temp);
         importantIdxs = temp;
-//        for (unsigned int i = 0; i < importantIdxs.size(); i++) {
-//            min1.cells.push_back(Helpers::gridToPoint(importantIdxs[i], map_));
-//        }
 
         // runtime measure
         addOps += temp.size();
         addOps += addOpsInIt;
         ops += opsInIt;
+        filteredCells += filteredCellsInIt;
 
         // reset
         for (unsigned int i = 0; i < temp.size(); i++) {
@@ -444,16 +354,8 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
     printf("\tFiltered cells: %d\n", filteredCells);
     printf("\tAdditional ops: %d\n", addOps);
     printf("\tActual runtime: %d\n", ops + addOps);
-//    min4.cell_height = min4.cell_width = map_->info.resolution;
-//    min4.header.frame_id = "/map";
-//    min1.cell_height = min1.cell_width = map_->info.resolution;
-//    min1.header.frame_id = "/map";
-//    this->min4_pub_.publish(min4);
-//    this->min1_pub_.publish(min1);
 
-//    this->filteredMap_pub_.publish(filteredMap);
-
-    log.printLog(ops, addOps);
+    log.printLog(filteredCells, ops, addOps);
 
     this->map_ = filteredMap;
 }
@@ -462,9 +364,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
 
 void MapOperations::preFilterMap(boost::shared_ptr<nav_msgs::OccupancyGrid> &map, const geometry_msgs::PoseStamped &center, int radius) {
     this->map_ = map;
-//    preFilterMap_fi(radius);
-//    preFilterMap_Fi(radius);
-//    preFilterMap_FI(radius);
+//    preFilterMap_fi(center, radius);
+//    preFilterMap_Fi(center, radius);
+    preFilterMap_FI(center, radius);
     preFilterMap_FII(center, radius);
     map = this->map_;
 }

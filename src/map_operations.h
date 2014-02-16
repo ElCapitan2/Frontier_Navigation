@@ -69,9 +69,9 @@ public:
 private:
 
     // filter map
-    void preFilterMap_fi(int radius);
-    void preFilterMap_Fi(int radius);
-    void preFilterMap_FI(int radius);
+    void preFilterMap_fi(const geometry_msgs::PoseStamped &center, double radius);
+    void preFilterMap_Fi(const geometry_msgs::PoseStamped &center, double radius);
+    void preFilterMap_FI(const geometry_msgs::PoseStamped &center, double radius);
     void preFilterMap_FII(const geometry_msgs::PoseStamped &center, double radius);
 
     // find frontierRegions
