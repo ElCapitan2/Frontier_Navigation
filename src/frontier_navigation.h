@@ -28,14 +28,6 @@ public:
     void cmdVelCallback(const geometry_msgs::Twist& cmd_vel);
     void goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus);
 
-//    void preFilterMap_fi(int radius);
-//    void preFilterMap_Fi(int radius);
-//    void preFilterMap_FI(int radius);
-//    void preFilterMap_FII(const geometry_msgs::PoseStamped &center, int radius);
-
-    void check(std::vector<geometry_msgs::Point> test);
-
-
     void escapeStrategy(strategies strategy);
     bool evaluateGoal(geometry_msgs::PoseStamped &goal);
     bool evaluateWhitelist(geometry_msgs::PoseStamped &goal);
@@ -45,20 +37,14 @@ public:
     void strategy_NO_FRONTIER_REGIONS_FOUND();
     void publishLists();
     bool evaluateBlackList(geometry_msgs::PoseStamped &goal);
-    void clenupWhitelist();
+    void cleanupWhitelist();
     void clenupBlacklist();
     bool findWhiteListedGoal();
 
+    bool evaluateMapCallback();
+    std::vector<geometry_msgs::Point> goalArea(vec_single frontierRegion);
+    void publishGoalArea(std::vector<geometry_msgs::Point> goalArea);
 private:
-
-//    void processMap(geometry_msgs::PoseStamped center);
-
-//    // find frontierRegions
-//    void findFrontierRegions(const geometry_msgs::PoseStamped &center, int radius, vec_double &frontiers, vec_double &adjacencyMatrixOfFrontiers);
-//    std::vector<unsigned int> findFrontierCells(const geometry_msgs::PoseStamped &center, int radius);
-//    vec_double computeAdjacencyMatrixOfFrontierCells(std::vector<unsigned int> &frontierCells);
-//    vec_double findFrontierRegions(vec_double &adjacencyMatrixOfFrontierCells);
-//    void recursivelyFindFrontierRegions(std::vector<std::vector<unsigned int> > &adjacencyMatrixOfFrontiers, std::vector<unsigned int> &neighbours, int index, int component);
 
     // quality of frontierRegions
     std::vector<int> determineBestFrontierRegions(vec_double &adjacencyMatrixOfFrontiers, vec_double &frontiers);
@@ -76,9 +62,6 @@ private:
 
     void preFilterMap(const geometry_msgs::PoseStamped &center, int radius);
 
-
-//    Process_Machine processMachine;
-
     processStates processState_;
     strategies strategy_;
 
@@ -92,6 +75,7 @@ private:
     ros::Publisher frontiers_pub_;
     ros::Publisher bestFrontier_pub_;
     ros::Publisher goal_pub_;
+    ros::Publisher goalArea_pub_;
     ros::Publisher circle_pub_;
     ros::Publisher pathTracker_pub_;
     ros::Publisher zeros_pub_;
@@ -105,8 +89,7 @@ private:
     ros::Publisher whiteListedFrontierRegions_pub_;
     ros::Timer not_moving_timer_;
     geometry_msgs::PoseStamped robot_position_;
-//    nav_msgs::OccupancyGrid::ConstPtr map_;
-//    boost::shared_ptr<nav_msgs::OccupancyGrid> mapCopy_;
+
     boost::shared_ptr<nav_msgs::OccupancyGrid> map_;
 //    nav_msgs::OccupancyGrid filteredMap_;
     geometry_msgs::PoseStamped activeGoal_;
@@ -119,9 +102,6 @@ private:
     vec_double whiteListedFrontierRegions_;
     std::vector<geometry_msgs::PoseStamped> blackList_;
     std::vector<geometry_msgs::PoseStamped> whiteListedGoals_;
-//    std::list<geometry_msgs::PoseStamped> whitelistedGoals_;
-//    std::list<vec_single> whitelistedFrontierRegions_;
-
 
     unsigned int mapCallbackCnt_;
     int cmd_vel_cnt_;

@@ -504,12 +504,12 @@ bool Test::test_setupSearchArea(MapOperations &mapOps, boost::shared_ptr<nav_msg
     center.pose.position = mapOps.cellToPoint(26, occGrid);
     Helpers::printPoint(center.pose.position, "center", 2);
 
-    int startCell;
+    unsigned int startCell;
     int iterations;
     int idxs_1[] = {12,13,14,15,16,18,19,20,21,22,24,25,26,27,28,30,31,32,33,34,36,37,38,39,40};
     int idxs_2[] = {19, 20, 21, 25, 26, 27, 31, 32, 33};
 
-    mapOps.setupSearchArea(center, 1.0, occGrid, startCell, iterations);
+    mapOps.setupSearchArea(center.pose.position, 1.0, occGrid, startCell, iterations);
     printf("\t\tradius: %f startCell: %d iterations:  %d\n", 1.0, startCell, iterations);
     int index;
     int cnt = 0;
@@ -520,8 +520,28 @@ bool Test::test_setupSearchArea(MapOperations &mapOps, boost::shared_ptr<nav_msg
             printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
         }
     }
+    mapOps.setupSearchArea(26, 1.0, occGrid, startCell, iterations);
+    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 1.0, startCell, iterations);
+    cnt = 0;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++, cnt++) {
+            index = startCell + j + i*occGrid->info.width;
+            if (index != idxs_1[cnt]) result = false;
+            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
+        }
+    }
 
-    mapOps.setupSearchArea(center, 0.5, occGrid, startCell, iterations);
+    mapOps.setupSearchArea(center.pose.position, 0.5, occGrid, startCell, iterations);
+    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
+    cnt = 0;
+    for (int i = 0; i < iterations; i++) {
+        for (int j = 0; j < iterations; j++, cnt++) {
+            index = startCell + j + i*occGrid->info.width;
+            if (index != idxs_2[cnt]) result = false;
+            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_2[cnt], index, resultMsg(index == idxs_2[cnt]));
+        }
+    }
+    mapOps.setupSearchArea(26, 0.5, occGrid, startCell, iterations);
     printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
     cnt = 0;
     for (int i = 0; i < iterations; i++) {

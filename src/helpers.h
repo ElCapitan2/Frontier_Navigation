@@ -50,8 +50,8 @@ public:
     // determine circle around point in point-space and index-space
     static nav_msgs::GridCells circle(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
     static nav_msgs::GridCells circle(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
-    static nav_msgs::GridCells circleArea(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
-    static nav_msgs::GridCells circleArea(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+//    static nav_msgs::GridCells circleArea(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
+//    static nav_msgs::GridCells circleArea(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print = false);
 
     // determine angle between two vectors
     // radian
@@ -74,7 +74,8 @@ public:
     static void writeToFile(char* file, char* msg, int value1, int value2);
     static void writeToFile(char* file, char* msg, int value1, int value2, int value3);
     static void writeToFile(char *file, char *msg, vec_single data);
-    static nav_msgs::GridCells circleArea2(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, nav_msgs::GridCells &outline);
+    static std::vector<geometry_msgs::Point> circleArea(unsigned int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map);
+    static std::vector<geometry_msgs::Point> circleArea(geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map);
 };
 
 class PreFilterMap_1 {

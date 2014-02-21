@@ -20,9 +20,9 @@ void MapOperations::findFrontierRegions(boost::shared_ptr<nav_msgs::OccupancyGri
 std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::PoseStamped &center, int radius) {
 
     // setup search area
-    int startCell;
+    unsigned int startCell;
     int iterations;
-    setupSearchArea(center, radius, map_, startCell, iterations);
+    setupSearchArea(center.pose.position, radius, map_, startCell, iterations);
 
     // performance measure
     int compares = 0;

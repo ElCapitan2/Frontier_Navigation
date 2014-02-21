@@ -57,7 +57,7 @@ void Frontier_Navigation::publishOutlineOfSearchRectangle(geometry_msgs::PoseSta
     geometry_msgs::Point add;
     add.z = 0;
     int iterations;
-    mapOps.setupSearchArea(center, radius, this->map_, startPoint, iterations);
+    mapOps.setupSearchArea(center.pose.position, radius, this->map_, startPoint, iterations);
     int height = this->map_->info.height;
     double resolution = this->map_->info.resolution;
     for (int i = 0; i < iterations; i++) {
@@ -84,6 +84,14 @@ void Frontier_Navigation::publishCircle(int goalIndex) {
     circle.cell_height = circle.cell_width = this->map_->info.resolution;
     circle.header.frame_id = "/map";
     this->circle_pub_.publish(circle);
+}
+
+void Frontier_Navigation::publishGoalArea(std::vector<geometry_msgs::Point> goalArea) {
+    nav_msgs::GridCells goalRegion;
+    goalRegion.cells = goalArea;
+    goalRegion.cell_height = goalRegion.cell_width = this->map_->info.resolution;
+    goalRegion.header.frame_id = this->map_->header.frame_id;
+    this->goalArea_pub_.publish(goalRegion);
 }
 
 void Frontier_Navigation::publishLists() {

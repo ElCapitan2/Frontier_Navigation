@@ -152,201 +152,41 @@ nav_msgs::GridCells Helpers::circle(int index, double radius, const nav_msgs::Oc
     return circle;
 }
 
-nav_msgs::GridCells Helpers::circleArea(geometry_msgs::Point pt, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print)
-{
-    int index = Helpers::pointToGrid(pt, map);
-    return circleArea(index, radius, map, print);
-}
-
-nav_msgs::GridCells Helpers::circleArea(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, bool print)
-{
-    nav_msgs::GridCells circle;
-    double boxes = radius/map->info.resolution;
-    int cnt = 0;
-    int8_t free = 0;
-    for (int row = index-boxes*map->info.width; row < index+boxes*map->info.width; row+=map->info.width) {
-        for (int i = row-boxes; i < row+boxes; i++) {
-            cnt++;
-            double distance = Helpers::distance(index, i, map->info.width, map->info.resolution);
-            if ((distance <= radius) && (map->data[i] == free)) {
-                circle.cells.push_back(Helpers::gridToPoint(i, map));
-            }
-        }
-    }
-    if (print) printf("circle - radius: %f, points: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
-    return circle;
-}
-
-nav_msgs::GridCells Helpers::circleArea2(int index, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, nav_msgs::GridCells &outline) {
+std::vector<geometry_msgs::Point> Helpers::circleArea(geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map) {
     MapOperations mapOps;
+    mapOps.pointToCell(center, map);
+    return circleArea(mapOps.pointToCell(center, map), radius, map);
+}
 
-    nav_msgs::GridCells circle;
-
-    int ops = 0;
-    int comps = 0;
-    int d = 0;
-    int startCell;
-    int writes = 0;
+std::vector<geometry_msgs::Point> Helpers::circleArea(unsigned int center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map) {
+    MapOperations mapOps;
+    std::vector<geometry_msgs::Point> circle;
+    unsigned int startCell;
     int iterations;
-    geometry_msgs::PoseStamped center;
-    center.pose.position = mapOps.cellToPoint(index, map);
-
     mapOps.setupSearchArea(center, radius, map, startCell, iterations);
-
     int cell;
     double dist;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++) {
-            cell = startCell + j + i*map->info.width;
-            d++;
-            dist = distance(index, cell, map->info.width, map->info.resolution);
-            comps++;
-            if (dist <= radius) circle.cells.push_back(mapOps.cellToPoint(cell, map));
-        }
-    }
-    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
-    ops = 0;
-    d = 0;
-    comps = 0;
-    writes = 0;
-    circle.cells.clear();
-
-    bool inCircle = false;
-    for (int i = 0; i < iterations; i++) {
-        writes++;
-        inCircle = false;
-        for (int j = 0; j < iterations; j++) {
-            cell = startCell + j + i*map->info.width;
-            d++;
-            dist = distance(index, cell, map->info.width, map->info.resolution);
-            if (inCircle && dist > radius) {
-                comps += 2;
-                writes++;
-                inCircle = false;
-                break;
-            } else comps++;
-            comps++;
-            if (dist <= radius) {
-                writes++;
-                inCircle = true;
-                circle.cells.push_back(mapOps.cellToPoint(cell, map));
-            }
-        }
-    }
-    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
-    ops = 0;
-    d = 0;
-    comps = 0;
-    writes = 0;
-    circle.cells.clear();
-
     int start = 0;
     int end = 0;
     int inserts = 0;
     for (int i = 0; i < iterations; i++) {
         for (int j = 0; j < iterations; j++) {
             cell = startCell + j + i*map->info.width;
-            d++;
-            dist = distance(index, cell, map->info.width, map->info.resolution);
-            comps++;
+            dist = distance(center, cell, map->info.width, map->info.resolution);
             if (dist <= radius) {
-                writes++;
                 start = j;
                 end = iterations-j;
                 inserts = end-start;
-                for (int k = 0; k <= inserts; k++) circle.cells.push_back(mapOps.cellToPoint(cell++, map));
-                outline.cells.push_back(mapOps.cellToPoint((--cell-inserts), map));
-                outline.cells.push_back(mapOps.cellToPoint(cell, map));
+                for (int k = 0; k <= inserts; k++) {
+                    if (mapOps.isFSpace(cell, map)) circle.push_back(mapOps.cellToPoint(cell, map));
+                    cell++;
+                }
                 break;
             }
         }
     }
-    printf("distances: %d comps: %d writes: %d size: %d\n", d, comps, writes, circle.cells.size());
-
-
-    circle.cell_height = circle.cell_width = map->info.resolution;
-    circle.header.frame_id = map->header.frame_id;
-    outline.cell_height = outline.cell_width = map->info.resolution;
-    outline.header.frame_id = map->header.frame_id;
     return circle;
 }
-
-//void Frontier_Navigation::circle2(double radius) {
-//    nav_msgs::GridCells circle;
-//    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
-//    double boxes = radius/0.05;
-//    int cnt = 0;
-//    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
-//        for (int i = row; i < row+boxes; i++) {
-//            cnt++;
-//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
-//                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
-//                geometry_msgs::Point pt2;
-//                pt2.x = pt1.x - 2*(i-row)*0.05;
-//                pt2.y = pt1.y;
-//                circle.cells.push_back(pt1);
-//                circle.cells.push_back(pt2);
-//            } else {break;}
-//        }
-//    }
-//    printf("circle2 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
-//    circle.header.frame_id = "/map";
-//    circle.cell_height = circle.cell_width = 0.05;
-//    frontiers_pub_.publish(circle);
-//}
-
-//void Frontier_Navigation::circle3(double radius) {
-//    nav_msgs::GridCells circle;
-//    int index = Helpers::pointToGrid(this->robot_position_.pose.position, this->map_);
-//    double boxes = radius/0.05;
-//    int cnt = 0;
-//    for (int row = index-boxes*4000; row < index+boxes*4000; row+=4000) {
-//        for (int i = row; i < row+boxes; i++) {
-//            cnt++;
-//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
-//                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
-//            } else {break;}
-//        }
-//        for (int i = row; i > row-boxes; i--) {
-//            cnt++;
-//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
-//                circle.cells.push_back(Helpers::gridToPoint(i, 4000, 4000, 0.05));
-//            } else {break;}
-//        }
-//    }
-////    printf("circle3 - radius: %f, size: %d, cycles: %d\n", radius, circle.cells.size(), cnt);
-//    circle.header.frame_id = "/map";
-//    circle.cell_height = circle.cell_width = 0.05;
-//    circle_pub_.publish(circle);
-//}
-
-//void Frontier_Navigation::circle4(double radius, geometry_msgs::Point pt) {
-//    nav_msgs::GridCells circle;
-//    int index = Helpers::pointToGrid(pt, this->map_);
-//    double boxes = radius/0.05;
-//    int cnt = 0;
-//    for (int row = 0; row < boxes; row++) {
-//        for (int i = index+row*4000; i < index+row*4000+boxes; i++) {
-//            cnt++;
-//            if (Helpers::distance(index, i, 4000, 0.05) <= radius) {
-//                geometry_msgs::Point pt1 = Helpers::gridToPoint(i, 4000, 4000, 0.05);
-//                circle.cells.push_back(pt1);
-//                geometry_msgs::Point pt2;
-//                pt2.x = pt1.x;
-//                pt2.y = pt1.y - 2*(row)*0.05;
-//                circle.cells.push_back((pt2));
-//                pt2.x = pt1.x - 2*(i-(index+row*4000))*0.05;
-//                pt2.y = pt1.y;
-//                circle.cells.push_back(pt2);
-//                pt2.y = pt1.y - 2*(row)*0.05;
-//                circle.cells.push_back(pt2);
-//            } else {break;}
-//        }
-//    }
-//    circle.header.frame_id = "/map";
-//    circle.cell_height = circle.cell_width = 0.05;
-//    circle_pub_.publish(circle);
-//}
 
 double Helpers::angleInRadian(geometry_msgs::Vector3 vecA, geometry_msgs::Vector3 vecB, bool print) {
     return acos((vecA.x*vecB.x + vecA.y*vecB.y + vecA.z*vecB.z) / (Helpers::length(vecA)*Helpers::length(vecB)));

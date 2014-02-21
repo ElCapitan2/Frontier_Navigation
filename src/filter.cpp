@@ -6,9 +6,9 @@ void MapOperations::preFilterMap_fi(const geometry_msgs::PoseStamped &center, do
 
 //    nav_msgs::GridCells min1;
 
-    int startCell;
+    unsigned int startCell;
     int iterations;
-    setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center.pose.position, radius, this->map_, startCell, iterations);
 
     PreFilterMap_1 log(0, radius, center, startCell, iterations);
 
@@ -71,9 +71,9 @@ void MapOperations::preFilterMap_Fi(const geometry_msgs::PoseStamped &center, do
 
     printf("Filtering map using Fi...\n");
 
-    int startCell;
+    unsigned int startCell;
     int iterations;
-    setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center.pose.position, radius, this->map_, startCell, iterations);
 
     PreFilterMap_1 log(0, radius, center, startCell, iterations);
 
@@ -131,11 +131,11 @@ void MapOperations::preFilterMap_Fi(const geometry_msgs::PoseStamped &center, do
 
 void MapOperations::preFilterMap_FI(const geometry_msgs::PoseStamped &center, double radius) {
 
-    printf("Filtering mal using FI...\n");
+    printf("Filtering map using FI...\n");
 
-    int startCell;
+    unsigned int startCell;
     int iterations;
-    setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center.pose.position, radius, this->map_, startCell, iterations);
 
     PreFilterMap_2 logs(0, radius, center, startCell, iterations);
 
@@ -229,9 +229,9 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
 
     printf("Filtering map using FII...\n");
 
-    int startCell;
+    unsigned int startCell;
     int iterations;
-    setupSearchArea(center, radius, this->map_, startCell, iterations);
+    setupSearchArea(center.pose.position, radius, this->map_, startCell, iterations);
 
     PreFilterMap_2 log(0, radius, center, startCell, iterations);
 
@@ -257,6 +257,10 @@ void MapOperations::preFilterMap_FII(const geometry_msgs::PoseStamped &center, d
         }
     }
 
+    // very huge overhead
+    // use offset!!
+    // currently we use vector which goes from index 0 of map to index maxIndex of map
+    // use minIndex = startCell, go from 0 to (maxIndex-minIndex) and offset it with minIndex
     int maxIndex = startCell + iterations-1 + map_->info.width*(iterations-1);
     std::vector<bool> flags;
 //    addOps += maxIndex;
