@@ -81,10 +81,12 @@ public:
 class PreFilterMap_1 {
 public:
     PreFilterMap_1(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
-    void printLog(int filteredCells, int ops, int addOps);
+    void printLog(int filteredCells, int ops, int addOps, int kernels, int isXSpace);
     vec_single cntOfFilteredCellsPerCycle;
     vec_single cntOfOpsPerCycle;
     vec_single cntOfAdditionalOpsPerCycle;
+    vec_single cntOfKernelsInCycle;
+    vec_single cntOfIsXSpaceInCycle;
 private:
     int mapCnt_;
     double radius_;
@@ -97,14 +99,25 @@ private:
 
 class PreFilterMap_2 {
 public:
-    PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations);
-    void printLog(int filteredCells, int ops, int addOps);
+    PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations, bool FI);
+    void printLog(int filteredCells, int ops, int addOps, int distances, int kernels, int isXSpace, int getXVal, int getXCell);
+    bool isFI;
     vec_single cntOfImpIdxsPerCycle;
     vec_single cntOfFilteredCellsPerCycle;
     vec_single cntOfPotentialImpIdxs;
     vec_single cntOfOpsPerCycle;
     vec_single cntOfAdditionalOpsPerCycle;
+    vec_single cntOfDistancesInCycle;
+    vec_single cntOfKernelsInCycle;
+    vec_single cntOfIsXSpaceInCycle;
+    vec_single cntOfGetXCellInCycle;
+    vec_single cntOfGetXValInCycle;
+    vec_single cntOfUSpaceCells;
+    vec_single cntOfOSpaceCells;
+    vec_single cntOfFSpaceCells;
+
 private:
+
     int mapCnt_;
     double radius_;
     geometry_msgs::PoseStamped center_;

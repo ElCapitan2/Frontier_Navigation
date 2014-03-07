@@ -42,7 +42,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/threshold", threshold_, 250);
     this->nodeHandle_->param("/frontier_navigation/sleep", sleep_, 0);
     this->nodeHandle_->param("/frontier_navigation/minDistance", minDinstance_, 3.0);
-    this->nodeHandle_->param("/frontier_navigation/timeout", timeout_, 5.0);
+    this->nodeHandle_->param("/frontier_navigation/timeout", timeout_, 20.0);
     this->nodeHandle_->param("/frontier_navigation/timeoutAttempts", timeoutAttempts_, 5);
     this->nodeHandle_->param("/frontier_navigation/weightOfConnectivity", weightOfConnectivity_, 3.0);
     this->nodeHandle_->param("/frontier_navigation/worstCase", worstCaseOfConnectivity_, 2.0);
@@ -53,15 +53,14 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->nodeHandle_->param("/frontier_navigation/removeWhitelistedGoalThreshold", removeWhitelistedGoalThreshold_, 0.2);
     this->nodeHandle_->param("/frontier_navigation/duplicatedGoals", duplicatedGoals_, 10);
 
-    not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this);
+    not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, false, false);
 
 }
 
 void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 //    if (this->escapeStrategy_) break;
     ROS_WARN("\"not_moving_timer\" fired. Robot is likely to be stuck!!");
-    strategies strategy = STUCK;
-    escapeStrategy(strategy);
+    escapeStrategy(STUCK);
     // determine reason for being stuck and set flags for mapCallback
     // - too close to obstacle
     //   -> backup robot and change orientation
@@ -122,14 +121,16 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
 }
 
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
+//    not_moving_timer_.stop();
+//    not_moving_timer_.start();
     if (cmd_vel.angular.x == 0.0 && cmd_vel.angular.y == 0.0 && cmd_vel.angular.z == 0.0 &&
             cmd_vel.linear.x == 0.0 && cmd_vel.linear.y == 0.0 && cmd_vel.linear.z == 0) {
+        not_moving_timer_.start();
         if(++cmd_vel_cnt_ > 25) this->blackList_.push_back(this->activeGoal_);
     }
     else {
         cmd_vel_cnt_ = 0;
         not_moving_timer_.stop();
-        not_moving_timer_.start();
     }
 }
 

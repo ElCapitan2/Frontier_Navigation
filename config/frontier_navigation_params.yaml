@@ -4,7 +4,7 @@
 # Further settings will be added
 radius: 3.0
 # Attempts to find frontiers within an increasing rectangle around robot
-attempts: 4
+attempts: 10
 # Radius will be increased be stepping
 stepping: 3.0
 

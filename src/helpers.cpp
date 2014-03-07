@@ -364,10 +364,26 @@ PreFilterMap_1::PreFilterMap_1(int mapCnt, double radius, const geometry_msgs::P
     this->startCell_ = startCell;
     this->iterations_ = iterations;
 }
-void PreFilterMap_1::printLog(int filteredCells, int ops, int addOps) {
-    char* file = "filter.xlsx";
+void PreFilterMap_1::printLog(int filteredCells, int ops, int addOps, int kernels, int isXSpace) {
+    char* file;
+    switch (int(radius_)) {
+    case 3: file = "filter3.xlsx"; break;
+    case 6: file = "filter6.xlsx"; break;
+    case 9: file = "filter9.xlsx"; break;
+    case 12: file = "filter12.xlsx"; break;
+    case 15: file = "filter15.xlsx"; break;
+    case 18: file = "filter18.xlsx"; break;
+    case 21: file = "filter21.xlsx"; break;
+    case 24: file = "filter24.xlsx"; break;
+    case 27: file = "filter27.xlsx"; break;
+    case 30: file = "filter30.xlsx"; break;
+    case 33: file = "filter33.xlsx"; break;
+    case 100: file = "filter100.xlsx"; break;
+    default: file = "filter.xlsx";
+    }
+
     int cycles = this->cntOfOpsPerCycle.size();
-    Helpers::writeToFile(file, "Filtering map using fi...");
+    Helpers::writeToFile(file, "Filtering map using Fi...");
     Helpers::writeToFile(file, "mapCnt", this->mapCnt_);
     Helpers::writeToFile(file, "radius", this->radius_);
     Helpers::writeToFile(file, "center.x", this->center_.pose.position.x);
@@ -378,30 +394,51 @@ void PreFilterMap_1::printLog(int filteredCells, int ops, int addOps) {
     Helpers::writeToFile(file, "filteredCells", filteredCells);
     Helpers::writeToFile(file, "ops", ops);
     Helpers::writeToFile(file, "addOps", addOps);
-    Helpers::writeToFile(file, "totalOps", ops + addOps);
-    Helpers::writeToFile(file, ";cycle;filteredCells;ops;addOps");
+    Helpers::writeToFile(file, "kernels", kernels);
+    Helpers::writeToFile(file, "isXSpace", isXSpace);
+    Helpers::writeToFile(file, ";cycle;filteredCells;ops;addOps;kernels;isXSpace");
     vec_single data;
     for (int i = 0; i < this->cntOfOpsPerCycle.size(); i++) {
         data.push_back(i+1);
         data.push_back(this->cntOfFilteredCellsPerCycle[i]);
         data.push_back(this->cntOfOpsPerCycle[i]);
         data.push_back(this->cntOfAdditionalOpsPerCycle[i]);
+        data.push_back((this->cntOfKernelsInCycle[i]));
+        data.push_back(this->cntOfIsXSpaceInCycle[i]);
         Helpers::writeToFile(file, "", data);
         data.clear();
     }
 }
 
-PreFilterMap_2::PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations) {
+PreFilterMap_2::PreFilterMap_2(int mapCnt, double radius, const geometry_msgs::PoseStamped &center, int startCell, int iterations, bool FI) {
     this->mapCnt_ = mapCnt;
     this->radius_ = radius;
     this->center_ = center;
     this->startCell_ = startCell;
     this->iterations_ = iterations;
+    this->isFI = FI;
 }
-void PreFilterMap_2::printLog(int filteredCells, int ops, int addOps) {
-    char* file = "filter.xlsx";
+void PreFilterMap_2::printLog(int filteredCells, int ops, int addOps, int distances, int kernels, int isXSpace, int getXVal, int getXCell) {
+    char* file;
+    switch (int(radius_)) {
+    case 3: file = "filter3.xlsx"; break;
+    case 6: file = "filter6.xlsx"; break;
+    case 9: file = "filter9.xlsx"; break;
+    case 12: file = "filter12.xlsx"; break;
+    case 15: file = "filter15.xlsx"; break;
+    case 18: file = "filter18.xlsx"; break;
+    case 21: file = "filter21.xlsx"; break;
+    case 24: file = "filter24.xlsx"; break;
+    case 27: file = "filter27.xlsx"; break;
+    case 30: file = "filter30.xlsx"; break;
+    case 33: file = "filter33.xlsx"; break;
+    case 100: file = "filter100.xlsx"; break;
+    default: file = "filter.xlsx";
+    }
+
     int cycles = this->cntOfImpIdxsPerCycle.size();
-    Helpers::writeToFile(file, "Filtering map using FII...");
+    if (isFI) Helpers::writeToFile(file, "Filtering map using FI...");
+    else Helpers::writeToFile(file, "Filtering map using FII...");
     Helpers::writeToFile(file, "mapCnt", this->mapCnt_);
     Helpers::writeToFile(file, "radius", this->radius_);
     Helpers::writeToFile(file, "center.x", this->center_.pose.position.x);
@@ -412,8 +449,12 @@ void PreFilterMap_2::printLog(int filteredCells, int ops, int addOps) {
     Helpers::writeToFile(file, "filteredCells", filteredCells);
     Helpers::writeToFile(file, "ops", ops);
     Helpers::writeToFile(file, "addOps", addOps);
-    Helpers::writeToFile(file, "totalOps", ops + addOps);
-    Helpers::writeToFile(file, ";cycle;importantIdxs;filteredCells;potentials;ops;addOps;...");
+    Helpers::writeToFile(file, "distances", distances);
+    Helpers::writeToFile(file, "kernels", kernels);
+    Helpers::writeToFile(file, "isXSpace", isXSpace);
+    Helpers::writeToFile(file, "getXVal", getXVal);
+    Helpers::writeToFile(file, "getXCell", getXCell);
+    Helpers::writeToFile(file, ";cycle;importantIdxs;filteredCells;potentials;ops;addOps;distances;kernels;isXSpace;getXVal;getXCell");
     vec_single data;
     for (int i = 0; i < this->cntOfImpIdxsPerCycle.size(); i++) {
         data.push_back(i+1);
@@ -422,7 +463,11 @@ void PreFilterMap_2::printLog(int filteredCells, int ops, int addOps) {
         data.push_back(this->cntOfPotentialImpIdxs[i]);
         data.push_back(this->cntOfOpsPerCycle[i]);
         data.push_back(this->cntOfAdditionalOpsPerCycle[i]);
-        data.push_back(0);
+        data.push_back(this->cntOfDistancesInCycle[i]);
+        data.push_back(this->cntOfKernelsInCycle[i]);
+        data.push_back(this->cntOfIsXSpaceInCycle[i]);
+        data.push_back(this->cntOfGetXValInCycle[i]);
+        data.push_back(this->cntOfGetXCellInCycle[i]);
         Helpers::writeToFile(file, "", data);
         data.clear();
     }
