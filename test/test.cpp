@@ -505,52 +505,52 @@ bool Test::test_setupSearchArea(MapOperations &mapOps, boost::shared_ptr<nav_msg
     Helpers::printPoint(center.pose.position, "center", 2);
 
     unsigned int startCell;
-    int iterations;
+    int xIts, yIts;
     int idxs_1[] = {12,13,14,15,16,18,19,20,21,22,24,25,26,27,28,30,31,32,33,34,36,37,38,39,40};
     int idxs_2[] = {19, 20, 21, 25, 26, 27, 31, 32, 33};
 
-    mapOps.setupSearchArea(center.pose.position, 1.0, occGrid, startCell, iterations);
-    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 1.0, startCell, iterations);
+    mapOps.setupRectangleArea(center.pose.position, 1.0, occGrid, startCell, xIts, yIts);
+    printf("\t\tradius: %f startCell: %d xIts:  %d yIts: %d\n", 1.0, startCell, xIts, yIts);
     int index;
     int cnt = 0;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++, cnt++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++, cnt++) {
             index = startCell + j + i*occGrid->info.width;
             if (index != idxs_1[cnt]) result = false;
             printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
         }
     }
-    mapOps.setupSearchArea(26, 1.0, occGrid, startCell, iterations);
-    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 1.0, startCell, iterations);
-    cnt = 0;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++, cnt++) {
-            index = startCell + j + i*occGrid->info.width;
-            if (index != idxs_1[cnt]) result = false;
-            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
-        }
-    }
+//    mapOps.setupRectangleArea(26, 1.0, occGrid, startCell, xIts, yIts);
+//    printf("\t\tradius: %f startCell: %d xIts:  %d yIts: %d\n", 1.0, startCell, xIts, yIts);
+//    cnt = 0;
+//    for (int i = 0; i < yIts; i++) {
+//        for (int j = 0; j < xIts; j++, cnt++) {
+//            index = startCell + j + i*occGrid->info.width;
+//            if (index != idxs_1[cnt]) result = false;
+//            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_1[cnt], index, resultMsg(index == idxs_1[cnt]));
+//        }
+//    }
 
-    mapOps.setupSearchArea(center.pose.position, 0.5, occGrid, startCell, iterations);
-    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
+    mapOps.setupRectangleArea(center.pose.position, 0.5, occGrid, startCell, xIts, yIts);
+    printf("\t\tradius: %f startCell: %d xIts:  %d yIts: %d\n", 0.5, startCell, xIts, yIts);
     cnt = 0;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++, cnt++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++, cnt++) {
             index = startCell + j + i*occGrid->info.width;
             if (index != idxs_2[cnt]) result = false;
             printf("\t\ttarget: %d actual: %d\t%s\n", idxs_2[cnt], index, resultMsg(index == idxs_2[cnt]));
         }
     }
-    mapOps.setupSearchArea(26, 0.5, occGrid, startCell, iterations);
-    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
-    cnt = 0;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++, cnt++) {
-            index = startCell + j + i*occGrid->info.width;
-            if (index != idxs_2[cnt]) result = false;
-            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_2[cnt], index, resultMsg(index == idxs_2[cnt]));
-        }
-    }
+//    mapOps.setupSearchArea(26, 0.5, occGrid, startCell, iterations);
+//    printf("\t\tradius: %f startCell: %d iterations:  %d\n", 0.5, startCell, iterations);
+//    cnt = 0;
+//    for (int i = 0; i < iterations; i++) {
+//        for (int j = 0; j < iterations; j++, cnt++) {
+//            index = startCell + j + i*occGrid->info.width;
+//            if (index != idxs_2[cnt]) result = false;
+//            printf("\t\ttarget: %d actual: %d\t%s\n", idxs_2[cnt], index, resultMsg(index == idxs_2[cnt]));
+//        }
+//    }
 
     printResultMessage(result, __func__, 1);
     return result;

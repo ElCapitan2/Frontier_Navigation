@@ -62,10 +62,8 @@ public:
     int neighbourhoodValue(unsigned int index, const nav_msgs::OccupancyGrid::ConstPtr &map);
 
     // misc
-    void setupSearchArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &iterations);
-    void setupSearchArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations);
-    void setupSearchArea(unsigned int center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &iterations);
-    void setupSearchArea(unsigned int center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations);
+    void setupRectangleArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &xIterations, int &yIterations);
+    void setupRectangleArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &xIterations, int &yIterations);
 
 private:
 

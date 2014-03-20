@@ -56,24 +56,31 @@ void Frontier_Navigation::publishOutlineOfSearchRectangle(geometry_msgs::PoseSta
     geometry_msgs::Point startPoint;
     geometry_msgs::Point add;
     add.z = 0;
-    int iterations;
-    mapOps.setupSearchArea(center.pose.position, radius, this->map_, startPoint, iterations);
-    int height = this->map_->info.height;
+
+    int xIts, yIts;
     double resolution = this->map_->info.resolution;
-    for (int i = 0; i < iterations; i++) {
-        add.x = startPoint.x + i*resolution;
-        add.y = startPoint.y;
-        rectangle.cells.push_back(add);
-        add.x = startPoint.x + i*resolution;
-        add.y = startPoint.y + 2*radius;
-        rectangle.cells.push_back(add);
-        add.x = startPoint.x;
-        add.y = startPoint.y + i*resolution;
-        rectangle.cells.push_back(add);
-        add.x = startPoint.x + 2*radius;
-        add.y = startPoint.y + i*resolution;
+    mapOps.setupRectangleArea(center.pose.position, radius, this->map_, startPoint, xIts, yIts);
+    add.y = startPoint.y;
+    for (int x = 0; x < xIts; x++) {
+        add.x = startPoint.x + x*resolution;
         rectangle.cells.push_back(add);
     }
+    add.y = startPoint.y + (yIts-1)*resolution;
+    for (int x = 0; x < xIts; x++) {
+        add.x = startPoint.x + x*resolution;
+        rectangle.cells.push_back(add);
+    }
+    add.x = startPoint.x;
+    for (int y = 1; y < yIts-1; y++) {
+        add.y = startPoint.y + y*resolution;
+        rectangle.cells.push_back(add);
+    }
+    add.x = startPoint.x + (xIts-1)*resolution;
+    for (int y = 1; y < yIts-1; y++) {
+        add.y = startPoint.y + y*resolution;
+        rectangle.cells.push_back(add);
+    }
+
     rectangle.cell_height = rectangle.cell_width = this->map_->info.resolution;
     rectangle.header.frame_id = this->map_->header.frame_id;
     this->rectangle_pub_.publish(rectangle);

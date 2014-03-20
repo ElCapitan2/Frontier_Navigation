@@ -172,61 +172,39 @@ int MapOperations::neighbourhoodValue(unsigned int index, const nav_msgs::Occupa
     return value;
 }
 
-void MapOperations::setupSearchArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &iterations) {
+void MapOperations::setupRectangleArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &xIterations, int &yIterations) {
+
     geometry_msgs::Point startPoint;
-    startPoint.x = center.x - radius;
-    startPoint.y = center.y - radius;
+
+    double minX = map->info.origin.position.x;
+    double maxX = minX + map->info.width*map->info.resolution;
+    double minY = map->info.origin.position.y;
+    double maxY = minY + map->info.height*map->info.resolution;
+
+    double left = center.x-radius;
+    double right = center.x+radius;
+    double top = center.y+radius;
+    double bottom = center.y-radius;
+
+    if (left < minX) left = minX;
+    if (right > maxX) right = maxX;
+    if (top > maxY) top = maxY;
+    if (bottom < minY) bottom = minY;
+
+    startPoint.x = left;
+    startPoint.y = bottom;
     startPoint.z = 0;
+
     int sc = pointToCell(startPoint, map);
     startCell = sc;
-    iterations = radius*2/map->info.resolution + 1;
-    Helpers::writeToFile("searchArea.xlsx", "centerPoint-startCell");
-    Helpers::writeToFile("searchArea.xlsx", ";centerPoint.x", center.x);
-    Helpers::writeToFile("searchArea.xlsx", ";centerPoint.y", center.y);
-    Helpers::writeToFile("searchArea.xlsx", ";radius", radius);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.x", startPoint.x);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.y", startPoint.y);
-    Helpers::writeToFile("searchArea.xlsx", ";startCell", sc);
-    Helpers::writeToFile("searchArea.xlsx", ";iterations", iterations);
-}
-void MapOperations::setupSearchArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations) {
-    startPoint.x = center.x - radius;
-    startPoint.y = center.y - radius;
-    startPoint.z = 0;
-    iterations = radius*2/map->info.resolution + 1;
-    Helpers::writeToFile("searchArea.xlsx", "centerPoint-startPoint");
-    Helpers::writeToFile("searchArea.xlsx", ";centerPoint.x", center.x);
-    Helpers::writeToFile("searchArea.xlsx", ";centerPoint.y", center.y);
-    Helpers::writeToFile("searchArea.xlsx", ";radius", radius);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.x", startPoint.x);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.y", startPoint.y);
-    Helpers::writeToFile("searchArea.xlsx", ";iterations", iterations);
-
+    xIterations = (right-left)/map->info.resolution + 1;
+    yIterations = (top-bottom)/map->info.resolution + 1;
 }
 
-void MapOperations::setupSearchArea(unsigned int center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, unsigned int &startCell, int &iterations) {
-    double conversion = radius/map->info.resolution;
-    int sc = center - conversion - map->info.width*conversion;
-    startCell = sc;
-    iterations = radius*2/map->info.resolution + 1;
-    Helpers::writeToFile("searchArea.xlsx", "centerCell-startCell");
-    Helpers::writeToFile("searchArea.xlsx", ";radius", radius);
-    Helpers::writeToFile("searchArea.xlsx", ";conversion", conversion);
-    Helpers::writeToFile("searchArea.xlsx", ";startCell", sc);
-    Helpers::writeToFile("searchArea.xlsx", ";iterations", iterations);
-}
-void MapOperations::setupSearchArea(unsigned int center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &iterations) {
-    double conversion = radius/map->info.resolution;
-    int startCell = center - conversion - map->info.width*conversion;
+void MapOperations::setupRectangleArea(const geometry_msgs::Point &center, double radius, const nav_msgs::OccupancyGrid::ConstPtr &map, geometry_msgs::Point &startPoint, int &xIterations, int &yIterations) {
+    unsigned int startCell;
+    setupRectangleArea(center, radius, map, startCell, xIterations, yIterations);
     startPoint = cellToPoint(startCell, map);
-    iterations = radius*2/map->info.resolution + 1;
-    Helpers::writeToFile("searchArea.xlsx", "centerCell-startPoint");
-    Helpers::writeToFile("searchArea.xlsx", ";radius", radius);
-    Helpers::writeToFile("searchArea.xlsx", ";conversion", conversion);
-    Helpers::writeToFile("searchArea.xlsx", ";startCell", startCell);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.x", startPoint.x);
-    Helpers::writeToFile("searchArea.xlsx", ";startPoint.y", startPoint.y);
-    Helpers::writeToFile("searchArea.xlsx", ";iterations", iterations);
 }
 
 

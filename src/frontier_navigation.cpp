@@ -105,10 +105,10 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& m
             printf("\t%d of %d goals are duplicates or equal!\n", cnt, duplicatedGoals_);
         }
     }
-    if (evaluateMapCallback()) {
-        printf("Map will be processed\n");
+//    if (evaluateMapCallback()) {
+//        printf("Map will be processed\n");
         explore();
-    } else printf("Map will NOT be processed\n");
+//    } else printf("Map will NOT be processed\n");
 }
 
 void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_position) {
@@ -438,6 +438,8 @@ bool Frontier_Navigation::findWhiteListedGoal() {
 }
 
 void Frontier_Navigation::escapeStrategy(strategies strategy) {
+
+    return;
 
     if (strategy_ == NORMAL) {
         strategy_ = strategy;

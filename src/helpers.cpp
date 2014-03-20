@@ -162,20 +162,20 @@ std::vector<geometry_msgs::Point> Helpers::circleArea(unsigned int center, doubl
     MapOperations mapOps;
     std::vector<geometry_msgs::Point> circle;
     unsigned int startCell;
-    int iterations;
-    mapOps.setupSearchArea(center, radius, map, startCell, iterations);
+    int xIts, yIts;
+    mapOps.setupRectangleArea(mapOps.cellToPoint(center, map), radius, map, startCell, xIts, yIts);
     int cell;
     double dist;
     int start = 0;
     int end = 0;
     int inserts = 0;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++) {
             cell = startCell + j + i*map->info.width;
             dist = distance(center, cell, map->info.width, map->info.resolution);
             if (dist <= radius) {
                 start = j;
-                end = iterations-j;
+                end = xIts-j;
                 inserts = end-start;
                 for (int k = 0; k <= inserts; k++) {
                     if (mapOps.isFSpace(cell, map)) circle.push_back(mapOps.cellToPoint(cell, map));

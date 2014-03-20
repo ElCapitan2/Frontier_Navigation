@@ -9,11 +9,11 @@ bool frontierRegionConstraints(vec_single &frontierRegion, int threshold) {
 bool oSpaceConstraint(geometry_msgs::Point &pt, const nav_msgs::OccupancyGrid::ConstPtr&  map) {
     MapOperations mapOps;
     unsigned int startCell;
-    int iterations;
-    mapOps.setupSearchArea(pt, 0.5, map, startCell, iterations);
+    int xIts, yIts;
+    mapOps.setupRectangleArea(pt, 0.5, map, startCell, xIts, yIts);
     unsigned int index;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++) {
             index = startCell + j + i*map->info.width;
             if (mapOps.isOSpace(index, map)) return false;
         }
@@ -24,11 +24,11 @@ bool oSpaceConstraint(geometry_msgs::Point &pt, const nav_msgs::OccupancyGrid::C
 bool uSpaceConstraint(geometry_msgs::Point &pt, const nav_msgs::OccupancyGrid::ConstPtr &map) {
     MapOperations mapOps;
     unsigned int startCell;
-    int iterations;
-    mapOps.setupSearchArea(pt, 0.5, map, startCell, iterations);
+    int xIts, yIts;
+    mapOps.setupRectangleArea(pt, 0.5, map, startCell, xIts, yIts);
     unsigned int index;
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++) {
             index = startCell + j + i*map->info.width;
             if (mapOps.isUSpace(index, map)) return false;
         }

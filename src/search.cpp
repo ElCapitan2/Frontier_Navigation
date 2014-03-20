@@ -21,8 +21,8 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
 
     // setup search area
     unsigned int startCell;
-    int iterations;
-    setupSearchArea(center.pose.position, radius, map_, startCell, iterations);
+    int xIts, yIts;
+    setupRectangleArea(center.pose.position, radius, map_, startCell, xIts, yIts);
 
     // performance measure
     int compares = 0;
@@ -35,8 +35,8 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
     int8_t data = 0;
     unsigned int index;
     // O(iterations*iterations)
-    for (int i = 0; i < iterations; i++) {
-        for (int j = 0; j < iterations; j++) {
+    for (int i = 0; i < yIts; i++) {
+        for (int j = 0; j < xIts; j++) {
             index = startCell + j + i*this->map_->info.height;
             data = this->map_->data[index];
             // if free-space is next to unknown-space free-space-index will be added
@@ -82,7 +82,7 @@ std::vector<unsigned int> MapOperations::findFrontierCells(const geometry_msgs::
             }        
         }
     }
-    printf("\tVisited cells: %d\n", iterations*iterations);
+    printf("\tVisited cells: %d\n", xIts*yIts);
     printf("\tf-Space cells: %d\n", fSpaceCells);
     printf("\tFound frontierCells: %d\n", frontierCells.size());
     printf("\tCompares: %d\n", compares);
