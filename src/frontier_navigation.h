@@ -29,9 +29,9 @@ public:
     void goalStatusCallback(const actionlib_msgs::GoalStatus& goalStatus);
 
     void escapeStrategy(strategies strategy);
-    bool evaluateGoal(geometry_msgs::PoseStamped &goal);
+    bool evaluateGoal(geometry_msgs::PoseStamped &goal, bool print = false);
     bool evaluateWhitelist(geometry_msgs::PoseStamped &goal);
-    bool evaluateFrontierRegion(vec_single &frontierRegion);
+    bool evaluateFrontierRegion(vec_single &frontierRegion, bool print = false);
     void explore();
     bool findNextGoal(geometry_msgs::PoseStamped &center, double radius, geometry_msgs::PoseStamped &goal);
     void strategy_NO_FRONTIER_REGIONS_FOUND();
@@ -104,6 +104,7 @@ private:
     std::vector<geometry_msgs::PoseStamped> whiteListedGoals_;
 
     unsigned int mapCallbackCnt_;
+    unsigned int processedMapCnt_;
     int cmd_vel_cnt_;
     double radius_;
     int attempts_;

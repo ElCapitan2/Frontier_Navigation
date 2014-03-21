@@ -1,7 +1,7 @@
 #include "frontier_navigation.h"
 
 Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
-{
+{    
     this->nodeHandle_ = node_ptr;
     this->rectangle_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/searchRadius", 1, false);
     this->frontiers_pub_ = this->nodeHandle_->advertise<nav_msgs::GridCells>("/frontiers", 1, false);
@@ -29,6 +29,7 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
 
     this->cmd_vel_cnt_ = 0;
     this->mapCallbackCnt_ = 0;
+    this->processedMapCnt_ = 0;
 
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
@@ -84,9 +85,13 @@ void Frontier_Navigation::timerCallback(const ros::TimerEvent&) {
 }
 
 void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& map) {
+
     printf("\n");
     printf("Frontier_Navigation received %s map\n", Helpers::getOrdinal(++this->mapCallbackCnt_));
-    printf("\twidth: %d; height: %d; res: %f; x_org: %f; y_org: %f\n", map->info.width, map->info.height, map->info.resolution, map->info.origin.position.x, map->info.origin.position.y);
+    printf("\tProcessed maps: %d (+ 1)\n", this->processedMapCnt_);
+    printf("\twidth: %d; height: %d\n", map->info.width, map->info.height);
+    printf("\tresolution: %f\n", map->info.resolution);
+    printf("\tx_org: %f; y_org: %f\n", map->info.origin.position.x, map->info.origin.position.y);
     map_->data = map->data;
     map_->header = map->header;
     map_->info = map->info;
@@ -105,8 +110,10 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& m
             printf("\t%d of %d goals are duplicates or equal!\n", cnt, duplicatedGoals_);
         }
     }
+
 //    if (evaluateMapCallback()) {
 //        printf("Map will be processed\n");
+    processedMapCnt_++;
         explore();
 //    } else printf("Map will NOT be processed\n");
 }
@@ -121,8 +128,6 @@ void Frontier_Navigation::posCallback(const geometry_msgs::PoseStamped& robot_po
 }
 
 void Frontier_Navigation::cmdVelCallback(const geometry_msgs::Twist& cmd_vel) {
-//    not_moving_timer_.stop();
-//    not_moving_timer_.start();
     if (cmd_vel.angular.x == 0.0 && cmd_vel.angular.y == 0.0 && cmd_vel.angular.z == 0.0 &&
             cmd_vel.linear.x == 0.0 && cmd_vel.linear.y == 0.0 && cmd_vel.linear.z == 0) {
         not_moving_timer_.start();
@@ -174,24 +179,30 @@ void Frontier_Navigation::explore() {
     this->processState_ = PROCESSING_MAP_DONE;
 }
 
+
+
 bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, double radius, geometry_msgs::PoseStamped &goal) {
 
     vec_double frontierRegions;
     vec_double adjacencyMatrixOfFrontierCells;
 
     publishOutlineOfSearchRectangle(center, radius);
+
     // 1. filter map within given radius
     mapOps_.preFilterMap(map_, center, radius);
     filteredMap_pub_.publish(map_);
+
     // 2. find frontiers and prepare them for further processing
     mapOps_.findFrontierRegions(map_, center, radius, frontierRegions, adjacencyMatrixOfFrontierCells);
     if (frontierRegions.size() == 0) {
         printf("No frontierRegions detected within given radius\n");
         return false;
     }
+
     // 3. quality measure of frontierRegion
     std::vector<int> frontierRegionIDs = determineBestFrontierRegions(adjacencyMatrixOfFrontierCells, frontierRegions);
-    // 4. select best frontierRegion
+
+    // 4. select frontierRegion
     printf("frontierRegion selection...\n");
     geometry_msgs::PoseStamped tempGoal;
     bool found = false;
@@ -199,41 +210,45 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
     int finalFRID;
     std::vector<geometry_msgs::Point> goals;
 
-    int size1 = frontierRegionIDs.size();
-    int size2 = frontierRegions.size();
-    Helpers::writeToFile("error.xlsx", "ID-fR-radius", size1, size2, radius);
-    for (int i = 0; i < frontierRegionIDs.size(); i++) {
-
+    vec_single goodFrontierRegionIDs;
+    for (int i = 0; i < frontierRegions.size(); i++) {
         currentFRID = frontierRegionIDs[i];
-        printf("\tfrontierRegion %d\t", currentFRID+1);
+        if (evaluateFrontierRegion(frontierRegions[currentFRID])) goodFrontierRegionIDs.push_back(currentFRID);
+    }
+    printf("\t%d out of %d frontierRegions passed constraints\n", goodFrontierRegionIDs.size(), frontierRegions.size()-goodFrontierRegionIDs.size());
 
-        Helpers::writeToFile("error.xlsx", "frontierRegion (index)", currentFRID+1, i);
-
-        // evaluates size of frontierRegion
-        if (!evaluateFrontierRegion(frontierRegions[currentFRID])) continue;
-
-        if (!found) {
-            goals = goalArea(frontierRegions[currentFRID]);
-            for (int j = 0; j < goals.size(); j++) {
-                tempGoal.pose.position = goals[j];
-                if (evaluateGoal(tempGoal)) {
-                    printf("Constraints passed!\n");
-                    goal = tempGoal;
-                    found = true;
-                    finalFRID = currentFRID;
-                    break;
-                }
-            }
-        }
-
+    // 5. whitelist goals
+    // very primitive - needs improvement!!
+    for (int i = 0; i < goodFrontierRegionIDs.size(); i++) {
+        currentFRID = goodFrontierRegionIDs[i];
+        goals = goalArea(frontierRegions[currentFRID]);
         tempGoal.pose.position = goals[0];
         if (evaluateWhitelist(tempGoal)) {
             this->whiteListedFrontierRegions_.push_back(frontierRegions[currentFRID]);
             this->whiteListedGoals_.push_back(tempGoal);
-            printf("Added to whitelist\n");
         }
     }
     cleanupWhitelist();
+
+    // 6. select goal
+    printf("goal selection...\n");
+    for (int i = 0; i < goodFrontierRegionIDs.size(); i++) {
+        currentFRID = goodFrontierRegionIDs[i];
+        goals = goalArea(frontierRegions[currentFRID]);
+        printf("\t%d potential goals found\n", goals.size());
+        for (int j = 0; j < goals.size(); j++) {
+            tempGoal.pose.position = goals[j];
+            if (evaluateGoal(tempGoal)) {
+                goal = tempGoal;
+                found = true;
+                finalFRID = currentFRID;
+                break;
+            }
+        }
+        if (found) break;
+    }
+
+
 
     if (found) {
         publishOutlineOfSearchRectangle(this->robot_position_, radius);
