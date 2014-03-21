@@ -60,18 +60,23 @@ bool whiteListConstraints(std::vector<geometry_msgs::PoseStamped> &whitelist, ge
 }
 
 
-bool Frontier_Navigation::evaluateFrontierRegion(vec_single &frontierRegion) {
+bool Frontier_Navigation::evaluateFrontierRegion(vec_single &frontierRegion, bool print) {
     bool c1 = frontierRegionConstraints(frontierRegion, this->threshold_);
-    if (!c1) printf("Too small (%d)\n", frontierRegion.size());
+    if (print) {
+        if (!c1) printf("Too small (%d)\n", frontierRegion.size());
+    }
     return c1;
 }
 
-bool Frontier_Navigation::evaluateGoal(geometry_msgs::PoseStamped &goal) {
+bool Frontier_Navigation::evaluateGoal(geometry_msgs::PoseStamped &goal, bool print) {
     bool c1 = blackListConstraints(this->blackList_, goal, 0.5);
     bool c2 = goalStateConstraints();
     bool c3 = goalConstraints(goal, this->robot_position_, 1.5);
     bool c4 = oSpaceConstraint(goal.pose.position, this->map_);
     bool c5 = uSpaceConstraint(goal.pose.position, this->map_);
+    if (print) {
+
+    }
 //    if (!c1) printf("Goal is BLACKLISTED - try next goal\n");
 //    if (!c2) printf("Goal triggers bad state\n");
 //    if (!c3) printf("Goal is too close to robot\n");
