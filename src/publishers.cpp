@@ -31,6 +31,7 @@ void Frontier_Navigation::publishGoal(geometry_msgs::PoseStamped &goal, bool pri
 //        this->strategy_ = DRIVE_TO_GOAL_BEFORE_UPDATE;
         this->goal_pub_.publish(goal);
     }
+    if (print) printf("\tNext Goal! goal(%f, %f, %f)\n", goal.pose.position.x, goal.pose.position.y, goal.pose.position.z);
 }
 
 //void Frontier_Navigation::publishOutlineOfSearchRectangle(geometry_msgs::PoseStamped &center, int radius) {
