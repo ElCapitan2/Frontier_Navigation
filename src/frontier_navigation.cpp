@@ -31,6 +31,13 @@ Frontier_Navigation::Frontier_Navigation(ros::NodeHandle* node_ptr)
     this->mapCallbackCnt_ = 0;
     this->processedMapCnt_ = 0;
 
+    this->r3_ = 0;
+    this->r6_ = 0;
+    this->r9_ = 0;
+    this->r12_ = 0;
+    this->r15_ = 0;
+    this->r100_ = 0;
+
     this->pathCounter_ = 0;
     this->pathTracker_.header.frame_id = "/map";
     // has to be fixed somehow
@@ -92,9 +99,28 @@ void Frontier_Navigation::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& m
     printf("\twidth: %d; height: %d\n", map->info.width, map->info.height);
     printf("\tresolution: %f\n", map->info.resolution);
     printf("\tx_org: %f; y_org: %f\n", map->info.origin.position.x, map->info.origin.position.y);
+
+    if (this->pathTracker_.cells.size() > 1) {
+        double dist = 0;
+        for (int i = 0; i < this->pathTracker_.cells.size()-1; i++) {
+            dist += Helpers::distance(this->pathTracker_.cells[i], this->pathTracker_.cells[i+1]);
+        }
+        printf("\tDistance covered: %f\n", dist);
+    } else printf("\tDistance covered: %f\n", 0.0);
+
     map_->data = map->data;
     map_->header = map->header;
     map_->info = map->info;
+
+    int u = 0;
+    int o = 0;
+    for (unsigned int i = 0; i < this->map_->data.size(); i++) {
+        if (this->mapOps_.isUSpace(i, this->map_)) u++;
+        if (this->mapOps_.isOSpace(i, this->map_)) o++;
+    }
+    printf("\tu: %d o: %d\n", u, o);
+
+    printf("\tr3: %d; r6: %d; r9: %d; r12: %d; r15: %d; r100: %d\n", r3_, r6_, r9_, r12_, r15_, r100_);
 
     // check for duplicated goals
     int size = goalTracker_.cells.size();
@@ -236,12 +262,18 @@ bool Frontier_Navigation::findNextGoal(geometry_msgs::PoseStamped &center, doubl
         currentFRID = goodFrontierRegionIDs[i];
         goals = goalArea(frontierRegions[currentFRID]);
         printf("\t%d potential goals found\n", goals.size());
-        for (int j = 0; j < goals.size(); j++) {
+        for (int j = goals.size()-1; j >= 0; j--) {
             tempGoal.pose.position = goals[j];
             if (evaluateGoal(tempGoal)) {
                 goal = tempGoal;
                 found = true;
                 finalFRID = currentFRID;
+                if (radius == 3.0) r3_++;
+                if (radius == 6.0) r6_++;
+                if (radius == 9.0) r9_++;
+                if (radius == 12.0) r12_++;
+                if (radius == 15.0) r15_++;
+                if (radius == 100.0) r100_++;
                 break;
             }
         }
@@ -454,7 +486,7 @@ bool Frontier_Navigation::findWhiteListedGoal() {
 
 void Frontier_Navigation::escapeStrategy(strategies strategy) {
 
-    return;
+//    return;
 
     if (strategy_ == NORMAL) {
         strategy_ = strategy;
@@ -482,28 +514,38 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
         }
         case STUCK: {
             printf("STUCK strategy initiated...\n");
-            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::SUCCEEDED) {
+            if (Helpers::distance(this->robot_position_, this->activeGoal_) < 1.0) {
                 printf("\tGoal area entered and no action triggered\n");
                 this->strategy_ = NORMAL;
-                escapeStrategy(NO_FRONTIER_REGIONS_FOUND);
+                explore();
+            } else {
+                printf("\tUnknown reason for stuck situation");
             }
-            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) {
-                this->goalStatus_.status = actionlib_msgs::GoalStatus::SUCCEEDED;
-                printf("\tGoal rejected\n");
-                this->strategy_ = NORMAL;
-//                not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
-                escapeStrategy(GOAL_REJECTED);
-            }
-            // - reached goal but did not receive map update
-            //   -> go through whitelist
-            // - setting same goal multiple times. happens when robot is within goal area and map update doesn't
-            //   change anything
-            //   -> solved by DUPLICATED_GOAL
-            // - zero vel_cmd commands
-            // - no map_update for other reasons
-            strategy_ = NORMAL;
-            break;
         }
+//        case STUCK: {
+//            printf("STUCK strategy initiated...\n");
+//            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::SUCCEEDED) {
+//                printf("\tGoal area entered and no action triggered\n");
+//                this->strategy_ = NORMAL;
+//                escapeStrategy(NO_FRONTIER_REGIONS_FOUND);
+//            }
+//            if (this->goalStatus_.status == actionlib_msgs::GoalStatus::REJECTED) {
+//                this->goalStatus_.status = actionlib_msgs::GoalStatus::SUCCEEDED;
+//                printf("\tGoal rejected\n");
+//                this->strategy_ = NORMAL;
+////                not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
+//                escapeStrategy(GOAL_REJECTED);
+//            }
+//            // - reached goal but did not receive map update
+//            //   -> go through whitelist
+//            // - setting same goal multiple times. happens when robot is within goal area and map update doesn't
+//            //   change anything
+//            //   -> solved by DUPLICATED_GOAL
+//            // - zero vel_cmd commands
+//            // - no map_update for other reasons
+//            strategy_ = NORMAL;
+//            break;
+//        }
         case GOAL_REJECTED: {
             printf("GOAL_REJECTED strategy initiated...\n");
             // - caused by path going through u-Space
@@ -515,6 +557,9 @@ void Frontier_Navigation::escapeStrategy(strategies strategy) {
             Helpers::writeToFile("blacklist.txt", "rejected");
             strategy_ = NORMAL;
             goalStatus_.status = actionlib_msgs::GoalStatus::SUCCEEDED;
+            printf("\tTRY AGAIN...\n");
+            Helpers::writeToFile("try.txt", "TRY AGAIN");
+            explore();
 //            not_moving_timer_ = nodeHandle_->createTimer(ros::Duration(timeout_), &Frontier_Navigation::timerCallback, this, true);
             break;
         }

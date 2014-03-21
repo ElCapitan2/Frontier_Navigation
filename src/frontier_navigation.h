@@ -122,5 +122,11 @@ private:
     bool explore_;
     double removeWhitelistedGoalThreshold_;
     int duplicatedGoals_;
+    int r3_;
+    int r6_;
+    int r9_;
+    int r12_;
+    int r15_;
+    int r100_;
 
 };

@@ -102,7 +102,7 @@ bool Frontier_Navigation::evaluateBlackList(geometry_msgs::PoseStamped &goal) {
 }
 
 bool Frontier_Navigation::evaluateMapCallback() {
-    bool c1 = Helpers::distance(this->activeGoal_, this->robot_position_) < 5.0;
+    bool c1 = Helpers::distance(this->activeGoal_, this->robot_position_) < 7.5;
     bool c2 = this->processState_ == PROCESSING_MAP_DONE;
     bool c3 = this->strategy_ == NORMAL;
     if (!c1) printf("Active goal in far distance\n");
